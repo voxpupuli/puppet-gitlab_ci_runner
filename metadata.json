@@ -1,0 +1,73 @@
+{
+  "name": "puppet-gitlab-ci-runner",
+  "version": "1.0.0-rc0",
+  "author": "Vox Pupuli",
+  "summary": "Installation and configuration of Gitlab CI Runner"
+  "license": "BSD-3-Clause",
+  "source": "https://github.com/voxpupuli/puppet-gitlab-ci-runner",
+  "project_page": "https://github.com/voxpupuli/puppet-gitlab-ci-runner",
+  "issues_url": "https://github.com/voxpupuli/puppet-gitlab-ci-runner/issues",
+  "tags": [
+    "git",
+    "gitlab"
+  ],
+  "dependencies": [
+    {
+      "name": "puppetlabs/stdlib",
+      "version_requirement": ">=4.13.0 <5.0.0"
+    },
+    {
+      "name": "puppetlabs/apt",
+      "version_requirement": ">=4.4.0 <5.0.0"
+    }
+  ],
+  "operatingsystem_support": [
+    {
+      "operatingsystem": "RedHat",
+      "operatingsystemrelease": [
+        "6",
+        "7"
+      ]
+    },
+    {
+      "operatingsystem": "CentOS",
+      "operatingsystemrelease": [
+        "6",
+        "7"
+      ]
+    },
+    {
+      "operatingsystem": "OracleLinux",
+      "operatingsystemrelease": [
+        "6",
+        "7"
+      ]
+    },
+    {
+      "operatingsystem": "Scientific",
+      "operatingsystemrelease": [
+        "6",
+        "7"
+      ]
+    },
+    {
+      "operatingsystem": "Debian",
+      "operatingsystemrelease": [
+        "8"
+      ]
+    },
+    {
+      "operatingsystem": "Ubuntu",
+      "operatingsystemrelease": [
+        "14.04",
+        "16.04"
+      ]
+    }
+  ],
+  "requirements": [
+    {
+      "name": "puppet",
+      "version_requirement": ">= 4.10.0 < 6.0.0"
+    }
+  ]
+}
