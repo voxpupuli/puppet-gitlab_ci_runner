@@ -2,7 +2,7 @@
   "name": "puppet-gitlab-ci-runner",
   "version": "1.0.0-rc0",
   "author": "Vox Pupuli",
-  "summary": "Installation and configuration of Gitlab CI Runner"
+  "summary": "Installation and configuration of Gitlab CI Runner",
   "license": "BSD-3-Clause",
   "source": "https://github.com/voxpupuli/puppet-gitlab-ci-runner",
   "project_page": "https://github.com/voxpupuli/puppet-gitlab-ci-runner",
