@@ -1,1 +1,1 @@
-# puppet-gitlab-ci-runner
+# puppet-gitlab_ci_runner
