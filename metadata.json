@@ -3,7 +3,7 @@
   "version": "1.0.0-rc0",
   "author": "Vox Pupuli",
   "summary": "Installation and configuration of Gitlab CI Runner",
-  "license": "BSD-3-Clause",
+  "license": "Apache-2.0",
   "source": "https://github.com/voxpupuli/puppet-gitlab_ci_runner",
   "project_page": "https://github.com/voxpupuli/puppet-gitlab_ci_runner",
   "issues_url": "https://github.com/voxpupuli/puppet-gitlab_ci_runner/issues",
