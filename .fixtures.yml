@@ -9,5 +9,3 @@ fixtures:
     docker:
       repo: "https://github.com/garethr/garethr-docker.git"
       ref: "v4.1.1"
-  symlinks:
-    gitlab_ci_runner: "#{source_dir}"
