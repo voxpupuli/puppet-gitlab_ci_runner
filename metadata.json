@@ -1,6 +1,6 @@
 {
   "name": "puppet-gitlab_ci_runner",
-  "version": "1.0.0-rc0",
+  "version": "1.0.0",
   "author": "Vox Pupuli",
   "summary": "Installation and configuration of Gitlab CI Runner",
   "license": "Apache-2.0",
