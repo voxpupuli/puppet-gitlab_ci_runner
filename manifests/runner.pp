@@ -28,7 +28,8 @@ define gitlab_ci_runner::runner (
 
   # Convert configuration into a string
   $parameters_array = join_keys_to_values($_config, '=')
-  $parameters_array_dashes = prefix($parameters_array, '--')
+  $parameters_array_no_underscores = regsubst($parameters_array, '_', '-', 'G')
+  $parameters_array_dashes = prefix($parameters_array_no_underscores, '--')
   $parameters_string = join($parameters_array_dashes, ' ')
 
   $runner_name = $_config['name']

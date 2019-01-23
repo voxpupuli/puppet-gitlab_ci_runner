@@ -29,6 +29,9 @@ gitlab_ci_runner::concurrent: 4
 
 gitlab_ci_runner::metrics_server: "localhost:8888"
 
+gitlab_ci_runner::manage_docker: true
+gitlab_ci_runner::manage_docker: true
+
 gitlab_ci_runner::runners:
   test_runner1:{}
   test_runner2:{}
@@ -41,6 +44,8 @@ gitlab_ci_runner::runner_defaults:
   registration-token: "1234567890abcdef"
   executor: "docker"
   docker-image: "ubuntu:trusty"
+  builds_dir: "/tmp"
+  cache_dir: "/tmp"
 ```
 
 To unregister a specific runner you may use `ensure` param:
