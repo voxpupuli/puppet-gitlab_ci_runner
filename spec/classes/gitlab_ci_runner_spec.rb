@@ -74,7 +74,7 @@ describe 'gitlab_ci_runner', type: :class do
           {
             'runner_defaults' => {},
             'runners' => {},
-            'metrics_server' => '/tmp/builds_dir'
+            'builds_server' => '/tmp/builds_dir'
           }
         end
 
@@ -91,7 +91,7 @@ describe 'gitlab_ci_runner', type: :class do
           {
             'runner_defaults' => {},
             'runners' => {},
-            'metrics_server' => '/tmp/cache_dir'
+            'cache_dir' => '/tmp/cache_dir'
           }
         end
 
