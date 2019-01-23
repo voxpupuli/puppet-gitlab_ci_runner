@@ -119,7 +119,7 @@ class gitlab_ci_runner (
       notify  => Exec['gitlab-runner-restart'],
     }
   }
-   if $builds_dir {
+  if $builds_dir {
     file_line { 'gitlab-runner-builds_dir':
       path    => '/etc/gitlab-runner/config.toml',
       line    => "builds_dir = \"${builds_dir}\"",
@@ -128,8 +128,7 @@ class gitlab_ci_runner (
       notify  => Exec['gitlab-runner-restart'],
     }
   }
-  
-   if $cache_dir {
+  if $cache_dir {
     file_line { 'gitlab-runner-cache_dir':
       path    => '/etc/gitlab-runner/config.toml',
       line    => "cache_dir = \"${cache_dir}\"",
@@ -138,7 +137,6 @@ class gitlab_ci_runner (
       notify  => Exec['gitlab-runner-restart'],
     }
   }
-  
 
   exec { 'gitlab-runner-restart':
     command     => "/usr/bin/${package_name} restart",
