@@ -73,7 +73,7 @@ describe 'gitlab_ci_runner', type: :class do
           {
             'runner_defaults' => {},
             'runners' => {},
-            'builds_server' => '/tmp/builds_dir'
+            'builds_dir' => '/tmp/builds_dir'
           }
         end
 
