@@ -60,8 +60,8 @@ describe 'gitlab_ci_runner', type: :class do
           }
         end
 
-        it { is_expected.to contain_file_line('gitlab-runner-builds_dir').that_requires("Package[#{package_name}]") }
-        it { is_expected.to contain_file_line('gitlab-runner-builds_dir').that_notifies('Exec[gitlab-runner-restart]') }
+        it { is_expected.to contain_file_line('gitlab-runner-metrics-server').that_requires("Package[#{package_name}]") }
+        it { is_expected.to contain_file_line('gitlab-runner-metrics-server').that_notifies('Exec[gitlab-runner-restart]') }
         it do
           is_expected.to contain_file_line('gitlab-runner-builds_dir').with('path' => '/etc/gitlab-runner/config.toml',
                                                                                 'line'  => 'metrics_server  = "localhost:9252"',
