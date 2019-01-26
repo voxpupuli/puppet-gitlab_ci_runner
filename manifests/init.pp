@@ -18,6 +18,8 @@ class gitlab_ci_runner (
   Hash                       $runners,
   Hash                       $runner_defaults,
   Optional[Integer]          $concurrent               = undef,
+  Optional[String]           $builds_dir               = undef,
+  Optional[String]           $cache_dir                = undef,
   Optional[Pattern[/.*:.+/]] $metrics_server           = undef,
   Boolean                    $manage_docker            = true,
   Boolean                    $manage_repo              = true,
@@ -113,6 +115,24 @@ class gitlab_ci_runner (
       path    => '/etc/gitlab-runner/config.toml',
       line    => "metrics_server = \"${metrics_server}\"",
       match   => '^metrics_server = .+',
+      require => Package[$package_name],
+      notify  => Exec['gitlab-runner-restart'],
+    }
+  }
+  if $builds_dir {
+    file_line { 'gitlab-runner-builds_dir':
+      path    => '/etc/gitlab-runner/config.toml',
+      line    => "builds_dir = \"${builds_dir}\"",
+      match   => '^builds_dir = .+',
+      require => Package[$package_name],
+      notify  => Exec['gitlab-runner-restart'],
+    }
+  }
+  if $cache_dir {
+    file_line { 'gitlab-runner-cache_dir':
+      path    => '/etc/gitlab-runner/config.toml',
+      line    => "cache_dir = \"${cache_dir}\"",
+      match   => '^cache_dir = .+',
       require => Package[$package_name],
       notify  => Exec['gitlab-runner-restart'],
     }
