@@ -23,8 +23,12 @@ define gitlab_ci_runner::runner (
   $_default_config = merge($default_config, $name_config)
   $config = $runners_hash[$title]
 
+  # Pull out ensure key, which shouldn't be passed to command
+  $ensure = $config['ensure']
+  $config_without_ensure = delete($config, 'ensure')
+
   # Merge default config with actual config
-  $_config = merge($_default_config, $config)
+  $_config = merge($_default_config, $config_without_ensure)
 
   # Convert configuration into a string
   $parameters_array = join_keys_to_values($_config, '=')
@@ -35,7 +39,7 @@ define gitlab_ci_runner::runner (
   $runner_name = $_config['name']
   $toml_file = '/etc/gitlab-runner/config.toml'
 
-  if $_config['ensure'] == 'absent' {
+  if $ensure == 'absent' {
       # Execute gitlab ci multirunner unregister
       exec {"Unregister_runner_${title}":
         command => "/usr/bin/${binary} unregister -n ${title}",
