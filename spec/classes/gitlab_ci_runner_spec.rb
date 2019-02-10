@@ -104,6 +104,35 @@ describe 'gitlab_ci_runner', type: :class do
                                                                            'match' => '^cache_dir = .+')
         end
       end
+      context 'with ensure => present' do
+        let(:params) do
+          super().merge(
+            'runners' => {
+              'test_runner' => {
+                'ensure' => 'present'
+              }
+            }
+          )
+        end
+
+        it { is_expected.to contain_exec('Register_runner_test_runner').with('command' => %r{/usr/bin/[^ ]+ register }) }
+        it { is_expected.not_to contain_exec('Register_runner_test_runner').with('command' => %r{--ensure=}) }
+      end
+
+      context 'with ensure => absent' do
+        let(:params) do
+          super().merge(
+            'runners' => {
+              'test_runner' => {
+                'ensure' => 'absent'
+              }
+            }
+          )
+        end
+
+        it { is_expected.to contain_exec('Unregister_runner_test_runner').with('command' => %r{/usr/bin/[^ ]+ unregister }) }
+        it { is_expected.not_to contain_exec('Unregister_runner_test_runner').with('command' => %r{--ensure=}) }
+      end
     end
   end
 end
