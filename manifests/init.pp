@@ -17,13 +17,13 @@
 class gitlab_ci_runner (
   Hash                       $runners,
   Hash                       $runner_defaults,
+  String                     $xz_package_name,
   Optional[Integer]          $concurrent               = undef,
   Optional[String]           $builds_dir               = undef,
   Optional[String]           $cache_dir                = undef,
   Optional[Pattern[/.*:.+/]] $metrics_server           = undef,
   Boolean                    $manage_docker            = true,
   Boolean                    $manage_repo              = true,
-  String                     $xz_package_name          = 'xz-utils',
   String                     $package_ensure           = installed,
   String                     $package_name             = 'gitlab-runner',
 ){
