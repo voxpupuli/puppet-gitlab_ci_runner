@@ -1,6 +1,7 @@
 # Gitlab-CI runner module for Puppet
 
 [![Build Status](https://travis-ci.org/voxpupuli/puppet-gitlab_ci_runner.png?branch=master)](https://travis-ci.org/voxpupuli/puppet-gitlab_ci_runner)
+[![Code Coverage](https://coveralls.io/repos/github/voxpupuli/puppet-gitlab_ci_runner/badge.svg?branch=master)](https://coveralls.io/github/voxpupuli/puppet-gitlab_ci_runner)
 [![Puppet Forge](https://img.shields.io/puppetforge/v/puppet/gitlab_ci_runner.svg)](https://forge.puppetlabs.com/puppet/gitlab_ci_runner)
 [![Puppet Forge - downloads](https://img.shields.io/puppetforge/dt/puppet/gitlab_ci_runner.svg)](https://forge.puppetlabs.com/puppet/gitlab_ci_runner)
 [![Puppet Forge - endorsement](https://img.shields.io/puppetforge/e/puppet/gitlab_ci_runner.svg)](https://forge.puppetlabs.com/puppet/gitlab_ci_runner)
