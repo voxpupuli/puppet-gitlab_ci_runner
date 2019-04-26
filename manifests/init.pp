@@ -17,15 +17,15 @@
 class gitlab_ci_runner (
   Hash                       $runners,
   Hash                       $runner_defaults,
+  Optional[Integer]          $concurrent,
+  Optional[String]           $builds_dir,
+  Optional[String]           $cache_dir,
+  Optional[Pattern[/.*:.+/]] $metrics_server,
+  Boolean                    $manage_docker,
+  Boolean                    $manage_repo,
+  String                     $package_ensure,
+  String                     $package_name,
   String                     $xz_package_name,
-  Optional[Integer]          $concurrent               = undef,
-  Optional[String]           $builds_dir               = undef,
-  Optional[String]           $cache_dir                = undef,
-  Optional[Pattern[/.*:.+/]] $metrics_server           = undef,
-  Boolean                    $manage_docker            = true,
-  Boolean                    $manage_repo              = true,
-  String                     $package_ensure           = installed,
-  String                     $package_name             = 'gitlab-runner',
 ){
   if $manage_docker {
     # workaround for cirunner issue #1617

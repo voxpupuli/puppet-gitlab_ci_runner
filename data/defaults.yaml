@@ -1,2 +1,10 @@
 ---
+gitlab_ci_runner::concurrent: ~
+gitlab_ci_runner::builds_dir: ~
+gitlab_ci_runner::cache_dir: ~
+gitlab_ci_runner::metrics_server: ~
+gitlab_ci_runner::manage_docker: true
+gitlab_ci_runner::manage_repo: true
+gitlab_ci_runner::package_ensure: 'installed'
+gitlab_ci_runner::package_name: 'gitlab-runner'
 gitlab_ci_runner::xz_package_name: 'xz-utils'
