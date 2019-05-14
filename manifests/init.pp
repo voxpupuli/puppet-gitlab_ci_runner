@@ -22,6 +22,7 @@ class gitlab_ci_runner (
   Optional[String]           $builds_dir               = undef,
   Optional[String]           $cache_dir                = undef,
   Optional[Pattern[/.*:.+/]] $metrics_server           = undef,
+  Optional[String]           $sentry_dsn               = undef,
   Boolean                    $manage_docker            = true,
   Boolean                    $manage_repo              = true,
   String                     $package_ensure           = installed,
@@ -133,6 +134,15 @@ class gitlab_ci_runner (
       path    => '/etc/gitlab-runner/config.toml',
       line    => "cache_dir = \"${cache_dir}\"",
       match   => '^cache_dir = .+',
+      require => Package[$package_name],
+      notify  => Exec['gitlab-runner-restart'],
+    }
+  }
+  if $sentry_dsn {
+    file_line { 'gitlab-runner-sentry_dsn':
+      path    => '/etc/gitlab-runner/config.toml',
+      line    => "sentry_dsn = \"${sentry_dsn}\"",
+      match   => '^sentry_dsn = .+',
       require => Package[$package_name],
       notify  => Exec['gitlab-runner-restart'],
     }
