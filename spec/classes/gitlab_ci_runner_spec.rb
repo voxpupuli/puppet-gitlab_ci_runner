@@ -104,6 +104,23 @@ describe 'gitlab_ci_runner', type: :class do
                                                                            'match' => '^cache_dir = .+')
         end
       end
+      context 'with sentry_dsn => https://123abc@localhost/1' do
+        let(:params) do
+          {
+            'runner_defaults' => {},
+            'runners' => {},
+            'sentry_dsn' => 'https://123abc@localhost/1'
+          }
+        end
+
+        it { is_expected.to contain_file_line('gitlab-runner-sentry_dsn').that_requires("Package[#{package_name}]") }
+        it { is_expected.to contain_file_line('gitlab-runner-sentry_dsn').that_notifies('Exec[gitlab-runner-restart]') }
+        it do
+          is_expected.to contain_file_line('gitlab-runner-sentry_dsn').with('path' => '/etc/gitlab-runner/config.toml',
+                                                                            'line'  => 'sentry_dsn = "https://123abc@localhost/1"',
+                                                                            'match' => '^sentry_dsn = .+')
+        end
+      end
       context 'with ensure => present' do
         let(:params) do
           super().merge(
