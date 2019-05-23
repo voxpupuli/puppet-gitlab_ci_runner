@@ -16,9 +16,10 @@ define gitlab_ci_runner::runner (
   Hash $runners_hash,
   Hash $default_config = {},
 ) {
-  # Set resource name as name for the runner
+  # Set resource name as name for the runner and replace under_scores for later use
+  $title_no_underscore = regsubst($title, '_', '-', 'G')
   $name_config = {
-    name => $title,
+    name => $title_no_underscore,
   }
   $_default_config = merge($default_config, $name_config)
   $config = $runners_hash[$title]
