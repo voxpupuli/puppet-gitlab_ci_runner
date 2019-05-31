@@ -9,7 +9,7 @@
 #   The limit on the number of jobs that can run concurrently among
 #   all runners, or `undef` to leave unmanaged.
 #
-# [*metrics_server*]
+# [*listen_address*]
 #   Default: `undef`
 #   [host]:<port> to enable metrics server as described in
 #   https://docs.gitlab.com/runner/monitoring/README.html#configuration-of-the-metrics-http-server
@@ -18,16 +18,16 @@ class gitlab_ci_runner (
   Hash                       $runners,
   Hash                       $runner_defaults,
   String                     $xz_package_name,
-  Optional[Integer]          $concurrent               = undef,
-  Optional[String]           $builds_dir               = undef,
-  Optional[String]           $cache_dir                = undef,
-  Optional[Pattern[/.*:.+/]] $metrics_server           = undef,
-  Optional[String]           $sentry_dsn               = undef,
-  Boolean                    $manage_docker            = true,
-  Boolean                    $manage_repo              = true,
-  String                     $package_ensure           = installed,
-  String                     $package_name             = 'gitlab-runner',
-){
+  Optional[Integer]          $concurrent     = undef,
+  Optional[String]           $builds_dir     = undef,
+  Optional[String]           $cache_dir      = undef,
+  Optional[Pattern[/.*:.+/]] $listen_address = undef,
+  Optional[String]           $sentry_dsn     = undef,
+  Boolean                    $manage_docker  = true,
+  Boolean                    $manage_repo    = true,
+  String                     $package_ensure = installed,
+  String                     $package_name   = 'gitlab-runner',
+) {
   if $manage_docker {
     # workaround for cirunner issue #1617
     # https://gitlab.com/gitlab-org/gitlab-ci-multi-runner/issues/1617
@@ -35,7 +35,7 @@ class gitlab_ci_runner (
 
     $docker_images = {
       ubuntu_trusty => {
-        image => 'ubuntu',
+        image     => 'ubuntu',
         image_tag => 'trusty',
       },
     }
@@ -92,7 +92,7 @@ class gitlab_ci_runner (
         }
       }
       default: {
-        fail ("gitlab_ci_runner::manage_repo parameter for ${::osfamily} is not supported.")
+        fail("gitlab_ci_runner::manage_repo parameter for ${::osfamily} is not supported.")
       }
     }
   }
@@ -111,13 +111,14 @@ class gitlab_ci_runner (
     }
   }
 
-  if $metrics_server {
-    file_line { 'gitlab-runner-metrics-server':
-      path    => '/etc/gitlab-runner/config.toml',
-      line    => "metrics_server = \"${metrics_server}\"",
-      match   => '^metrics_server = .+',
-      require => Package[$package_name],
-      notify  => Exec['gitlab-runner-restart'],
+  if $listen_address {
+    file_line { 'gitlab-runner-listen-address':
+      path              => '/etc/gitlab-runner/config.toml',
+      after             => '^concurrent',
+      line              => "listen_address = \"${listen_address}\"",
+      match             => '^listen_address = .+',
+      require           => Package[$package_name],
+      notify            => Exec['gitlab-runner-restart'],
     }
   }
   if $builds_dir {
