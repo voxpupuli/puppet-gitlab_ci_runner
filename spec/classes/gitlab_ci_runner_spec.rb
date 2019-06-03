@@ -32,7 +32,7 @@ describe 'gitlab_ci_runner', type: :class do
       end
       it { is_expected.to contain_gitlab_ci_runner__runner('test_runner').that_requires('Exec[gitlab-runner-restart]') }
       it { is_expected.not_to contain_file_line('gitlab-runner-concurrent') }
-      it { is_expected.not_to contain_file_line('gitlab-runner-metrics-server') }
+      it { is_expected.not_to contain_file_line('gitlab-runner-listen-address') }
       it { is_expected.not_to contain_file_line('gitlab-runner-builds_dir') }
       it { is_expected.not_to contain_file_line('gitlab-runner-cache_dir') }
 
@@ -53,21 +53,21 @@ describe 'gitlab_ci_runner', type: :class do
                                                                             'match' => '^concurrent = \d+')
         end
       end
-      context 'with metrics_server => localhost:9252' do
+      context 'with listen-address => localhost:9252' do
         let(:params) do
           {
             'runner_defaults' => {},
             'runners' => {},
-            'metrics_server' => 'localhost:9252'
+            'listen-address' => 'localhost:9252'
           }
         end
 
-        it { is_expected.to contain_file_line('gitlab-runner-metrics-server').that_requires("Package[#{package_name}]") }
-        it { is_expected.to contain_file_line('gitlab-runner-metrics-server').that_notifies('Exec[gitlab-runner-restart]') }
+        it { is_expected.to contain_file_line('gitlab-runner-listen-address').that_requires("Package[#{package_name}]") }
+        it { is_expected.to contain_file_line('gitlab-runner-listen-address').that_notifies('Exec[gitlab-runner-restart]') }
         it do
-          is_expected.to contain_file_line('gitlab-runner-metrics-server').with('path' => '/etc/gitlab-runner/config.toml',
-                                                                                'line'  => 'metrics_server = "localhost:9252"',
-                                                                                'match' => '^metrics_server = .+')
+          is_expected.to contain_file_line('gitlab-runner-listen-address').with('path' => '/etc/gitlab-runner/config.toml',
+                                                                                'line'  => 'listen-address = "localhost:9252"',
+                                                                                'match' => '^listen-address = .+')
         end
       end
       context 'with builds_dir => /tmp/builds_dir' do
