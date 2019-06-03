@@ -113,12 +113,12 @@ class gitlab_ci_runner (
 
   if $listen_address {
     file_line { 'gitlab-runner-listen-address':
-      path              => '/etc/gitlab-runner/config.toml',
-      after             => '^concurrent',
-      line              => "listen_address = \"${listen_address}\"",
-      match             => '^listen_address = .+',
-      require           => Package[$package_name],
-      notify            => Exec['gitlab-runner-restart'],
+      path    => '/etc/gitlab-runner/config.toml',
+      after   => '^concurrent',
+      line    => "listen_address = \"${listen_address}\"",
+      match   => '^listen_address = .+',
+      require => Package[$package_name],
+      notify  => Exec['gitlab-runner-restart'],
     }
   }
   if $builds_dir {
