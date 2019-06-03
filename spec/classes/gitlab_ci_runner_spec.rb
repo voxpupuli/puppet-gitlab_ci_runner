@@ -65,7 +65,8 @@ describe 'gitlab_ci_runner', type: :class do
         it { is_expected.to contain_file_line('gitlab-runner-listen-address').that_requires("Package[#{package_name}]") }
         it { is_expected.to contain_file_line('gitlab-runner-listen-address').that_notifies('Exec[gitlab-runner-restart]') }
         it do
-          is_expected.to contain_file_line('gitlab-runner-listen-address').with('path' => '/etc/gitlab-runner/config.toml',
+          is_expected.to contain_file_line('gitlab-runner-listen-address').with('path'  => '/etc/gitlab-runner/config.toml',
+                                                                                'after' => 'concurrent = 10',
                                                                                 'line'  => 'listen-address = "localhost:9252"',
                                                                                 'match' => '^listen-address = .+')
         end
