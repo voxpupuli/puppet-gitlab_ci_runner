@@ -92,7 +92,7 @@ class gitlab_ci_runner (
         }
       }
       default: {
-        fail("gitlab_ci_runner::manage_repo parameter for ${osfamily} is not supported.")
+        fail("gitlab_ci_runner::manage_repo parameter for $osfamily is not supported.")
       }
     }
   }
