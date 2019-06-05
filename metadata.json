@@ -15,6 +15,14 @@
     {
       "name": "puppetlabs/stdlib",
       "version_requirement": ">= 4.13.0 < 6.0.0"
+    },
+    {
+      "name": "puppetlabs/apt",
+      "version_requirement": ">= 6.3.0 < 7.0.0"
+    },
+    {
+      "name": "puppetlabs-docker",
+      "version_requirement": ">= 3.1.0 < 3.5.0"
     }
   ],
   "operatingsystem_support": [
@@ -22,6 +30,12 @@
       "operatingsystem": "Ubuntu",
       "operatingsystemrelease": [
         "14.04"
+      ]
+    },
+    {
+      "operatingsystem": "Debian",
+      "operatingsystemrelease": [
+        "9"
       ]
     }
   ],

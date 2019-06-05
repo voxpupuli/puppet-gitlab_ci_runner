@@ -51,7 +51,7 @@ gitlab_ci_runner::runner_defaults:
 To unregister a specific runner you may use `ensure` param:
 
 ```yaml
-gitlab_ci_runner::gitlab_ci_runners:
+gitlab_ci_runner::runners:
   test_runner1:{}
   test_runner2:{}
   test_runner3:
