@@ -5,12 +5,10 @@ describe 'gitlab_ci_runner', type: :class do
   on_supported_os.each do |os, facts|
     context "on #{os}" do
       let(:facts) do
-       # Workaround a puppet-spec issue Debian 9
-       # https://github.com/rodjek/rspec-puppet/issues/629
+        # Workaround a puppet-spec issue Debian 9
+        # https://github.com/rodjek/rspec-puppet/issues/629
         facts.merge(
-          {
-            operatingsystemmajrelease: '9',
-          }
+          operatingsystemmajrelease: '9'
         )
       end
       let(:params) do
@@ -37,7 +35,7 @@ describe 'gitlab_ci_runner', type: :class do
         is_expected.to contain_exec('gitlab-runner-restart').with('command' => "/usr/bin/#{package_name} restart",
                                                                   'refreshonly' => true)
       end
-      it { is_expected.to contain_gitlab_ci_runner__runner('test_runner').that_notifies("Exec[gitlab-runner-restart]") }
+      it { is_expected.to contain_gitlab_ci_runner__runner('test_runner').that_notifies('Exec[gitlab-runner-restart]') }
       it { is_expected.not_to contain_file_line('gitlab-runner-concurrent') }
       it { is_expected.not_to contain_file_line('gitlab-runner-metrics-server') }
       it { is_expected.not_to contain_file_line('gitlab-runner-builds_dir') }
