@@ -101,9 +101,16 @@ class gitlab_ci_runner (
     ensure => $package_ensure,
   }
 
+  $config_path = '/etc/gitlab-runner/config.toml'
+  file { $config_path: # ensure config exists
+    ensure  => 'present',
+    replace => 'no',
+    content => '',
+  }
+
   if $concurrent != undef {
     file_line { 'gitlab-runner-concurrent':
-      path    => '/etc/gitlab-runner/config.toml',
+      path    => $config_path,
       line    => "concurrent = ${concurrent}",
       match   => '^concurrent = \d+',
       require => Package[$package_name],
@@ -113,7 +120,7 @@ class gitlab_ci_runner (
 
   if $metrics_server {
     file_line { 'gitlab-runner-metrics-server':
-      path    => '/etc/gitlab-runner/config.toml',
+      path    => $config_path,
       line    => "metrics_server = \"${metrics_server}\"",
       match   => '^metrics_server = .+',
       require => Package[$package_name],
@@ -122,7 +129,7 @@ class gitlab_ci_runner (
   }
   if $builds_dir {
     file_line { 'gitlab-runner-builds_dir':
-      path    => '/etc/gitlab-runner/config.toml',
+      path    => $config_path,
       line    => "builds_dir = \"${builds_dir}\"",
       match   => '^builds_dir = .+',
       require => Package[$package_name],
@@ -131,7 +138,7 @@ class gitlab_ci_runner (
   }
   if $cache_dir {
     file_line { 'gitlab-runner-cache_dir':
-      path    => '/etc/gitlab-runner/config.toml',
+      path    => $config_path,
       line    => "cache_dir = \"${cache_dir}\"",
       match   => '^cache_dir = .+',
       require => Package[$package_name],
@@ -140,7 +147,7 @@ class gitlab_ci_runner (
   }
   if $sentry_dsn {
     file_line { 'gitlab-runner-sentry_dsn':
-      path    => '/etc/gitlab-runner/config.toml',
+      path    => $config_path,
       line    => "sentry_dsn = \"${sentry_dsn}\"",
       match   => '^sentry_dsn = .+',
       require => Package[$package_name],
