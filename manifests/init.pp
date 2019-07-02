@@ -27,6 +27,7 @@ class gitlab_ci_runner (
   Boolean                    $manage_repo              = true,
   String                     $package_ensure           = installed,
   String                     $package_name             = 'gitlab-runner',
+  String                     $config_path              = '/etc/gitlab-runner/config.toml',
 ){
   if $manage_docker {
     # workaround for cirunner issue #1617
@@ -101,7 +102,6 @@ class gitlab_ci_runner (
     ensure => $package_ensure,
   }
 
-  $config_path = '/etc/gitlab-runner/config.toml'
   file { $config_path: # ensure config exists
     ensure  => 'present',
     replace => 'no',
