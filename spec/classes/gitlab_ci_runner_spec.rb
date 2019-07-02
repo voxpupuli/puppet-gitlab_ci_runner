@@ -2,6 +2,7 @@ require 'spec_helper'
 
 describe 'gitlab_ci_runner', type: :class do
   package_name = 'gitlab-runner'
+  config_path = '/etc/gitlab-runner/config.toml'
   on_supported_os.each do |os, facts|
     context "on #{os}" do
       let(:facts) do
@@ -26,6 +27,8 @@ describe 'gitlab_ci_runner', type: :class do
       it { is_expected.to contain_class('docker::images') }
       it { is_expected.to contain_package('gitlab-runner') }
       it { is_expected.to contain_exec('gitlab-runner-restart').that_requires("Package[#{package_name}]") }
+      it { is_expected.to contain_file(config_path) }
+
       it do
         is_expected.to contain_exec('gitlab-runner-restart').with('command' => "/usr/bin/#{package_name} restart",
                                                                   'refreshonly' => true)
