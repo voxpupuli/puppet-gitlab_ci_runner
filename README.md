@@ -32,6 +32,8 @@ gitlab_ci_runner::metrics_server: "localhost:8888"
 gitlab_ci_runner::manage_docker: true
 gitlab_ci_runner::manage_docker: true
 
+gitlab_ci_runner::config_path: "etc/gitlab-runner/config.toml"
+
 gitlab_ci_runner::runners:
   test_runner1:{}
   test_runner2:{}

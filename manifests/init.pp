@@ -43,6 +43,7 @@ class gitlab_ci_runner (
   String                     $package_name             = 'gitlab-runner',
   Stdlib::HTTPUrl            $repo_base_url            = 'https://packages.gitlab.com',
   Stdlib::Fqdn               $repo_keyserver           = 'keys.gnupg.net',
+  String                     $config_path              = '/etc/gitlab-runner/config.toml',
 ){
   if $manage_docker {
     # workaround for cirunner issue #1617
@@ -119,9 +120,15 @@ class gitlab_ci_runner (
     enable => true,
   }
 
+  file { $config_path: # ensure config exists
+    ensure  => 'present',
+    replace => 'no',
+    content => '',
+  }
+
   if $concurrent != undef {
     file_line { 'gitlab-runner-concurrent':
-      path    => '/etc/gitlab-runner/config.toml',
+      path    => $config_path,
       line    => "concurrent = ${concurrent}",
       match   => '^concurrent = \d+',
       require => Package[$package_name],
@@ -131,7 +138,7 @@ class gitlab_ci_runner (
 
   if $metrics_server {
     file_line { 'gitlab-runner-metrics-server':
-      path    => '/etc/gitlab-runner/config.toml',
+      path    => $config_path,
       line    => "metrics_server = \"${metrics_server}\"",
       match   => '^metrics_server = .+',
       require => Package[$package_name],
@@ -140,7 +147,7 @@ class gitlab_ci_runner (
   }
   if $builds_dir {
     file_line { 'gitlab-runner-builds_dir':
-      path    => '/etc/gitlab-runner/config.toml',
+      path    => $config_path,
       line    => "builds_dir = \"${builds_dir}\"",
       match   => '^builds_dir = .+',
       require => Package[$package_name],
@@ -149,7 +156,7 @@ class gitlab_ci_runner (
   }
   if $cache_dir {
     file_line { 'gitlab-runner-cache_dir':
-      path    => '/etc/gitlab-runner/config.toml',
+      path    => $config_path,
       line    => "cache_dir = \"${cache_dir}\"",
       match   => '^cache_dir = .+',
       require => Package[$package_name],
@@ -158,7 +165,7 @@ class gitlab_ci_runner (
   }
   if $sentry_dsn {
     file_line { 'gitlab-runner-sentry_dsn':
-      path    => '/etc/gitlab-runner/config.toml',
+      path    => $config_path,
       line    => "sentry_dsn = \"${sentry_dsn}\"",
       match   => '^sentry_dsn = .+',
       require => Package[$package_name],
