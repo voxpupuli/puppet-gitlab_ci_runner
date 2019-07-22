@@ -3,6 +3,20 @@
 ## This module installs and configures Gitlab CI Runners.
 #
 # === Parameters
+# [*runners*]
+#   Type: Hash
+#   Default: unset
+#   Hashkeys are used as $title in runners.pp. The subkeys have to be named as the parameter names from
+#   ´gitlab-runner register´ command cause they're later joined to one entire string using 2 hyphen to
+#   look like shell command parameters.
+#   See ´https://docs.gitlab.com/runner/register/#one-line-registration-command´ for details.
+#
+#   example:
+#     $example_runner = {
+#       registration-token => 'gitlab-token',
+#       url                => 'https://gitlab.com/',
+#       tag-list           => "docker,aws",
+#     },
 #
 # [*concurrent*]
 #   Default: `undef`
@@ -27,6 +41,8 @@ class gitlab_ci_runner (
   Boolean                    $manage_repo              = true,
   String                     $package_ensure           = installed,
   String                     $package_name             = 'gitlab-runner',
+  Stdlib::HTTPUrl            $repo_base_url            = 'https://packages.gitlab.com',
+  Stdlib::Fqdn               $repo_keyserver           = 'keys.gnupg.net',
   String                     $config_path              = '/etc/gitlab-runner/config.toml',
 ){
   if $manage_docker {
@@ -36,7 +52,7 @@ class gitlab_ci_runner (
 
     $docker_images = {
       ubuntu_trusty => {
-        image => 'ubuntu',
+        image     => 'ubuntu',
         image_tag => 'trusty',
       },
     }
@@ -46,8 +62,6 @@ class gitlab_ci_runner (
   }
 
   if $manage_repo {
-    $repo_base_url = 'https://packages.gitlab.com'
-
     case $::osfamily {
       'Debian': {
 
@@ -57,7 +71,7 @@ class gitlab_ci_runner (
           repos    => 'main',
           key      => {
             'id'     => '1A4C919DB987D435939638B914219A96E15E78F4',
-            'server' => 'keys.gnupg.net',
+            'server' => $repo_keyserver,
           },
           include  => {
             'src' => false,
@@ -101,6 +115,10 @@ class gitlab_ci_runner (
   package { $package_name:
     ensure => $package_ensure,
   }
+  service { $package_name:
+    ensure => running,
+    enable => true,
+  }
 
   file { $config_path: # ensure config exists
     ensure  => 'present',
@@ -114,7 +132,7 @@ class gitlab_ci_runner (
       line    => "concurrent = ${concurrent}",
       match   => '^concurrent = \d+',
       require => Package[$package_name],
-      notify  => Exec['gitlab-runner-restart'],
+      notify  => Service[$package_name],
     }
   }
 
@@ -124,7 +142,7 @@ class gitlab_ci_runner (
       line    => "metrics_server = \"${metrics_server}\"",
       match   => '^metrics_server = .+',
       require => Package[$package_name],
-      notify  => Exec['gitlab-runner-restart'],
+      notify  => Service[$package_name],
     }
   }
   if $builds_dir {
@@ -133,7 +151,7 @@ class gitlab_ci_runner (
       line    => "builds_dir = \"${builds_dir}\"",
       match   => '^builds_dir = .+',
       require => Package[$package_name],
-      notify  => Exec['gitlab-runner-restart'],
+      notify  => Service[$package_name],
     }
   }
   if $cache_dir {
@@ -142,7 +160,7 @@ class gitlab_ci_runner (
       line    => "cache_dir = \"${cache_dir}\"",
       match   => '^cache_dir = .+',
       require => Package[$package_name],
-      notify  => Exec['gitlab-runner-restart'],
+      notify  => Service[$package_name],
     }
   }
   if $sentry_dsn {
@@ -166,6 +184,6 @@ class gitlab_ci_runner (
     binary         => $package_name,
     default_config => $runner_defaults,
     runners_hash   => $runners,
-    require        => Exec['gitlab-runner-restart'],
+    notify         => Exec['gitlab-runner-restart'],
   }
 }
