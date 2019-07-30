@@ -65,3 +65,5 @@ gitlab_ci_runner::runners:
 ## Limitations
 
 The Gitlab CI runner installation is at the moment only tested on Ubuntu 14.04 and Debian 9.
+
+A runner configuration is currently only applied if the specific runner does not exist in the config file.
