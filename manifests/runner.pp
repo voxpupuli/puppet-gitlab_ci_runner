@@ -43,7 +43,7 @@ define gitlab_ci_runner::runner (
   if $ensure == 'absent' {
       # Execute gitlab ci multirunner unregister
       exec {"Unregister_runner_${title}":
-        command => "/usr/bin/${binary} unregister -n ${title}",
+        command => "/usr/bin/${binary} unregister -n ${runner_name}",
         onlyif  => "/bin/grep \'${runner_name}\' ${toml_file}",
       }
     } else {
