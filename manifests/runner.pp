@@ -29,7 +29,11 @@ define gitlab_ci_runner::runner (
   $config_without_ensure = delete($config, 'ensure')
 
   # Merge default config with actual config
-  $_config = merge($_default_config, $config_without_ensure)
+  $__config = merge($_default_config, $config_without_ensure)
+
+  # Pull out the registration_token key
+  $registration_token = $__config['registration_token']
+  $_config = delete($__config, 'registration_token')
 
   # Convert configuration into a string
   $parameters_array = join_keys_to_values($_config, '=')
@@ -49,7 +53,7 @@ define gitlab_ci_runner::runner (
     } else {
       # Execute gitlab ci multirunner register
       exec {"Register_runner_${title}":
-        command => "/usr/bin/${binary} register -n ${parameters_string}",
+        command => "/usr/bin/${binary} register -n --registration-token=${registration_token} ${parameters_string}",
         unless  => "/bin/grep \'${runner_name}\' ${toml_file}",
       }
     }
