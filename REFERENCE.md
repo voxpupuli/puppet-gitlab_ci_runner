@@ -83,7 +83,15 @@ Default value: `undef`
 
 Data type: `Optional[Pattern[/.*:.+/]]`
 
-[host]:<port> to enable metrics server as described in https://docs.gitlab.com/runner/monitoring/README.html#configuration-of-the-metrics-http-server
+(Deprecated) [host]:<port> to enable metrics server as described in https://docs.gitlab.com/runner/monitoring/README.html#configuration-of-the-metrics-http-server.
+
+Default value: `undef`
+
+##### `listen_address`
+
+Data type: `Optional[Pattern[/.*:.+/]]`
+
+Address (<host>:<port>) on which the Prometheus metrics HTTP server should be listening.
 
 Default value: `undef`
 

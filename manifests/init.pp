@@ -24,7 +24,9 @@
 # @param cache_dir
 #   Absolute path to a directory where build caches will be stored in context of selected executor (locally, Docker, SSH). If the docker executor is used, this directory needs to be included in its volumes parameter.
 # @param metrics_server
-#   [host]:<port> to enable metrics server as described in https://docs.gitlab.com/runner/monitoring/README.html#configuration-of-the-metrics-http-server
+#   (Deprecated) [host]:<port> to enable metrics server as described in https://docs.gitlab.com/runner/monitoring/README.html#configuration-of-the-metrics-http-server.
+# @param listen_address
+#   Address (<host>:<port>) on which the Prometheus metrics HTTP server should be listening.
 # @param sentry_dsn
 #   Enable tracking of all system level errors to sentry.
 # @param manage_docker
@@ -50,6 +52,7 @@ class gitlab_ci_runner (
   Optional[String]           $builds_dir               = undef,
   Optional[String]           $cache_dir                = undef,
   Optional[Pattern[/.*:.+/]] $metrics_server           = undef,
+  Optional[Pattern[/.*:.+/]] $listen_address           = undef,
   Optional[String]           $sentry_dsn               = undef,
   Boolean                    $manage_docker            = true,
   Boolean                    $manage_repo              = true,
@@ -155,6 +158,15 @@ class gitlab_ci_runner (
       path    => $config_path,
       line    => "metrics_server = \"${metrics_server}\"",
       match   => '^metrics_server = .+',
+      require => Package[$package_name],
+      notify  => Service[$package_name],
+    }
+  }
+  if $listen_address {
+    file_line { 'gitlab-runner-listen-address':
+      path    => $config_path,
+      line    => "listen_address = \"${listen_address}\"",
+      match   => '^listen_address = .+',
       require => Package[$package_name],
       notify  => Service[$package_name],
     }
