@@ -5,7 +5,13 @@
 
 **Classes**
 
+_Public Classes_
+
 * [`gitlab_ci_runner`](#gitlab_ci_runner): This module installs and configures Gitlab CI Runners.
+
+_Private Classes_
+
+* `gitlab_ci_runner::repo`: Manages the repository for Gitlab runner
 
 **Defined types**
 
