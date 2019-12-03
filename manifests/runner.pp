@@ -50,7 +50,7 @@ define gitlab_ci_runner::runner (
       # Execute gitlab ci multirunner register
       exec {"Register_runner_${title}":
         command => "/usr/bin/${binary} register -n ${parameters_string}",
-        unless  => "/bin/grep \'${runner_name}\' ${toml_file}",
+        unless  => "/bin/grep -F \'${runner_name}\' ${toml_file}",
       }
     }
 
