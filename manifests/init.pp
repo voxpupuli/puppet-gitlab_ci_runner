@@ -3,6 +3,20 @@
 ## This module installs and configures Gitlab CI Runners.
 #
 # === Parameters
+# [*runners*]
+#   Type: Hash
+#   Default: unset
+#   Hashkeys are used as $title in runners.pp. The subkeys have to be named as the parameter names from
+#   ´gitlab-runner register´ command cause they're later joined to one entire string using 2 hyphen to
+#   look like shell command parameters.
+#   See ´https://docs.gitlab.com/runner/register/#one-line-registration-command´ for details.
+#
+#   example:
+#     $example_runner = {
+#       registration-token => 'gitlab-token',
+#       url                => 'https://gitlab.com/',
+#       tag-list           => "docker,aws",
+#     },
 #
 # [*concurrent*]
 #   Default: `undef`
@@ -17,15 +31,19 @@
 class gitlab_ci_runner (
   Hash                       $runners,
   Hash                       $runner_defaults,
+  String                     $xz_package_name,
   Optional[Integer]          $concurrent               = undef,
   Optional[String]           $builds_dir               = undef,
   Optional[String]           $cache_dir                = undef,
   Optional[Pattern[/.*:.+/]] $metrics_server           = undef,
+  Optional[String]           $sentry_dsn               = undef,
   Boolean                    $manage_docker            = true,
   Boolean                    $manage_repo              = true,
-  String                     $xz_package_name          = 'xz-utils',
   String                     $package_ensure           = installed,
   String                     $package_name             = 'gitlab-runner',
+  Stdlib::HTTPUrl            $repo_base_url            = 'https://packages.gitlab.com',
+  Stdlib::Fqdn               $repo_keyserver           = 'keys.gnupg.net',
+  String                     $config_path              = '/etc/gitlab-runner/config.toml',
 ){
   if $manage_docker {
     # workaround for cirunner issue #1617
@@ -34,7 +52,7 @@ class gitlab_ci_runner (
 
     $docker_images = {
       ubuntu_trusty => {
-        image => 'ubuntu',
+        image     => 'ubuntu',
         image_tag => 'trusty',
       },
     }
@@ -44,8 +62,6 @@ class gitlab_ci_runner (
   }
 
   if $manage_repo {
-    $repo_base_url = 'https://packages.gitlab.com'
-
     case $::osfamily {
       'Debian': {
 
@@ -55,7 +71,7 @@ class gitlab_ci_runner (
           repos    => 'main',
           key      => {
             'id'     => '1A4C919DB987D435939638B914219A96E15E78F4',
-            'server' => 'keys.gnupg.net',
+            'server' => $repo_keyserver,
           },
           include  => {
             'src' => false,
@@ -99,40 +115,59 @@ class gitlab_ci_runner (
   package { $package_name:
     ensure => $package_ensure,
   }
+  service { $package_name:
+    ensure => running,
+    enable => true,
+  }
+
+  file { $config_path: # ensure config exists
+    ensure  => 'present',
+    replace => 'no',
+    content => '',
+  }
 
   if $concurrent != undef {
     file_line { 'gitlab-runner-concurrent':
-      path    => '/etc/gitlab-runner/config.toml',
+      path    => $config_path,
       line    => "concurrent = ${concurrent}",
       match   => '^concurrent = \d+',
       require => Package[$package_name],
-      notify  => Exec['gitlab-runner-restart'],
+      notify  => Service[$package_name],
     }
   }
 
   if $metrics_server {
     file_line { 'gitlab-runner-metrics-server':
-      path    => '/etc/gitlab-runner/config.toml',
+      path    => $config_path,
       line    => "metrics_server = \"${metrics_server}\"",
       match   => '^metrics_server = .+',
       require => Package[$package_name],
-      notify  => Exec['gitlab-runner-restart'],
+      notify  => Service[$package_name],
     }
   }
   if $builds_dir {
     file_line { 'gitlab-runner-builds_dir':
-      path    => '/etc/gitlab-runner/config.toml',
+      path    => $config_path,
       line    => "builds_dir = \"${builds_dir}\"",
       match   => '^builds_dir = .+',
       require => Package[$package_name],
-      notify  => Exec['gitlab-runner-restart'],
+      notify  => Service[$package_name],
     }
   }
   if $cache_dir {
     file_line { 'gitlab-runner-cache_dir':
-      path    => '/etc/gitlab-runner/config.toml',
+      path    => $config_path,
       line    => "cache_dir = \"${cache_dir}\"",
       match   => '^cache_dir = .+',
+      require => Package[$package_name],
+      notify  => Service[$package_name],
+    }
+  }
+  if $sentry_dsn {
+    file_line { 'gitlab-runner-sentry_dsn':
+      path    => $config_path,
+      line    => "sentry_dsn = \"${sentry_dsn}\"",
+      match   => '^sentry_dsn = .+',
       require => Package[$package_name],
       notify  => Exec['gitlab-runner-restart'],
     }
@@ -149,6 +184,6 @@ class gitlab_ci_runner (
     binary         => $package_name,
     default_config => $runner_defaults,
     runners_hash   => $runners,
-    require        => Exec['gitlab-runner-restart'],
+    notify         => Exec['gitlab-runner-restart'],
   }
 }

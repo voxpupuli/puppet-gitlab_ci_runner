@@ -30,7 +30,8 @@ gitlab_ci_runner::concurrent: 4
 gitlab_ci_runner::metrics_server: "localhost:8888"
 
 gitlab_ci_runner::manage_docker: true
-gitlab_ci_runner::manage_docker: true
+
+gitlab_ci_runner::config_path: "etc/gitlab-runner/config.toml"
 
 gitlab_ci_runner::runners:
   test_runner1:{}
@@ -38,6 +39,7 @@ gitlab_ci_runner::runners:
   test_runner3:
     url: "https://git.alternative.org/ci"
     registration-token: "abcdef1234567890"
+    tags-list: "aws,docker,example-tag"
 
 gitlab_ci_runner::runner_defaults:
   url: "https://git.example.com/ci"
@@ -51,7 +53,7 @@ gitlab_ci_runner::runner_defaults:
 To unregister a specific runner you may use `ensure` param:
 
 ```yaml
-gitlab_ci_runner::gitlab_ci_runners:
+gitlab_ci_runner::runners:
   test_runner1:{}
   test_runner2:{}
   test_runner3:
@@ -62,4 +64,6 @@ gitlab_ci_runner::gitlab_ci_runners:
 
 ## Limitations
 
-The Gitlab CI runner installation is at the moment only tested on Ubuntu 14.04.
+The Gitlab CI runner installation is at the moment only tested on Ubuntu 14.04 and Debian 9.
+
+A runner configuration is currently only applied if the specific runner does not exist in the config file.

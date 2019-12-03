@@ -16,9 +16,10 @@ define gitlab_ci_runner::runner (
   Hash $runners_hash,
   Hash $default_config = {},
 ) {
-  # Set resource name as name for the runner
+  # Set resource name as name for the runner and replace under_scores for later use
+  $title_no_underscore = regsubst($title, '_', '-', 'G')
   $name_config = {
-    name => $title,
+    name => $title_no_underscore,
   }
   $_default_config = merge($default_config, $name_config)
   $config = $runners_hash[$title]
@@ -42,14 +43,14 @@ define gitlab_ci_runner::runner (
   if $ensure == 'absent' {
       # Execute gitlab ci multirunner unregister
       exec {"Unregister_runner_${title}":
-        command => "/usr/bin/${binary} unregister -n ${title}",
-        onlyif  => "/bin/grep \'\"${runner_name}\"\' ${toml_file}",
+        command => "/usr/bin/${binary} unregister -n ${runner_name}",
+        onlyif  => "/bin/grep \'${runner_name}\' ${toml_file}",
       }
     } else {
       # Execute gitlab ci multirunner register
       exec {"Register_runner_${title}":
         command => "/usr/bin/${binary} register -n ${parameters_string}",
-        unless  => "/bin/grep \'\"${runner_name}\"\' ${toml_file}",
+        unless  => "/bin/grep -F \'${runner_name}\' ${toml_file}",
       }
     }
 
