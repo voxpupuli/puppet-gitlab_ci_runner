@@ -30,7 +30,6 @@ gitlab_ci_runner::concurrent: 4
 gitlab_ci_runner::metrics_server: "localhost:8888"
 
 gitlab_ci_runner::manage_docker: true
-gitlab_ci_runner::manage_docker: true
 
 gitlab_ci_runner::config_path: "etc/gitlab-runner/config.toml"
 
@@ -40,6 +39,7 @@ gitlab_ci_runner::runners:
   test_runner3:
     url: "https://git.alternative.org/ci"
     registration-token: "abcdef1234567890"
+    tags-list: "aws,docker,example-tag"
 
 gitlab_ci_runner::runner_defaults:
   url: "https://git.example.com/ci"
