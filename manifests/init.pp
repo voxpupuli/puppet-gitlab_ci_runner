@@ -1,32 +1,46 @@
-# == Class: gitlab_ci_runner
+# @summary This module installs and configures Gitlab CI Runners.
 #
-## This module installs and configures Gitlab CI Runners.
+# @example Simple runner registration
+#		class { 'gitlab_ci_runner':
+#		  runners => {
+#		 	 example_runner => {
+#		 		 'registration-token' => 'gitlab-token',
+#		 		 'url'                => 'https://gitlab.com',
+#		 		 'tag-list'           => 'docker,aws',
+#		 	 },
+#		  },
+#		}
 #
-# === Parameters
-# [*runners*]
-#   Type: Hash
-#   Default: unset
-#   Hashkeys are used as $title in runners.pp. The subkeys have to be named as the parameter names from
-#   ´gitlab-runner register´ command cause they're later joined to one entire string using 2 hyphen to
-#   look like shell command parameters.
-#   See ´https://docs.gitlab.com/runner/register/#one-line-registration-command´ for details.
-#
-#   example:
-#     $example_runner = {
-#       registration-token => 'gitlab-token',
-#       url                => 'https://gitlab.com/',
-#       tag-list           => "docker,aws",
-#     },
-#
-# [*concurrent*]
-#   Default: `undef`
-#   The limit on the number of jobs that can run concurrently among
-#   all runners, or `undef` to leave unmanaged.
-#
-# [*metrics_server*]
-#   Default: `undef`
-#   [host]:<port> to enable metrics server as described in
-#   https://docs.gitlab.com/runner/monitoring/README.html#configuration-of-the-metrics-http-server
+# @param runners
+#   Hashkeys are used as $title in runners.pp. The subkeys have to be named as the parameter names from ´gitlab-runner register´ command cause they're later joined to one entire string using 2 hyphen to look like shell command parameters. See ´https://docs.gitlab.com/runner/register/#one-line-registration-command´ for details.
+# @param runner_defaults
+#   A hash with defaults which will be later merged with $runners.
+# @param xz_package_name
+#   The name of the 'xz' package. Needed for local docker installations.
+# @param concurrent
+#   Limits how many jobs globally can be run concurrently. The most upper limit of jobs using all defined runners. 0 does not mean unlimited!
+# @param builds_dir
+#   Absolute path to a directory where builds will be stored in context of selected executor (Locally, Docker, SSH).
+# @param cache_dir
+#   Absolute path to a directory where build caches will be stored in context of selected executor (locally, Docker, SSH). If the docker executor is used, this directory needs to be included in its volumes parameter.
+# @param metrics_server
+#   [host]:<port> to enable metrics server as described in https://docs.gitlab.com/runner/monitoring/README.html#configuration-of-the-metrics-http-server
+# @param sentry_dsn
+#   Enable tracking of all system level errors to sentry.
+# @param manage_docker
+#   If docker should be installs (uses the puppetlabs-docker).
+# @param manage_repo
+#   If the repository should be managed.
+# @param package_ensure
+#   The package 'ensure' state.
+# @param package_name
+#   The name of the package.
+# @param repo_base_url
+#   The base repository url.
+# @param repo_keyserver
+#   The keyserver which should be used to get the repository key.
+# @param config_path
+#   The path to the config file of Gitlab runner.
 #
 class gitlab_ci_runner (
   Hash                       $runners,
