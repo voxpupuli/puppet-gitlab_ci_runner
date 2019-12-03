@@ -16,7 +16,7 @@ describe 'gitlab_ci_runner', type: :class do
         {
           'runner_defaults' => {
             'url' => 'https://git.example.com/ci',
-            'registration-token' => '1234567890abcdef',
+            'registration-token' => '1234567890_ABCdef',
             'executor' => 'docker',
             'docker-image' => 'ubuntu:trusty'
           },
