@@ -1,15 +1,11 @@
-# == Define: gitlab_ci_runner::runner
+# @summary This module installs and configures Gitlab CI Runners.
 #
-# This module installs and configures Gitlab CI Runners.
-#
-# === Parameters
-#
-# [*runners_hash*]
-#   Hash with configuration for runners
-#
-# [*default_config*]
-#   Hash with default configration for runners. This will
-#   be merged with the runners_hash config
+# @param binary
+#   The name of the Gitlab runner binary.
+# @param runners_hash
+#   Hash with configuration for runners.
+# @param default_config
+#   Hash with default configration for runners. This will be merged with the runners_hash config.
 #
 define gitlab_ci_runner::runner (
   String $binary,
