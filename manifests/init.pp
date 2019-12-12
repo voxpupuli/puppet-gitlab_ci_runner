@@ -76,12 +76,12 @@ class gitlab_ci_runner (
   }
 
   if $manage_repo {
-    case $::osfamily {
+    case $facts['os']['family'] {
       'Debian': {
 
         apt::source { 'apt_gitlabci':
           comment  => 'GitlabCI Runner Repo',
-          location => "${repo_base_url}/runner/${package_name}/${::lsbdistid.downcase}/",
+          location => "${repo_base_url}/runner/${package_name}/${facts['os']['distro']['id'].downcase}/",
           repos    => 'main',
           key      => {
             'id'     => '1A4C919DB987D435939638B914219A96E15E78F4',
@@ -121,7 +121,7 @@ class gitlab_ci_runner (
         }
       }
       default: {
-        fail ("gitlab_ci_runner::manage_repo parameter for ${::osfamily} is not supported.")
+        fail ("gitlab_ci_runner::manage_repo parameter for ${facts['os']['family']} is not supported.")
       }
     }
   }
