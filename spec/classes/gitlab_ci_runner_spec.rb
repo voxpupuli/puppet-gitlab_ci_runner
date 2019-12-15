@@ -78,6 +78,26 @@ describe 'gitlab_ci_runner', type: :class do
                                                                                 'match' => '^metrics_server = .+')
         end
       end
+      context 'with listen_address => localhost:9252' do
+        let(:params) do
+          {
+            'runner_defaults' => {},
+            'runners' => {},
+            'listen_address' => 'localhost:9252'
+          }
+        end
+
+        it do
+          is_expected.to contain_file_line('gitlab-runner-listen-address').
+            with(
+              path: '/etc/gitlab-runner/config.toml',
+              line: 'listen_address = "localhost:9252"',
+              match: '^listen_address = .+'
+            ).
+            that_requires("Package[#{package_name}]").
+            that_notifies("Service[#{package_name}]")
+        end
+      end
       context 'with builds_dir => /tmp/builds_dir' do
         let(:params) do
           {
