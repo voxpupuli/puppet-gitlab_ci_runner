@@ -27,9 +27,22 @@ class gitlab_ci_runner::repo (
       Exec['apt_update'] -> Package[$package_name]
     }
     'RedHat': {
+      if $facts['os']['name'] == 'Amazon' {
+        if $facts['os']['release']['major'] == '2' { # Amazon Linux 2 is based off of CentOS 7
+          $base_url = "${repo_base_url}/runner/${package_name}/el/7/\$basearch"
+          $source_base_url = "${repo_base_url}/runner/${package_name}/el/7/SRPMS"
+        } else { # Amazon Linux 1 is based off of CentOS 6 but os.release.major will differ
+          $base_url = "${repo_base_url}/runner/${package_name}/el/6/\$basearch"
+          $source_base_url = "${repo_base_url}/runner/${package_name}/el/6/SRPMS"
+        }
+      } else {
+        $base_url = "${repo_base_url}/runner/${package_name}/el/\$releasever/\$basearch"
+        $source_base_url = "${repo_base_url}/runner/${package_name}/el/\$releasever/SRPMS"
+      }
+
       yumrepo { "runner_${package_name}":
         ensure        => 'present',
-        baseurl       => "${repo_base_url}/runner/${package_name}/el/\$releasever/\$basearch",
+        baseurl       => $base_url,
         descr         => "runner_${package_name}",
         enabled       => '1',
         gpgcheck      => '0',
@@ -41,7 +54,7 @@ class gitlab_ci_runner::repo (
 
       yumrepo { "runner_${package_name}-source":
         ensure        => 'present',
-        baseurl       => "${repo_base_url}/runner/${package_name}/el/\$releasever/SRPMS",
+        baseurl       => $source_base_url,
         descr         => "runner_${package_name}-source",
         enabled       => '1',
         gpgcheck      => '0',

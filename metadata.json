@@ -23,6 +23,13 @@
   ],
   "operatingsystem_support": [
     {
+      "operatingsystem": "Amazon",
+      "operatingsystemrelease": [
+        "1",
+        "2"
+      ]
+    },
+    {
       "operatingsystem": "RedHat",
       "operatingsystemrelease": [
         "6",

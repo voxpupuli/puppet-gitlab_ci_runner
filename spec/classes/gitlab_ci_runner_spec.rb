@@ -197,11 +197,21 @@ describe 'gitlab_ci_runner', type: :class do
               )
           end
         when 'RedHat'
+          os_release_version = if facts[:os]['name'] == 'Amazon'
+                                 if facts[:os]['release']['major'] == 2
+                                   '7'
+                                 else
+                                   '6'
+                                 end
+                               else
+                                 '$releasever'
+                               end
+
           it do
             is_expected.to contain_yumrepo('runner_gitlab-runner').
               with(
                 ensure: 'present',
-                baseurl: "https://packages.gitlab.com/runner/gitlab-runner/el/\$releasever/\$basearch",
+                baseurl: "https://packages.gitlab.com/runner/gitlab-runner/el/#{os_release_version}/\$basearch",
                 descr: 'runner_gitlab-runner',
                 enabled: '1',
                 gpgcheck: '0',
@@ -216,7 +226,7 @@ describe 'gitlab_ci_runner', type: :class do
             is_expected.to contain_yumrepo('runner_gitlab-runner-source').
               with(
                 ensure: 'present',
-                baseurl: "https://packages.gitlab.com/runner/gitlab-runner/el/\$releasever/SRPMS",
+                baseurl: "https://packages.gitlab.com/runner/gitlab-runner/el/#{os_release_version}/SRPMS",
                 descr: 'runner_gitlab-runner-source',
                 enabled: '1',
                 gpgcheck: '0',
