@@ -137,67 +137,7 @@ class gitlab_ci_runner (
     enable => true,
   }
 
-  file { $config_path: # ensure config exists
-    ensure  => 'present',
-    replace => 'no',
-    content => '',
-  }
-
-  if $concurrent != undef {
-    file_line { 'gitlab-runner-concurrent':
-      path    => $config_path,
-      line    => "concurrent = ${concurrent}",
-      match   => '^concurrent = \d+',
-      require => Package[$package_name],
-      notify  => Service[$package_name],
-    }
-  }
-
-  if $metrics_server {
-    file_line { 'gitlab-runner-metrics-server':
-      path    => $config_path,
-      line    => "metrics_server = \"${metrics_server}\"",
-      match   => '^metrics_server = .+',
-      require => Package[$package_name],
-      notify  => Service[$package_name],
-    }
-  }
-  if $listen_address {
-    file_line { 'gitlab-runner-listen-address':
-      path    => $config_path,
-      line    => "listen_address = \"${listen_address}\"",
-      match   => '^listen_address = .+',
-      require => Package[$package_name],
-      notify  => Service[$package_name],
-    }
-  }
-  if $builds_dir {
-    file_line { 'gitlab-runner-builds_dir':
-      path    => $config_path,
-      line    => "builds_dir = \"${builds_dir}\"",
-      match   => '^builds_dir = .+',
-      require => Package[$package_name],
-      notify  => Service[$package_name],
-    }
-  }
-  if $cache_dir {
-    file_line { 'gitlab-runner-cache_dir':
-      path    => $config_path,
-      line    => "cache_dir = \"${cache_dir}\"",
-      match   => '^cache_dir = .+',
-      require => Package[$package_name],
-      notify  => Service[$package_name],
-    }
-  }
-  if $sentry_dsn {
-    file_line { 'gitlab-runner-sentry_dsn':
-      path    => $config_path,
-      line    => "sentry_dsn = \"${sentry_dsn}\"",
-      match   => '^sentry_dsn = .+',
-      require => Package[$package_name],
-      notify  => Exec['gitlab-runner-restart'],
-    }
-  }
+  contain gitlab_ci_runner::config
 
   exec { 'gitlab-runner-restart':
     command     => "/usr/bin/${package_name} restart",
