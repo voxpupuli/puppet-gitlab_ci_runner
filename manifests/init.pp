@@ -83,8 +83,12 @@ class gitlab_ci_runner (
   }
 
   contain gitlab_ci_runner::install
-  contain gitlab_ci_runner::service
   contain gitlab_ci_runner::config
+  contain gitlab_ci_runner::service
+
+  Class['gitlab_ci_runner::install']
+  -> Class['gitlab_ci_runner::config']
+  ~> Class['gitlab_ci_runner::service']
 
   $_runners = $runners.keys
   gitlab_ci_runner::runner { $_runners:
@@ -92,6 +96,6 @@ class gitlab_ci_runner (
     default_config => $runner_defaults,
     runners_hash   => $runners,
     require        => Class['gitlab_ci_runner::config'],
-    notify         => Class['gitlab_ci_runner::service']
+    notify         => Class['gitlab_ci_runner::service'],
   }
 }

@@ -1,8 +1,6 @@
 require 'spec_helper'
 
 describe 'gitlab_ci_runner', type: :class do
-  package_name = 'gitlab-runner'
-  config_path = '/etc/gitlab-runner/config.toml'
   on_supported_os.each do |os, facts|
     context "on #{os}" do
       let(:facts) do
@@ -32,11 +30,14 @@ describe 'gitlab_ci_runner', type: :class do
       it { is_expected.to contain_package('gitlab-runner') }
       it { is_expected.to contain_service('gitlab-runner') }
       it { is_expected.to contain_class('gitlab_ci_runner::install') }
-      it { is_expected.to contain_class('gitlab_ci_runner::config') }
+      it do
+        is_expected.to contain_class('gitlab_ci_runner::config').
+          that_requires('Class[gitlab_ci_runner::install]').
+          that_notifies('Class[gitlab_ci_runner::service]')
+      end
       it { is_expected.to contain_class('gitlab_ci_runner::service') }
-      it { is_expected.to contain_file(config_path) }
+      it { is_expected.to contain_file('/etc/gitlab-runner/config.toml') }
 
-      it { is_expected.to contain_gitlab_ci_runner__runner('test_runner').that_notifies('Class[gitlab_ci_runner::service]') }
       it { is_expected.not_to contain_file_line('gitlab-runner-concurrent') }
       it { is_expected.not_to contain_file_line('gitlab-runner-metrics_server') }
       it { is_expected.not_to contain_file_line('gitlab-runner-builds_dir') }
@@ -51,8 +52,6 @@ describe 'gitlab_ci_runner', type: :class do
           }
         end
 
-        it { is_expected.to contain_file_line('gitlab-runner-concurrent').that_requires('Class[gitlab_ci_runner::install]') }
-        it { is_expected.to contain_file_line('gitlab-runner-concurrent').that_notifies('Class[gitlab_ci_runner::service]') }
         it do
           is_expected.to contain_file_line('gitlab-runner-concurrent').with('path' => '/etc/gitlab-runner/config.toml',
                                                                             'line'  => 'concurrent = 10',
@@ -68,8 +67,6 @@ describe 'gitlab_ci_runner', type: :class do
           }
         end
 
-        it { is_expected.to contain_file_line('gitlab-runner-metrics_server').that_requires('Class[gitlab_ci_runner::install]') }
-        it { is_expected.to contain_file_line('gitlab-runner-metrics_server').that_notifies('Class[gitlab_ci_runner::service]') }
         it do
           is_expected.to contain_file_line('gitlab-runner-metrics_server').with('path' => '/etc/gitlab-runner/config.toml',
                                                                                 'line'  => 'metrics_server = "localhost:9252"',
@@ -91,9 +88,7 @@ describe 'gitlab_ci_runner', type: :class do
               path: '/etc/gitlab-runner/config.toml',
               line: 'listen_address = "localhost:9252"',
               match: '^listen_address = .+'
-            ).
-            that_requires('Class[gitlab_ci_runner::install]').
-            that_notifies('Class[gitlab_ci_runner::service]')
+            )
         end
       end
       context 'with builds_dir => /tmp/builds_dir' do
@@ -105,8 +100,6 @@ describe 'gitlab_ci_runner', type: :class do
           }
         end
 
-        it { is_expected.to contain_file_line('gitlab-runner-builds_dir').that_requires('Class[gitlab_ci_runner::install]') }
-        it { is_expected.to contain_file_line('gitlab-runner-builds_dir').that_notifies('Class[gitlab_ci_runner::service]') }
         it do
           is_expected.to contain_file_line('gitlab-runner-builds_dir').with('path' => '/etc/gitlab-runner/config.toml',
                                                                             'line'  => 'builds_dir = "/tmp/builds_dir"',
@@ -122,8 +115,6 @@ describe 'gitlab_ci_runner', type: :class do
           }
         end
 
-        it { is_expected.to contain_file_line('gitlab-runner-cache_dir').that_requires('Class[gitlab_ci_runner::install]') }
-        it { is_expected.to contain_file_line('gitlab-runner-cache_dir').that_notifies('Class[gitlab_ci_runner::service]') }
         it do
           is_expected.to contain_file_line('gitlab-runner-cache_dir').with('path' => '/etc/gitlab-runner/config.toml',
                                                                            'line'  => 'cache_dir = "/tmp/cache_dir"',
@@ -139,8 +130,6 @@ describe 'gitlab_ci_runner', type: :class do
           }
         end
 
-        it { is_expected.to contain_file_line('gitlab-runner-sentry_dsn').that_requires('Class[gitlab_ci_runner::install]') }
-        it { is_expected.to contain_file_line('gitlab-runner-sentry_dsn').that_notifies('Class[gitlab_ci_runner::service]') }
         it do
           is_expected.to contain_file_line('gitlab-runner-sentry_dsn').with('path' => '/etc/gitlab-runner/config.toml',
                                                                             'line'  => 'sentry_dsn = "https://123abc@localhost/1"',
@@ -158,6 +147,7 @@ describe 'gitlab_ci_runner', type: :class do
           )
         end
 
+        it { is_expected.to contain_gitlab_ci_runner__runner('test_runner') }
         it { is_expected.to contain_exec('Register_runner_test_runner').with('command' => %r{/usr/bin/[^ ]+ register }) }
         it { is_expected.not_to contain_exec('Register_runner_test_runner').with('command' => %r{--ensure=}) }
       end
@@ -173,6 +163,7 @@ describe 'gitlab_ci_runner', type: :class do
           )
         end
 
+        it { is_expected.to contain_gitlab_ci_runner__runner('test_runner') }
         it { is_expected.to contain_exec('Unregister_runner_test_runner').with('command' => %r{/usr/bin/[^ ]+ unregister }) }
         it { is_expected.not_to contain_exec('Unregister_runner_test_runner').with('command' => %r{--ensure=}) }
       end
