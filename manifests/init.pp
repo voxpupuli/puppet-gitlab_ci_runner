@@ -83,25 +83,15 @@ class gitlab_ci_runner (
   }
 
   contain gitlab_ci_runner::install
-
-  service { $package_name:
-    ensure => running,
-    enable => true,
-  }
-
+  contain gitlab_ci_runner::service
   contain gitlab_ci_runner::config
-
-  exec { 'gitlab-runner-restart':
-    command     => "/usr/bin/${package_name} restart",
-    refreshonly => true,
-    require     => Class['gitlab_ci_runner::install'],
-  }
 
   $_runners = $runners.keys
   gitlab_ci_runner::runner { $_runners:
     binary         => $package_name,
     default_config => $runner_defaults,
     runners_hash   => $runners,
-    notify         => Exec['gitlab-runner-restart'],
+    require        => Class['gitlab_ci_runner::config'],
+    notify         => Class['gitlab_ci_runner::service']
   }
 }

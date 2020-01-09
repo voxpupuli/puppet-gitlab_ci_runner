@@ -19,7 +19,7 @@ class gitlab_ci_runner::config (
     replace => 'no',
     content => '',
     require => Class['gitlab_ci_runner::install'],
-    notify  => Service[$package_name],
+    notify  => Class['gitlab_ci_runner::service'],
   }
 
   if $concurrent {
@@ -28,7 +28,7 @@ class gitlab_ci_runner::config (
       line    => "concurrent = ${concurrent}",
       match   => '^concurrent = \d+',
       require => Class['gitlab_ci_runner::install'],
-      notify  => Service[$package_name],
+      notify  => Class['gitlab_ci_runner::service'],
     }
   }
 
@@ -38,7 +38,7 @@ class gitlab_ci_runner::config (
       line    => "metrics_server = \"${metrics_server}\"",
       match   => '^metrics_server = .+',
       require => Class['gitlab_ci_runner::install'],
-      notify  => Service[$package_name],
+      notify  => Class['gitlab_ci_runner::service'],
     }
   }
 
@@ -48,7 +48,7 @@ class gitlab_ci_runner::config (
       line    => "listen_address = \"${listen_address}\"",
       match   => '^listen_address = .+',
       require => Class['gitlab_ci_runner::install'],
-      notify  => Service[$package_name],
+      notify  => Class['gitlab_ci_runner::service'],
     }
   }
 
@@ -58,7 +58,7 @@ class gitlab_ci_runner::config (
       line    => "builds_dir = \"${builds_dir}\"",
       match   => '^builds_dir = .+',
       require => Class['gitlab_ci_runner::install'],
-      notify  => Service[$package_name],
+      notify  => Class['gitlab_ci_runner::service'],
     }
   }
 
@@ -68,7 +68,7 @@ class gitlab_ci_runner::config (
       line    => "cache_dir = \"${cache_dir}\"",
       match   => '^cache_dir = .+',
       require => Class['gitlab_ci_runner::install'],
-      notify  => Service[$package_name],
+      notify  => Class['gitlab_ci_runner::service'],
     }
   }
 
@@ -78,7 +78,7 @@ class gitlab_ci_runner::config (
       line    => "sentry_dsn = \"${sentry_dsn}\"",
       match   => '^sentry_dsn = .+',
       require => Class['gitlab_ci_runner::install'],
-      notify  => Service[$package_name],
+      notify  => Class['gitlab_ci_runner::service'],
     }
   }
 }
