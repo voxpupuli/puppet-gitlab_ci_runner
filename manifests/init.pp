@@ -79,137 +79,23 @@ class gitlab_ci_runner (
   }
 
   if $manage_repo {
-    case $facts['os']['family'] {
-      'Debian': {
-
-        apt::source { 'apt_gitlabci':
-          comment  => 'GitlabCI Runner Repo',
-          location => "${repo_base_url}/runner/${package_name}/${facts['os']['distro']['id'].downcase}/",
-          repos    => 'main',
-          key      => {
-            'id'     => '1A4C919DB987D435939638B914219A96E15E78F4',
-            'server' => $repo_keyserver,
-          },
-          include  => {
-            'src' => false,
-            'deb' => true,
-          },
-        }
-        Apt::Source['apt_gitlabci'] -> Package[$package_name]
-        Exec['apt_update'] -> Package[$package_name]
-      }
-      'RedHat': {
-        yumrepo { "runner_${package_name}":
-          ensure        => 'present',
-          baseurl       => "${repo_base_url}/runner/${package_name}/el/\$releasever/\$basearch",
-          descr         => "runner_${package_name}",
-          enabled       => '1',
-          gpgcheck      => '0',
-          gpgkey        => "${repo_base_url}/gpg.key",
-          repo_gpgcheck => '1',
-          sslcacert     => '/etc/pki/tls/certs/ca-bundle.crt',
-          sslverify     => '1',
-        }
-
-        yumrepo { "runner_${package_name}-source":
-          ensure        => 'present',
-          baseurl       => "${repo_base_url}/runner/${package_name}/el/\$releasever/SRPMS",
-          descr         => "runner_${package_name}-source",
-          enabled       => '1',
-          gpgcheck      => '0',
-          gpgkey        => "${repo_base_url}/gpg.key",
-          repo_gpgcheck => '1',
-          sslcacert     => '/etc/pki/tls/certs/ca-bundle.crt',
-          sslverify     => '1',
-        }
-      }
-      default: {
-        fail ("gitlab_ci_runner::manage_repo parameter for ${facts['os']['family']} is not supported.")
-      }
-    }
+    contain gitlab_ci_runner::repo
   }
 
-  package { $package_name:
-    ensure => $package_ensure,
-  }
-  service { $package_name:
-    ensure => running,
-    enable => true,
-  }
+  contain gitlab_ci_runner::install
+  contain gitlab_ci_runner::config
+  contain gitlab_ci_runner::service
 
-  file { $config_path: # ensure config exists
-    ensure  => 'present',
-    replace => 'no',
-    content => '',
-  }
-
-  if $concurrent != undef {
-    file_line { 'gitlab-runner-concurrent':
-      path    => $config_path,
-      line    => "concurrent = ${concurrent}",
-      match   => '^concurrent = \d+',
-      require => Package[$package_name],
-      notify  => Service[$package_name],
-    }
-  }
-
-  if $metrics_server {
-    file_line { 'gitlab-runner-metrics-server':
-      path    => $config_path,
-      line    => "metrics_server = \"${metrics_server}\"",
-      match   => '^metrics_server = .+',
-      require => Package[$package_name],
-      notify  => Service[$package_name],
-    }
-  }
-  if $listen_address {
-    file_line { 'gitlab-runner-listen-address':
-      path    => $config_path,
-      line    => "listen_address = \"${listen_address}\"",
-      match   => '^listen_address = .+',
-      require => Package[$package_name],
-      notify  => Service[$package_name],
-    }
-  }
-  if $builds_dir {
-    file_line { 'gitlab-runner-builds_dir':
-      path    => $config_path,
-      line    => "builds_dir = \"${builds_dir}\"",
-      match   => '^builds_dir = .+',
-      require => Package[$package_name],
-      notify  => Service[$package_name],
-    }
-  }
-  if $cache_dir {
-    file_line { 'gitlab-runner-cache_dir':
-      path    => $config_path,
-      line    => "cache_dir = \"${cache_dir}\"",
-      match   => '^cache_dir = .+',
-      require => Package[$package_name],
-      notify  => Service[$package_name],
-    }
-  }
-  if $sentry_dsn {
-    file_line { 'gitlab-runner-sentry_dsn':
-      path    => $config_path,
-      line    => "sentry_dsn = \"${sentry_dsn}\"",
-      match   => '^sentry_dsn = .+',
-      require => Package[$package_name],
-      notify  => Exec['gitlab-runner-restart'],
-    }
-  }
-
-  exec { 'gitlab-runner-restart':
-    command     => "/usr/bin/${package_name} restart",
-    refreshonly => true,
-    require     => Package[$package_name],
-  }
+  Class['gitlab_ci_runner::install']
+  -> Class['gitlab_ci_runner::config']
+  ~> Class['gitlab_ci_runner::service']
 
   $_runners = $runners.keys
   gitlab_ci_runner::runner { $_runners:
     binary         => $package_name,
     default_config => $runner_defaults,
     runners_hash   => $runners,
-    notify         => Exec['gitlab-runner-restart'],
+    require        => Class['gitlab_ci_runner::config'],
+    notify         => Class['gitlab_ci_runner::service'],
   }
 }
