@@ -18,7 +18,7 @@ class gitlab_ci_runner::config (
     ensure  => 'present',
     replace => 'no',
     content => '',
-    require => Package[$package_name],
+    require => Class['gitlab_ci_runner::install'],
     notify  => Service[$package_name],
   }
 
@@ -27,7 +27,7 @@ class gitlab_ci_runner::config (
       path    => $config_path,
       line    => "concurrent = ${concurrent}",
       match   => '^concurrent = \d+',
-      require => Package[$package_name],
+      require => Class['gitlab_ci_runner::install'],
       notify  => Service[$package_name],
     }
   }
@@ -37,7 +37,7 @@ class gitlab_ci_runner::config (
       path    => $config_path,
       line    => "metrics_server = \"${metrics_server}\"",
       match   => '^metrics_server = .+',
-      require => Package[$package_name],
+      require => Class['gitlab_ci_runner::install'],
       notify  => Service[$package_name],
     }
   }
@@ -47,7 +47,7 @@ class gitlab_ci_runner::config (
       path    => $config_path,
       line    => "listen_address = \"${listen_address}\"",
       match   => '^listen_address = .+',
-      require => Package[$package_name],
+      require => Class['gitlab_ci_runner::install'],
       notify  => Service[$package_name],
     }
   }
@@ -57,7 +57,7 @@ class gitlab_ci_runner::config (
       path    => $config_path,
       line    => "builds_dir = \"${builds_dir}\"",
       match   => '^builds_dir = .+',
-      require => Package[$package_name],
+      require => Class['gitlab_ci_runner::install'],
       notify  => Service[$package_name],
     }
   }
@@ -67,7 +67,7 @@ class gitlab_ci_runner::config (
       path    => $config_path,
       line    => "cache_dir = \"${cache_dir}\"",
       match   => '^cache_dir = .+',
-      require => Package[$package_name],
+      require => Class['gitlab_ci_runner::install'],
       notify  => Service[$package_name],
     }
   }
@@ -77,7 +77,7 @@ class gitlab_ci_runner::config (
       path    => $config_path,
       line    => "sentry_dsn = \"${sentry_dsn}\"",
       match   => '^sentry_dsn = .+',
-      require => Package[$package_name],
+      require => Class['gitlab_ci_runner::install'],
       notify  => Service[$package_name],
     }
   }

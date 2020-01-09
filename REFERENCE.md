@@ -12,6 +12,7 @@ _Public Classes_
 _Private Classes_
 
 * `gitlab_ci_runner::config`: Manages the configuration of Gitlab runner
+* `gitlab_ci_runner::install`: Manages the package of Gitlab runner
 * `gitlab_ci_runner::repo`: Manages the repository for Gitlab runner
 
 **Defined types**

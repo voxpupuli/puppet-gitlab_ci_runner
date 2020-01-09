@@ -32,6 +32,7 @@ describe 'gitlab_ci_runner', type: :class do
       it { is_expected.to contain_package('gitlab-runner') }
       it { is_expected.to contain_service('gitlab-runner') }
       it { is_expected.to contain_exec('gitlab-runner-restart').that_requires("Package[#{package_name}]") }
+      it { is_expected.to contain_class('gitlab_ci_runner::install') }
       it { is_expected.to contain_class('gitlab_ci_runner::config') }
       it { is_expected.to contain_file(config_path) }
 
@@ -54,7 +55,7 @@ describe 'gitlab_ci_runner', type: :class do
           }
         end
 
-        it { is_expected.to contain_file_line('gitlab-runner-concurrent').that_requires("Package[#{package_name}]") }
+        it { is_expected.to contain_file_line('gitlab-runner-concurrent').that_requires('Class[gitlab_ci_runner::install]') }
         it { is_expected.to contain_file_line('gitlab-runner-concurrent').that_notifies("Service[#{package_name}]") }
         it do
           is_expected.to contain_file_line('gitlab-runner-concurrent').with('path' => '/etc/gitlab-runner/config.toml',
@@ -71,7 +72,7 @@ describe 'gitlab_ci_runner', type: :class do
           }
         end
 
-        it { is_expected.to contain_file_line('gitlab-runner-metrics_server').that_requires("Package[#{package_name}]") }
+        it { is_expected.to contain_file_line('gitlab-runner-metrics_server').that_requires('Class[gitlab_ci_runner::install]') }
         it { is_expected.to contain_file_line('gitlab-runner-metrics_server').that_notifies("Service[#{package_name}]") }
         it do
           is_expected.to contain_file_line('gitlab-runner-metrics_server').with('path' => '/etc/gitlab-runner/config.toml',
@@ -95,7 +96,7 @@ describe 'gitlab_ci_runner', type: :class do
               line: 'listen_address = "localhost:9252"',
               match: '^listen_address = .+'
             ).
-            that_requires("Package[#{package_name}]").
+            that_requires('Class[gitlab_ci_runner::install]').
             that_notifies("Service[#{package_name}]")
         end
       end
@@ -108,7 +109,7 @@ describe 'gitlab_ci_runner', type: :class do
           }
         end
 
-        it { is_expected.to contain_file_line('gitlab-runner-builds_dir').that_requires("Package[#{package_name}]") }
+        it { is_expected.to contain_file_line('gitlab-runner-builds_dir').that_requires('Class[gitlab_ci_runner::install]') }
         it { is_expected.to contain_file_line('gitlab-runner-builds_dir').that_notifies("Service[#{package_name}]") }
         it do
           is_expected.to contain_file_line('gitlab-runner-builds_dir').with('path' => '/etc/gitlab-runner/config.toml',
@@ -125,7 +126,7 @@ describe 'gitlab_ci_runner', type: :class do
           }
         end
 
-        it { is_expected.to contain_file_line('gitlab-runner-cache_dir').that_requires("Package[#{package_name}]") }
+        it { is_expected.to contain_file_line('gitlab-runner-cache_dir').that_requires('Class[gitlab_ci_runner::install]') }
         it { is_expected.to contain_file_line('gitlab-runner-cache_dir').that_notifies("Service[#{package_name}]") }
         it do
           is_expected.to contain_file_line('gitlab-runner-cache_dir').with('path' => '/etc/gitlab-runner/config.toml',
@@ -142,7 +143,7 @@ describe 'gitlab_ci_runner', type: :class do
           }
         end
 
-        it { is_expected.to contain_file_line('gitlab-runner-sentry_dsn').that_requires("Package[#{package_name}]") }
+        it { is_expected.to contain_file_line('gitlab-runner-sentry_dsn').that_requires('Class[gitlab_ci_runner::install]') }
         it { is_expected.to contain_file_line('gitlab-runner-sentry_dsn').that_notifies("Service[#{package_name}]") }
         it do
           is_expected.to contain_file_line('gitlab-runner-sentry_dsn').with('path' => '/etc/gitlab-runner/config.toml',
