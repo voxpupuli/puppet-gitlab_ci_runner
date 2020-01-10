@@ -20,6 +20,11 @@ _Private Classes_
 
 * [`gitlab_ci_runner::runner`](#gitlab_ci_runnerrunner): This module installs and configures Gitlab CI Runners.
 
+**Tasks**
+
+* [`register_runner`](#register_runner): Registers a runner on a Gitlab instance.
+* [`unregister_runner`](#unregister_runner): Unregisters a runner from a Gitlab instance.
+
 ## Classes
 
 ### gitlab_ci_runner
@@ -197,4 +202,94 @@ Data type: `Hash`
 Hash with default configration for runners. This will be merged with the runners_hash config.
 
 Default value: {}
+
+## Tasks
+
+### register_runner
+
+Registers a runner on a Gitlab instance.
+
+**Supports noop?** false
+
+#### Parameters
+
+##### `url`
+
+Data type: `String[1]`
+
+The url to your Gitlab instance. Please only provide the host part (e.g https://gitlab.com)
+
+##### `token`
+
+Data type: `String[1]`
+
+Registration token.
+
+##### `description`
+
+Data type: `Optional[String[1]]`
+
+Runners description.
+
+##### `info`
+
+Data type: `Optional[Hash]`
+
+Runners metadata.
+
+##### `active`
+
+Data type: `Optional[Boolean]`
+
+Whether the Runner is active.
+
+##### `locked`
+
+Data type: `Optional[Boolean]`
+
+Whether the Runner should be locked for current project.
+
+##### `run_untagged`
+
+Data type: `Optional[Boolean]`
+
+Whether the Runner should handle untagged jobs.
+
+##### `tag_list`
+
+Data type: `Optional[Array[String[1]]]`
+
+List of Runners tags.
+
+##### `access_level`
+
+Data type: `Optional[Enum['not_protected', 'ref_protected']]`
+
+The access_level of the runner.
+
+##### `maximum_timeout`
+
+Data type: `Optional[Integer[1]]`
+
+Maximum timeout set when this Runner will handle the job.
+
+### unregister_runner
+
+Unregisters a runner from a Gitlab instance.
+
+**Supports noop?** false
+
+#### Parameters
+
+##### `url`
+
+Data type: `String[1]`
+
+The url to your Gitlab instance. Please provide the host part only! (e.g https://gitlab.com)
+
+##### `token`
+
+Data type: `String[1]`
+
+Runners authentication token.
 
