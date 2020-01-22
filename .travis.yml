@@ -6,6 +6,7 @@ before_install:
   - yes | gem update --system
   - bundle --version
   - git clone https://github.com/puppetlabs/puppetlabs-ruby_task_helper ../ruby_task_helper
+  - scripts/start-gitlab.sh
 script:
   - 'bundle exec rake $CHECK'
 matrix:

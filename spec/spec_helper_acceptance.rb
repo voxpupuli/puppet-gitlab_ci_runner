@@ -34,5 +34,36 @@ RSpec.configure do |c|
     )
 
     apply_manifest(tzdata, catch_failures: true) if fact('os.release.major') =~ %r{(16.04|18.04)}
+
+    # Setup Puppet Bolt
+    gitlab_ip = File.read(File.expand_path('~/GITLAB_IP')).chomp
+    bolt = <<-MANIFEST
+    $bolt_config = @("GITCONFIG"/L)
+    modulepath: "/etc/puppetlabs/code/modules:/etc/puppetlabs/code/environments/production/modules"
+    ssh:
+      host-key-check: false
+      user: root
+      password: root
+    | GITCONFIG
+
+    package { 'puppet-bolt':
+      ensure => installed,
+    }
+
+    file { [ '/root/.puppetlabs', '/root/.puppetlabs/bolt']:
+      ensure => directory,
+    }
+
+    file { '/root/.puppetlabs/bolt/bolt.yaml':
+      ensure  => file,
+      content => $bolt_config,
+    }
+
+    file_line { '/etc/hosts-gitlab':
+      path => '/etc/hosts',
+      line => '#{gitlab_ip} gitlab',
+    }
+    MANIFEST
+    apply_manifest(bolt, catch_failures: true)
   end
 end

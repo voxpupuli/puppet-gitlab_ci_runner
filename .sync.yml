@@ -4,6 +4,7 @@
     - yes | gem update --system
     - bundle --version
     - git clone https://github.com/puppetlabs/puppetlabs-ruby_task_helper ../ruby_task_helper
+    - scripts/start-gitlab.sh
   docker_sets:
     - set: debian8-64
     - set: debian9-64
