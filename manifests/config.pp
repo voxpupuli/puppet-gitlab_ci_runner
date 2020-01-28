@@ -40,6 +40,6 @@ class gitlab_ci_runner::config (
   concat::fragment { "${config_path} - global options":
     target  => $config_path,
     order   => 1,
-    content => inline_template("<%= require 'toml-rb'; TomlRB.dump(@global_options) %>"),
+    content => gitlab_ci_runner::to_toml($global_options),
   }
 }

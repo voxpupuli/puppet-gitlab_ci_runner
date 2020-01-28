@@ -8,7 +8,6 @@ group :test do
   gem 'coveralls',                 :require => false
   gem 'simplecov-console',         :require => false
   gem 'webmock',                   :require => false
-  gem 'toml-rb',                   :require => false
 end
 
 group :development do

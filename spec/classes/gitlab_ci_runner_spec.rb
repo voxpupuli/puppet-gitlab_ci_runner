@@ -7,6 +7,14 @@ describe 'gitlab_ci_runner', type: :class do
 
   on_supported_os.each do |os, facts|
     context "on #{os}" do
+      before do
+        # Make 'gitlab_ci_runner::register_to_file' think that we already have a token on disk
+        # This ensure the function won't call a Gitlab server to try getting the auth token.
+        allow(File).to receive(:exist?).and_call_original
+        allow(File).to receive(:exist?).with('/etc/gitlab-runner/auth-token-test_runner').and_return(true)
+        allow(File).to receive(:read).and_call_original
+        allow(File).to receive(:read).with('/etc/gitlab-runner/auth-token-test_runner').and_return('authtoken')
+      end
       let(:facts) do
         facts
       end
