@@ -25,8 +25,9 @@ define gitlab_ci_runner::runner (
   String[1]                 $runner_name = $title,
   String[1]                 $binary      = 'gitlab-runner',
 ) {
-  # Set resource name as name for the runner and replace under_scores for later use
-  $_name = regsubst($runner_name, '_', '-', 'G')
+  # Ensure we have a unique runner name
+  $_config = { name => $runner_name } + $config
+  $_name   = $_config['name']
 
   # To be able to use all parameters as command line arguments,
   # we have to transform the configuration into something the gitlab-runner
@@ -35,7 +36,7 @@ define gitlab_ci_runner::runner (
   # * Always join option names and values with '='
   #
   # In the end, flatten thewhole array and join all elements with a space as delimiter
-  $__config = $config.map |$item| {
+  $__config = $_config.map |$item| {
     # Ensure all keys use '-' instead of '_'. Needed for e.g. build_dir.
     $key = regsubst($item[0], '_', '-', 'G')
 
@@ -53,7 +54,7 @@ define gitlab_ci_runner::runner (
     # Execute gitlab ci multirunner unregister
     exec {"Unregister_runner_${title}":
       command => "/usr/bin/${binary} unregister -n ${_name}",
-      onlyif  => "/bin/grep \'${_name}\' /etc/gitlab-runner/config.toml",
+      onlyif  => "/bin/grep -F \'${_name}\' /etc/gitlab-runner/config.toml",
     }
   } else {
     # Execute gitlab ci multirunner register
