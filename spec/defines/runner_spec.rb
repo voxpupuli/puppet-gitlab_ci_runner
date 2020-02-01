@@ -21,7 +21,7 @@ describe 'gitlab_ci_runner::runner' do
 
         it do
           is_expected.to contain_exec('Register_runner_testrunner').with(
-            command: '/usr/bin/gitlab-runner register -n --registration-token=gitlab-token --url=https://gitlab.com',
+            command: '/usr/bin/gitlab-runner register -n --name=testrunner --registration-token=gitlab-token --url=https://gitlab.com',
             unless: "/bin/grep -F 'testrunner' /etc/gitlab-runner/config.toml"
           )
         end
@@ -37,27 +37,8 @@ describe 'gitlab_ci_runner::runner' do
         it do
           is_expected.to contain_exec('Unregister_runner_testrunner').with(
             command: '/usr/bin/gitlab-runner unregister -n testrunner',
-            onlyif: "/bin/grep 'testrunner' /etc/gitlab-runner/config.toml"
+            onlyif: "/bin/grep -F 'testrunner' /etc/gitlab-runner/config.toml"
           )
-        end
-      end
-
-      context 'with runner_name/title including a _' do
-        let(:title) { 'test_runner' }
-        let(:params) { default_params }
-
-        context 'with ensure => present' do
-          it { is_expected.to compile.with_all_deps }
-          it { is_expected.to contain_exec('Register_runner_test_runner').with_unless(%r{^/bin/grep -F 'test-runner'}) }
-        end
-
-        context 'with ensure => absent' do
-          let(:params) do
-            super().merge(ensure: 'absent')
-          end
-
-          it { is_expected.to compile.with_all_deps }
-          it { is_expected.to contain_exec('Unregister_runner_test_runner').with_onlyif(%r{^/bin/grep 'test-runner'}) }
         end
       end
 

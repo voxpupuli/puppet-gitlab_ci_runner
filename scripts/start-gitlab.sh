@@ -12,10 +12,9 @@ docker run --detach --rm \
   --publish 80:80 \
   gitlab/gitlab-ce
 
-IP="$(docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' gitlab)"
-echo "${IP}" > ~/GITLAB_IP
+docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' gitlab > ~/GITLAB_IP
 
-until wget -t 1 "http://${IP}:80" -O /dev/null -q; do
+until wget -t 1 'http://localhost:80' -O /dev/null -q; do
   docker logs gitlab --tail 10
   sleep 3
 done

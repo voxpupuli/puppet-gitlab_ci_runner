@@ -6,6 +6,7 @@ require 'beaker/module_install_helper'
 run_puppet_install_helper unless ENV['BEAKER_provision'] == 'no'
 install_module
 install_module_dependencies
+install_module_from_forge_on(hosts, 'puppetlabs/docker', '>= 0')
 
 RSpec.configure do |c|
   # Configure all nodes
