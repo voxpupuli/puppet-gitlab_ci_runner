@@ -1,0 +1,3 @@
+inherit_from: ../.rubocop.yml
+AllCops:
+  TargetRubyVersion: 2.3
