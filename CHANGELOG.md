@@ -4,6 +4,53 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
+## [v2.0.0](https://github.com/voxpupuli/puppet-gitlab_ci_runner/tree/v2.0.0) (2020-02-05)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-gitlab_ci_runner/compare/v1.0.0...v2.0.0)
+
+**Breaking changes:**
+
+- Completely refactor gitlab\_ci\_runner::runner [\#74](https://github.com/voxpupuli/puppet-gitlab_ci_runner/pull/74) ([baurmatt](https://github.com/baurmatt))
+- drop Ubuntu support [\#60](https://github.com/voxpupuli/puppet-gitlab_ci_runner/pull/60) ([bastelfreak](https://github.com/bastelfreak))
+- modulesync 2.7.0 and drop puppet 4 [\#39](https://github.com/voxpupuli/puppet-gitlab_ci_runner/pull/39) ([bastelfreak](https://github.com/bastelfreak))
+
+**Implemented enhancements:**
+
+- Module should manage build\_dir and cache\_dir [\#33](https://github.com/voxpupuli/puppet-gitlab_ci_runner/issues/33)
+- Add bolt task to register/unregister a runner [\#73](https://github.com/voxpupuli/puppet-gitlab_ci_runner/pull/73) ([baurmatt](https://github.com/baurmatt))
+- Add Amazon Linux support \(RedHat OS Family\) [\#70](https://github.com/voxpupuli/puppet-gitlab_ci_runner/pull/70) ([bFekete](https://github.com/bFekete))
+- Add listen\_address parameter [\#65](https://github.com/voxpupuli/puppet-gitlab_ci_runner/pull/65) ([baurmatt](https://github.com/baurmatt))
+- Add custom repo [\#48](https://github.com/voxpupuli/puppet-gitlab_ci_runner/pull/48) ([lupintrd](https://github.com/lupintrd))
+- Add support for current releases [\#41](https://github.com/voxpupuli/puppet-gitlab_ci_runner/pull/41) ([dhoppe](https://github.com/dhoppe))
+- Fix xz dependency on RedHat systems [\#40](https://github.com/voxpupuli/puppet-gitlab_ci_runner/pull/40) ([smortex](https://github.com/smortex))
+
+**Fixed bugs:**
+
+- Multiple tags in tag-list are ignored only last is respected [\#37](https://github.com/voxpupuli/puppet-gitlab_ci_runner/issues/37)
+- The package `xz-utils` is `xz` on CentOS [\#25](https://github.com/voxpupuli/puppet-gitlab_ci_runner/issues/25)
+- Fix bugs which got introduced by to runner.pp refactoring [\#76](https://github.com/voxpupuli/puppet-gitlab_ci_runner/pull/76) ([baurmatt](https://github.com/baurmatt))
+- Fix runner name in unregister command [\#57](https://github.com/voxpupuli/puppet-gitlab_ci_runner/pull/57) ([dcasella](https://github.com/dcasella))
+-  Use '=' to avoid errors while joining cmd options+values [\#31](https://github.com/voxpupuli/puppet-gitlab_ci_runner/pull/31) ([ajcollett](https://github.com/ajcollett))
+
+**Closed issues:**
+
+- registration\_token containing undescore gets modified [\#61](https://github.com/voxpupuli/puppet-gitlab_ci_runner/issues/61)
+- /etc/gitlab-runner/config.toml must exist [\#35](https://github.com/voxpupuli/puppet-gitlab_ci_runner/issues/35)
+- Metrics server and Session listen address' [\#26](https://github.com/voxpupuli/puppet-gitlab_ci_runner/issues/26)
+
+**Merged pull requests:**
+
+- Extract resources out of init.pp [\#72](https://github.com/voxpupuli/puppet-gitlab_ci_runner/pull/72) ([baurmatt](https://github.com/baurmatt))
+- Allow puppetlabs/stdlib 6.x [\#71](https://github.com/voxpupuli/puppet-gitlab_ci_runner/pull/71) ([dhoppe](https://github.com/dhoppe))
+- Switch to puppet-strings for documentation [\#64](https://github.com/voxpupuli/puppet-gitlab_ci_runner/pull/64) ([baurmatt](https://github.com/baurmatt))
+- Use grep with --fixed-strings to avoid issues with some characters in the runner's names [\#63](https://github.com/voxpupuli/puppet-gitlab_ci_runner/pull/63) ([Farfaday](https://github.com/Farfaday))
+- Extend documentation in README with example tags [\#59](https://github.com/voxpupuli/puppet-gitlab_ci_runner/pull/59) ([jacksgt](https://github.com/jacksgt))
+- add limitations about the runner configurations [\#56](https://github.com/voxpupuli/puppet-gitlab_ci_runner/pull/56) ([thde](https://github.com/thde))
+- ensure config exists [\#53](https://github.com/voxpupuli/puppet-gitlab_ci_runner/pull/53) ([thde](https://github.com/thde))
+- Added suport for configuring sentry\_dsn [\#44](https://github.com/voxpupuli/puppet-gitlab_ci_runner/pull/44) ([schewara](https://github.com/schewara))
+- Allow ensure =\> "present" for runners [\#36](https://github.com/voxpupuli/puppet-gitlab_ci_runner/pull/36) ([evhan](https://github.com/evhan))
+- allow build\_dir and cache\_dir to be managed [\#34](https://github.com/voxpupuli/puppet-gitlab_ci_runner/pull/34) ([slmagus](https://github.com/slmagus))
+
 ## [v1.0.0](https://github.com/voxpupuli/puppet-gitlab_ci_runner/tree/v1.0.0) (2018-11-21)
 
 [Full Changelog](https://github.com/voxpupuli/puppet-gitlab_ci_runner/compare/a499e3dab7578847be6bba12baba63168b077bfa...v1.0.0)
