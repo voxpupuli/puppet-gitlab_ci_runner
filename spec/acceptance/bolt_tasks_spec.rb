@@ -10,7 +10,7 @@ describe 'Gitlab Runner bolt tasks' do
     context 'registers a runner' do
       let(:result) do
         result = shell("bolt task run gitlab_ci_runner::register_runner --format json --targets localhost url=http://gitlab token=#{registrationtoken}").stdout.chomp
-        JSON.parse(result)['items'][0]['result']
+        JSON.parse(result)['items'][0]['value']
       end
 
       it 'returns a valid token' do
@@ -25,7 +25,7 @@ describe 'Gitlab Runner bolt tasks' do
     context 'returns error on failure' do
       let(:result) do
         result = shell('bolt task run gitlab_ci_runner::register_runner --format json --targets localhost url=http://gitlab token=wrong-token', acceptable_exit_codes: [0, 2]).stdout.chomp
-        JSON.parse(result)['items'][0]['result']
+        JSON.parse(result)['items'][0]['value']
       end
 
       it 'returns the correct exception' do
@@ -38,11 +38,11 @@ describe 'Gitlab Runner bolt tasks' do
     context 'unregisters a runner' do
       let(:authtoken) do
         result = shell("bolt task run gitlab_ci_runner::register_runner --format json --targets localhost url=http://gitlab token=#{registrationtoken}").stdout.chomp
-        JSON.parse(result)['items'][0]['result']['token']
+        JSON.parse(result)['items'][0]['value']['token']
       end
       let(:result) do
         result = shell("bolt task run gitlab_ci_runner::unregister_runner --format json --targets localhost url=http://gitlab token=#{authtoken}").stdout.chomp
-        JSON.parse(result)['items'][0]['result']
+        JSON.parse(result)['items'][0]['value']
       end
 
       it 'succeeds' do
@@ -53,7 +53,7 @@ describe 'Gitlab Runner bolt tasks' do
     context 'returns error on failure' do
       let(:result) do
         result = shell('bolt task run gitlab_ci_runner::unregister_runner --format json --targets localhost url=http://gitlab token=wrong-token', acceptable_exit_codes: [0, 2]).stdout.chomp
-        JSON.parse(result)['items'][0]['result']
+        JSON.parse(result)['items'][0]['value']
       end
 
       it 'returns the correct exception' do
