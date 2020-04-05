@@ -60,6 +60,11 @@ RSpec.configure do |c|
       content => $bolt_config,
     }
 
+    file { '/root/.puppetlabs/bolt/analytics.yaml':
+      ensure  => file,
+      content => "disabled: true\n",
+    }
+
     file_line { '/etc/hosts-gitlab':
       path => '/etc/hosts',
       line => '#{gitlab_ip} gitlab',
