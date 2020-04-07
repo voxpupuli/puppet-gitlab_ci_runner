@@ -4,7 +4,19 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
-## [v2.0.0](https://github.com/voxpupuli/puppet-gitlab_ci_runner/tree/v2.0.0) (2020-02-05)
+## [v2.0.1](https://github.com/voxpupuli/puppet-gitlab_ci_runner/tree/v2.0.1) (2020-04-07)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-gitlab_ci_runner/compare/v2.0.0...v2.0.1)
+
+**Implemented enhancements:**
+
+- Use new gitlab gpg keys for package management [\#84](https://github.com/voxpupuli/puppet-gitlab_ci_runner/pull/84) ([dhoppe](https://github.com/dhoppe))
+
+**Closed issues:**
+
+- Release new version [\#58](https://github.com/voxpupuli/puppet-gitlab_ci_runner/issues/58)
+
+## [v2.0.0](https://github.com/voxpupuli/puppet-gitlab_ci_runner/tree/v2.0.0) (2020-02-06)
 
 [Full Changelog](https://github.com/voxpupuli/puppet-gitlab_ci_runner/compare/v1.0.0...v2.0.0)
 
