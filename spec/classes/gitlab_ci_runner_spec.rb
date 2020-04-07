@@ -191,7 +191,7 @@ describe 'gitlab_ci_runner', type: :class do
                 location: "https://packages.gitlab.com/runner/gitlab-runner/#{facts[:lsbdistid].downcase}/",
                 repos: 'main',
                 key: {
-                  'id' => '1A4C919DB987D435939638B914219A96E15E78F4',
+                  'id' => 'F6403F6544A38863DAA0B6E03F01618A51312F3F',
                   'server' => undef_value
                 },
                 include: {
@@ -256,7 +256,7 @@ describe 'gitlab_ci_runner', type: :class do
           it { is_expected.to contain_class('gitlab_ci_runner::repo') }
 
           it do
-            is_expected.to contain_apt__source('apt_gitlabci').with_key('id' => '1A4C919DB987D435939638B914219A96E15E78F4', 'server' => 'keys.gnupg.net')
+            is_expected.to contain_apt__source('apt_gitlabci').with_key('id' => 'F6403F6544A38863DAA0B6E03F01618A51312F3F', 'server' => 'keys.gnupg.net')
           end
         end
       end
