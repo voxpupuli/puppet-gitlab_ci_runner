@@ -54,7 +54,7 @@ class gitlab_ci_runner (
   Optional[Pattern[/.*:.+/]] $metrics_server           = undef,
   Optional[Pattern[/.*:.+/]] $listen_address           = undef,
   Optional[String]           $sentry_dsn               = undef,
-  Boolean                    $manage_docker            = true,
+  Boolean                    $manage_docker            = false,
   Boolean                    $manage_repo              = true,
   String                     $package_ensure           = installed,
   String                     $package_name             = 'gitlab-runner',
@@ -73,6 +73,8 @@ class gitlab_ci_runner (
         image_tag => 'trusty',
       },
     }
+
+    include docker
     class { 'docker::images':
       images => $docker_images,
     }
