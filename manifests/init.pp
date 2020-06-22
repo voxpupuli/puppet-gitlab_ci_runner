@@ -68,9 +68,9 @@ class gitlab_ci_runner (
     ensure_packages($xz_package_name)
 
     $docker_images = {
-      ubuntu_trusty => {
+      ubuntu_focal => {
         image     => 'ubuntu',
-        image_tag => 'trusty',
+        image_tag => 'focal',
       },
     }
 
