@@ -15,7 +15,7 @@ class gitlab_ci_runner::config (
   assert_private()
 
   file { $config_path: # ensure config exists
-    ensure  => 'present',
+    ensure  => 'file',
     replace => 'no',
     content => '',
   }
