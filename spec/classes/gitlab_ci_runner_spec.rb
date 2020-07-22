@@ -224,7 +224,7 @@ describe 'gitlab_ci_runner', type: :class do
           end
         when 'RedHat'
           os_release_version = if facts[:os]['name'] == 'Amazon'
-                                 if facts[:os]['release']['major'] == 2
+                                 if facts[:os]['release']['major'] == '2'
                                    '7'
                                  else
                                    '6'
