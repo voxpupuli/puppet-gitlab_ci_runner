@@ -61,7 +61,7 @@ class gitlab_ci_runner (
   Stdlib::HTTPUrl            $repo_base_url            = 'https://packages.gitlab.com',
   Optional[Stdlib::Fqdn]     $repo_keyserver           = undef,
   String                     $config_path              = '/etc/gitlab-runner/config.toml',
-){
+) {
   if $manage_docker {
     # workaround for cirunner issue #1617
     # https://gitlab.com/gitlab-org/gitlab-ci-multi-runner/issues/1617
