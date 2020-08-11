@@ -184,9 +184,9 @@ describe 'gitlab_ci_runner', type: :class do
             is_expected.to contain_class('docker::images').
               with(
                 images: {
-                  'ubuntu_trusty' => {
+                  'ubuntu_focal' => {
                     'image'     => 'ubuntu',
-                    'image_tag' => 'trusty'
+                    'image_tag' => 'focal'
                   }
                 }
               )
