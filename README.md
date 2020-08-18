@@ -45,7 +45,7 @@ gitlab_ci_runner::runner_defaults:
   url: "https://git.example.com/ci"
   registration-token: "1234567890abcdef"
   executor: "docker"
-  docker-image: "ubuntu:trusty"
+  docker-image: "ubuntu:focal"
   builds_dir: "/tmp"
   cache_dir: "/tmp"
 ```

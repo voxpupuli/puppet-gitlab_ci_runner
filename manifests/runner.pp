@@ -52,13 +52,13 @@ define gitlab_ci_runner::runner (
 
   if $ensure == 'absent' {
     # Execute gitlab ci multirunner unregister
-    exec {"Unregister_runner_${title}":
+    exec { "Unregister_runner_${title}":
       command => "/usr/bin/${binary} unregister -n ${_name}",
       onlyif  => "/bin/grep -F \'${_name}\' /etc/gitlab-runner/config.toml",
     }
   } else {
     # Execute gitlab ci multirunner register
-    exec {"Register_runner_${title}":
+    exec { "Register_runner_${title}":
       command => "/usr/bin/${binary} register -n ${__config}",
       unless  => "/bin/grep -F \'${_name}\' /etc/gitlab-runner/config.toml",
     }
