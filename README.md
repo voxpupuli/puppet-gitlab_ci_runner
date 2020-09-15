@@ -27,6 +27,8 @@ To use the Gitlab CI runners it is required to have the [puppetlabs/docker](http
 ```yaml
 gitlab_ci_runner::concurrent: 4
 
+gitlab_ci_runner::check_interval: 4
+
 gitlab_ci_runner::metrics_server: "localhost:8888"
 
 gitlab_ci_runner::manage_docker: true

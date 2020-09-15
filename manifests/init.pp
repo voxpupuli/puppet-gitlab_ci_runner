@@ -19,6 +19,8 @@
 #   The name of the 'xz' package. Needed for local docker installations.
 # @param concurrent
 #   Limits how many jobs globally can be run concurrently. The most upper limit of jobs using all defined runners. 0 does not mean unlimited!
+# @param check_interval
+#   Integer which defines the interval length, in seconds, between new jobs check. If not set via Puppet the default value is 3; if set to 0 or lower, GitLab runner will use the default value.
 # @param builds_dir
 #   Absolute path to a directory where builds will be stored in context of selected executor (Locally, Docker, SSH).
 # @param cache_dir
@@ -49,6 +51,7 @@ class gitlab_ci_runner (
   Hash                       $runners                  = {},
   Hash                       $runner_defaults          = {},
   Optional[Integer]          $concurrent               = undef,
+  Optional[Integer]          $check_interval           = undef,
   Optional[String]           $builds_dir               = undef,
   Optional[String]           $cache_dir                = undef,
   Optional[Pattern[/.*:.+/]] $metrics_server           = undef,
