@@ -4,6 +4,25 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
+## [v3.0.0](https://github.com/voxpupuli/puppet-gitlab_ci_runner/tree/v3.0.0) (2020-09-15)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-gitlab_ci_runner/compare/v2.1.0...v3.0.0)
+
+**Breaking changes:**
+
+- Make manage\_docker optional and include the docker module if used [\#80](https://github.com/voxpupuli/puppet-gitlab_ci_runner/pull/80) ([baurmatt](https://github.com/baurmatt))
+
+**Implemented enhancements:**
+
+- Allow management of check\_interval config setting [\#91](https://github.com/voxpupuli/puppet-gitlab_ci_runner/pull/91) ([tuxmea](https://github.com/tuxmea))
+- Add support for CentOS 8, Debian 10 [\#87](https://github.com/voxpupuli/puppet-gitlab_ci_runner/pull/87) ([dhoppe](https://github.com/dhoppe))
+
+**Merged pull requests:**
+
+- Fix CI problems [\#89](https://github.com/voxpupuli/puppet-gitlab_ci_runner/pull/89) ([carljohnstone](https://github.com/carljohnstone))
+- Switch from Ubuntu Trusty to Ubuntu Focal [\#88](https://github.com/voxpupuli/puppet-gitlab_ci_runner/pull/88) ([carljohnstone](https://github.com/carljohnstone))
+- Use voxpupuli-acceptance [\#83](https://github.com/voxpupuli/puppet-gitlab_ci_runner/pull/83) ([ekohl](https://github.com/ekohl))
+
 ## [v2.1.0](https://github.com/voxpupuli/puppet-gitlab_ci_runner/tree/v2.1.0) (2020-04-07)
 
 [Full Changelog](https://github.com/voxpupuli/puppet-gitlab_ci_runner/compare/v2.0.0...v2.1.0)
