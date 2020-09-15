@@ -5,6 +5,7 @@
 class gitlab_ci_runner::config (
   $config_path    = $gitlab_ci_runner::config_path,
   $concurrent     = $gitlab_ci_runner::concurrent,
+  $check_interval = $gitlab_ci_runner::check_interval,
   $metrics_server = $gitlab_ci_runner::metrics_server,
   $listen_address = $gitlab_ci_runner::listen_address,
   $builds_dir     = $gitlab_ci_runner::builds_dir,
@@ -25,6 +26,14 @@ class gitlab_ci_runner::config (
       path  => $config_path,
       line  => "concurrent = ${concurrent}",
       match => '^concurrent = \d+',
+    }
+  }
+
+  if $check_interval {
+    file_line { 'gitlab-runner-check-interval':
+      path  => $config_path,
+      line  => "check_interval = ${check_interval}",
+      match => '^check_interval = \d+',
     }
   }
 

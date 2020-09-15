@@ -39,6 +39,7 @@ describe 'gitlab_ci_runner', type: :class do
       it { is_expected.to contain_file('/etc/gitlab-runner/config.toml') }
 
       it { is_expected.not_to contain_file_line('gitlab-runner-concurrent') }
+      it { is_expected.not_to contain_file_line('gitlab-runner-check-interval') }
       it { is_expected.not_to contain_file_line('gitlab-runner-metrics_server') }
       it { is_expected.not_to contain_file_line('gitlab-runner-builds_dir') }
       it { is_expected.not_to contain_file_line('gitlab-runner-cache_dir') }
@@ -56,6 +57,21 @@ describe 'gitlab_ci_runner', type: :class do
           is_expected.to contain_file_line('gitlab-runner-concurrent').with('path' => '/etc/gitlab-runner/config.toml',
                                                                             'line'  => 'concurrent = 10',
                                                                             'match' => '^concurrent = \d+')
+        end
+      end
+      context 'with check_interval => 10' do
+        let(:params) do
+          {
+            'runner_defaults' => {},
+            'runners' => {},
+            'check_interval' => 10
+          }
+        end
+
+        it do
+          is_expected.to contain_file_line('gitlab-runner-check-interval').with('path' => '/etc/gitlab-runner/config.toml',
+                                                                                'line'  => 'check_interval = 10',
+                                                                                'match' => '^check_interval = \d+')
         end
       end
       context 'with metrics_server => localhost:9252' do
