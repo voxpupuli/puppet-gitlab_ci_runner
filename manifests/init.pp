@@ -45,6 +45,18 @@
 #   The keyserver which should be used to get the repository key.
 # @param config_path
 #   The path to the config file of Gitlab runner.
+# @param config_owner
+#   The user owning the config file.
+#   (and config directory if managed).
+# @param config_group
+#   The group ownership assigned to the config file
+#   (and config directory if managed).
+# @param config_mode
+#   The file permissions applied to the config file.
+# @param manage_config_dir
+#   Manage the parent directory of the config file.
+# @param config_dir_mode
+#   The file permissions applied to the config directory.
 # @param http_proxy
 #   An HTTP proxy to use whilst registering runners.
 #   This setting is only used when registering or unregistering runners and will be used for all runners in the `runners` parameter.
@@ -79,6 +91,11 @@ class gitlab_ci_runner (
   Stdlib::HTTPUrl                            $repo_base_url   = 'https://packages.gitlab.com',
   Optional[Gitlab_ci_runner::Keyserver]      $repo_keyserver  = undef,
   String                                     $config_path     = '/etc/gitlab-runner/config.toml',
+  String[1]                                  $config_owner    = 'root',
+  String[1]                                  $config_group    = 'root',
+  Stdlib::Filemode                           $config_mode     = '0444',
+  Boolean                                    $manage_config_dir = false,
+  Optional[Stdlib::Filemode]                 $config_dir_mode = undef,
   Optional[Stdlib::HTTPUrl]                  $http_proxy      = undef,
   Optional[Stdlib::Unixpath]                 $ca_file         = undef,
 ) {

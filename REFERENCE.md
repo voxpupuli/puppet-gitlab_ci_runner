@@ -86,6 +86,11 @@ The following parameters are available in the `gitlab_ci_runner` class:
 * [`repo_base_url`](#repo_base_url)
 * [`repo_keyserver`](#repo_keyserver)
 * [`config_path`](#config_path)
+* [`config_owner`](#config_owner)
+* [`config_group`](#config_group)
+* [`config_mode`](#config_mode)
+* [`manage_config_dir`](#manage_config_dir)
+* [`config_dir_mode`](#config_dir_mode)
 * [`http_proxy`](#http_proxy)
 * [`ca_file`](#ca_file)
 
@@ -222,6 +227,48 @@ Data type: `String`
 The path to the config file of Gitlab runner.
 
 Default value: `'/etc/gitlab-runner/config.toml'`
+
+##### <a name="config_owner"></a>`config_owner`
+
+Data type: `Optional[String[1]]`
+
+The user owning the config file.
+(and config directory if managed).
+
+Default value: ``undef``
+
+##### <a name="config_group"></a>`config_group`
+
+Data type: `Optional[String[1]]`
+
+The group ownership assigned to the config file
+(and config directory if managed).
+
+Default value: ``undef``
+
+##### <a name="config_mode"></a>`config_mode`
+
+Data type: `Optional[Stdlib::Filemode]`
+
+The file permissions applied to the config file.
+
+Default value: ``undef``
+
+##### <a name="manage_config_dir"></a>`manage_config_dir`
+
+Data type: `Boolean`
+
+Manage the parent directory of the config file.
+
+Default value: ``false``
+
+##### <a name="config_dir_mode"></a>`config_dir_mode`
+
+Data type: `Optional[Stdlib::Filemode]`
+
+The file permissions applied to the config directory.
+
+Default value: ``undef``
 
 ##### <a name="http_proxy"></a>`http_proxy`
 

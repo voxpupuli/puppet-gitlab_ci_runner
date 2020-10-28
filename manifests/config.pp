@@ -4,6 +4,11 @@
 #
 class gitlab_ci_runner::config (
   $config_path    = $gitlab_ci_runner::config_path,
+  $config_owner      = $gitlab_ci_runner::config_owner,
+  $config_group      = $gitlab_ci_runner::config_group,
+  $config_mode       = $gitlab_ci_runner::config_mode,
+  $manage_config_dir = $gitlab_ci_runner::manage_config_dir,
+  $config_dir_mode   = $gitlab_ci_runner::config_dir_mode,
   $concurrent     = $gitlab_ci_runner::concurrent,
   $log_level      = $gitlab_ci_runner::log_level,
   $log_format     = $gitlab_ci_runner::log_format,
@@ -17,9 +22,9 @@ class gitlab_ci_runner::config (
 
   concat { $config_path:
     ensure         => present,
-    owner          => 'root',
-    group          => 'root',
-    mode           => '0444',
+    owner          => $config_owner,
+    group          => $config_group,
+    mode           => $config_mode,
     ensure_newline => true,
   }
 
@@ -43,5 +48,16 @@ class gitlab_ci_runner::config (
     target  => $config_path,
     order   => 1,
     content => gitlab_ci_runner::to_toml($global_options),
+  }
+
+  if $manage_config_dir {
+    $_config_dir = dirname($config_path)
+
+    file { $_config_dir:
+      ensure => 'directory',
+      owner  => $config_owner,
+      group  => $config_group,
+      mode   => $config_dir_mode,
+    }
   }
 }

@@ -103,6 +103,58 @@ describe 'gitlab_ci_runner', type: :class do
         it { is_expected.to contain_gitlab_ci_runner__runner('runner_with_ensure_absent').with_ensure('absent') }
       end
 
+      context 'with config permissions' do
+        let(:params) do
+          {
+            'runner_defaults' => {},
+            'runners' => {},
+            'config_owner' => 'gitlab-runner',
+            'config_group' => 'gitlab-runner',
+            'config_mode' => '0640'
+          }
+        end
+
+        it do
+          is_expected.to contain_concat('/etc/gitlab-runner/config.toml').with('owner' => 'gitlab-runner',
+                                                                               'group' => 'gitlab-runner',
+                                                                               'mode'  => '0640')
+        end
+      end
+
+      context 'with manage_config_dir => true' do
+        let(:params) do
+          {
+            'runner_defaults' => {},
+            'runners' => {},
+            'manage_config_dir' => true
+          }
+        end
+
+        it do
+          is_expected.to contain_file('/etc/gitlab-runner').with('ensure' => 'directory')
+        end
+      end
+
+      context 'with config dir permissions' do
+        let(:params) do
+          {
+            'runner_defaults' => {},
+            'runners' => {},
+            'manage_config_dir' => true,
+            'config_owner' => 'gitlab-runner',
+            'config_group' => 'gitlab-runner',
+            'config_dir_mode' => '0750'
+          }
+        end
+
+        it do
+          is_expected.to contain_file('/etc/gitlab-runner').with('ensure' => 'directory',
+                                                                 'owner' => 'gitlab-runner',
+                                                                 'group' => 'gitlab-runner',
+                                                                 'mode'  => '0750')
+        end
+      end
+
       context 'with concurrent => 10' do
         let(:params) do
           {
