@@ -43,6 +43,8 @@ jobs:
         with:
           ruby-version: ${{ matrix.ruby }}
           bundler-cache: true
+      - name: Create task helper symlink
+        run: ln -s puppet-gitlab_ci_runner/spec/fixtures/ruby_task_helper ../
       - name: Run tests
         run: bundle exec rake
 
