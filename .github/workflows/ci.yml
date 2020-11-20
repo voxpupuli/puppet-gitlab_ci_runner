@@ -65,10 +65,6 @@ jobs:
         ports:
           - 80:80
     steps:
-      - name: Enable IPv6 on docker
-        run: |
-          echo '{"ipv6":true,"fixed-cidr-v6":"2001:db8:1::/64"}' | sudo tee /etc/docker/daemon.json
-          sudo service docker restart
       - uses: actions/checkout@v2
       - name: Setup ruby
         uses: ruby/setup-ruby@v1
@@ -77,10 +73,10 @@ jobs:
           bundler-cache: true
       - name: Set Gitlab variables
         run: |
-          echo gitlab > ~/GITLAB_IP
-          echo OUTPUT="$(echo 'puts "INSTANCE TOKEN: #{Gitlab::CurrentSettings.current_application_settings.runners_registration_token}"' | docker exec -i gitlab gitlab-rails console)"
-          INSTANCE_TOKEN="$(echo "$OUTPUT" | awk '/^INSTANCE TOKEN:/ {print $NF}')"
-          echo "${INSTANCE_TOKEN}" > ~/INSTANCE_TOKEN
+          docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' ${{ job.services.gitlab.id }} > ~/GITLAB_IP
+          echo 'puts "INSTANCE TOKEN: #{Gitlab::CurrentSettings.current_application_settings.runners_registration_token}"' | \
+            docker exec -i ${{ job.services.gitlab.id }} gitlab-rails console | \
+            awk '/^INSTANCE TOKEN:/ {print $NF}' > ~/INSTANCE_TOKEN
       - name: Run tests
         run: bundle exec rake beaker
         env:
