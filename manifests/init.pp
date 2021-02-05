@@ -45,6 +45,8 @@
 #   The keyserver which should be used to get the repository key.
 # @param config_path
 #   The path to the config file of Gitlab runner.
+# @param config_compat
+#   The '_' are substituted with '-', this prohibits the use of some keys i.e. "custom_build_dir-enabled", set false to disable substitution.
 #
 class gitlab_ci_runner (
   String                     $xz_package_name, # Defaults in module hieradata
@@ -64,6 +66,7 @@ class gitlab_ci_runner (
   Stdlib::HTTPUrl            $repo_base_url            = 'https://packages.gitlab.com',
   Optional[Stdlib::Fqdn]     $repo_keyserver           = undef,
   String                     $config_path              = '/etc/gitlab-runner/config.toml',
+  Boolean                    $config_compat            = true,
 ) {
   if $manage_docker {
     # workaround for cirunner issue #1617
@@ -104,11 +107,12 @@ class gitlab_ci_runner (
     }
 
     gitlab_ci_runner::runner { $title:
-      ensure  => $ensure,
-      config  => $_config - ['ensure', 'name'],
-      binary  => $package_name,
-      require => Class['gitlab_ci_runner::config'],
-      notify  => Class['gitlab_ci_runner::service'],
+      ensure        => $ensure,
+      config        => $_config - ['ensure', 'name'],
+      config_compat => $config_compat,
+      binary        => $package_name,
+      require       => Class['gitlab_ci_runner::config'],
+      notify        => Class['gitlab_ci_runner::service'],
     }
   }
 }

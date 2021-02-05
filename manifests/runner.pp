@@ -22,6 +22,7 @@
 define gitlab_ci_runner::runner (
   Hash                      $config,
   Enum['present', 'absent'] $ensure      = 'present',
+  Boolean                   $config_compat = true,
   String[1]                 $runner_name = $title,
   String[1]                 $binary      = 'gitlab-runner',
 ) {
@@ -37,8 +38,11 @@ define gitlab_ci_runner::runner (
   #
   # In the end, flatten thewhole array and join all elements with a space as delimiter
   $__config = $_config.map |$item| {
-    # Ensure all keys use '-' instead of '_'. Needed for e.g. build_dir.
-    $key = regsubst($item[0], '_', '-', 'G')
+    if $config_compat {
+      $key = regsubst($item[0], '_', '-', 'G')
+    } else {
+      $key = $item[0]
+    }
 
     # If the value ($item[1]) is an Array multiple elements are added for each item
     if $item[1] =~ Array {

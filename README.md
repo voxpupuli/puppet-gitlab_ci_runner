@@ -24,6 +24,8 @@ To use the Gitlab CI runners it is required to have the [puppetlabs/docker](http
 
 `$manage_docker` can be set to false if docker is managed externally.
 
+`$manage_compat` should be set to false in new configurations, as it allows access to configuration keys that have a '\_' in their name.
+
 ```yaml
 gitlab_ci_runner::concurrent: 4
 
@@ -34,6 +36,8 @@ gitlab_ci_runner::metrics_server: "localhost:8888"
 gitlab_ci_runner::manage_docker: true
 
 gitlab_ci_runner::config_path: "etc/gitlab-runner/config.toml"
+
+gitlab_ci_runner::config_compat: false
 
 gitlab_ci_runner::runners:
   test_runner1:{}
@@ -48,8 +52,8 @@ gitlab_ci_runner::runner_defaults:
   registration-token: "1234567890abcdef"
   executor: "docker"
   docker-image: "ubuntu:focal"
-  builds_dir: "/tmp"
-  cache_dir: "/tmp"
+  builds-dir: "/tmp"
+  cache-dir: "/tmp"
 ```
 
 To unregister a specific runner you may use `ensure` param:
