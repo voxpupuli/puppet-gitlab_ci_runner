@@ -5,7 +5,6 @@
 class gitlab_ci_runner::repo (
   $repo_base_url        = $gitlab_ci_runner::repo_base_url,
   $repo_keyserver       = $gitlab_ci_runner::repo_keyserver,
-  $repo_keyid           = $gitlab_ci_runner::repo_keyid,
   $repo_keycontent      = $gitlab_ci_runner::repo_keycontent,
   $repo_keysource       = $gitlab_ci_runner::repo_keysource,
   $repo_keyweak_ssl     = $gitlab_ci_runner::repo_keyweak_ssl,
