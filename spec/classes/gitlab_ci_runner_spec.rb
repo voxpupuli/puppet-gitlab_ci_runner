@@ -184,8 +184,8 @@ describe 'gitlab_ci_runner', type: :class do
         it { is_expected.not_to contain_exec('Unregister_runner_test_runner').with('command' => %r{--ensure=}) }
       end
 
-      # puppetlabs-docker doesn't support CentOS 6 anymore.
-      unless facts[:os]['name'] == 'CentOS' && facts[:os]['release']['major'] == '6'
+      # puppetlabs-docker doesn't support CentOS (and derivatives) 6 anymore.
+      unless facts[:os]['family'] == 'RedHat' && Puppet::Util::Package.versioncmp(facts[:os]['release']['major'], '7') < 0
         context 'with manage_docker => true' do
           let(:params) do
             {
