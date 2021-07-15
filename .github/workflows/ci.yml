@@ -1,3 +1,7 @@
+---
+# Managed by modulesync - DO NOT EDIT
+# https://voxpupuli.org/docs/updating-files-managed-with-modulesync/
+
 name: CI
 
 on: pull_request
@@ -6,21 +10,24 @@ jobs:
   setup_matrix:
     name: 'Setup Test Matrix'
     runs-on: ubuntu-latest
+    timeout-minutes: 40
     outputs:
       beaker_setfiles: ${{ steps.get-outputs.outputs.beaker_setfiles }}
       puppet_major_versions: ${{ steps.get-outputs.outputs.puppet_major_versions }}
       puppet_unit_test_matrix: ${{ steps.get-outputs.outputs.puppet_unit_test_matrix }}
     env:
-      BUNDLE_WITHOUT: development:test:release
+      BUNDLE_WITHOUT: development:release
     steps:
       - uses: actions/checkout@v2
       - name: Setup ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: '2.7'
+          ruby-version: '3.0'
           bundler-cache: true
-      - name: Run rake validate
-        run: bundle exec rake validate
+      - name: Run static validations
+        run: bundle exec rake validate lint check
+      - name: Run rake rubocop
+        run: bundle exec rake rubocop
       - name: Setup Test Matrix
         id: get-outputs
         run: bundle exec metadata2gha --use-fqdn --pidfile-workaround false
@@ -28,6 +35,7 @@ jobs:
   unit:
     needs: setup_matrix
     runs-on: ubuntu-latest
+    timeout-minutes: 40
     strategy:
       fail-fast: false
       matrix:
@@ -43,10 +51,8 @@ jobs:
         with:
           ruby-version: ${{ matrix.ruby }}
           bundler-cache: true
-      - name: Create task helper symlink
-        run: ln -s puppet-gitlab_ci_runner/spec/fixtures/ruby_task_helper ../
       - name: Run tests
-        run: bundle exec rake
+        run: bundle exec rake parallel_spec
 
   acceptance:
     needs: setup_matrix
@@ -59,24 +65,13 @@ jobs:
         setfile: ${{fromJson(needs.setup_matrix.outputs.beaker_setfiles)}}
         puppet: ${{fromJson(needs.setup_matrix.outputs.puppet_major_versions)}}
     name: ${{ matrix.puppet.name }} - ${{ matrix.setfile.name }}
-    services:
-      gitlab:
-        image: gitlab/gitlab-ce
-        ports:
-          - 80:80
     steps:
       - uses: actions/checkout@v2
       - name: Setup ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: '2.7'
+          ruby-version: '3.0'
           bundler-cache: true
-      - name: Set Gitlab variables
-        run: |
-          docker inspect -f '{{range .NetworkSettings.Networks}}{{.IPAddress}}{{end}}' ${{ job.services.gitlab.id }} > ~/GITLAB_IP
-          echo 'puts "INSTANCE TOKEN: #{Gitlab::CurrentSettings.current_application_settings.runners_registration_token}"' | \
-            docker exec -i ${{ job.services.gitlab.id }} gitlab-rails console | \
-            awk '/^INSTANCE TOKEN:/ {print $NF}' > ~/INSTANCE_TOKEN
       - name: Run tests
         run: bundle exec rake beaker
         env:
