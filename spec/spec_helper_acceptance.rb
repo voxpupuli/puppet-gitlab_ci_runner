@@ -31,28 +31,25 @@ configure_beaker do |host|
   # Setup Puppet Bolt
   gitlab_ip = File.read(File.expand_path('~/GITLAB_IP')).chomp
   bolt = <<-MANIFEST
-  $bolt_config = @("GITCONFIG"/L)
+  $bolt_config = @("BOLTPROJECT"/L)
   modulepath: "/etc/puppetlabs/code/modules:/etc/puppetlabs/code/environments/production/modules"
-  ssh:
-    host-key-check: false
-    user: root
-    password: root
-  | GITCONFIG
+  analytics: false
+  | BOLTPROJECT
 
   package { 'puppet-bolt':
     ensure => installed,
   }
 
-  file { [ '/root/.puppetlabs', '/root/.puppetlabs/bolt']:
+  file { [ '/root/.puppetlabs', '/root/.puppetlabs/bolt', '/root/.puppetlabs/etc', '/root/.puppetlabs/etc/bolt']:
     ensure => directory,
   }
 
-  file { '/root/.puppetlabs/bolt/analytics.yaml':
+  # Needs to existing to not trigger a warning sign...
+  file { '/root/.puppetlabs/etc/bolt/analytics.yaml':
     ensure  => file,
-    content => "disabled: true\n",
   }
 
-  file { '/root/.puppetlabs/bolt/bolt.yaml':
+  file { '/root/.puppetlabs/bolt/bolt-project.yaml':
     ensure  => file,
     content => $bolt_config,
   }
