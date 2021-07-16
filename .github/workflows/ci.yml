@@ -81,4 +81,4 @@ jobs:
         run: bundle exec rake beaker
         env:
           BEAKER_PUPPET_COLLECTION: ${{ matrix.puppet.collection }}
-          BEAKER_setfile: ${{ matrix.setfile.value }}
+          BEAKER_setfile: 'centos7-64{hypervisor=docker,hostname=centos7-64.example.com,dockeropts={HostConfig={NetworkMode=${{ job.services.gitlab.network }}}}}'
