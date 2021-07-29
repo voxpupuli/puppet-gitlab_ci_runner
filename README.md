@@ -71,3 +71,7 @@ The Gitlab CI runner installation is at the moment only tested on:
 * Ubuntu 16.04/18.04
 
 A runner configuration is currently only applied if the specific runner does not exist in the config file.
+
+## License
+
+[lib/puppet_x/gitlab/dumper.rb](lib/puppet_x/gitlab/dumper.rb) is licensed under MIT. All other code is licensed under Apache 2.0.

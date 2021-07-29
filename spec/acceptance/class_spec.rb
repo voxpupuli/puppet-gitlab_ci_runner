@@ -7,7 +7,6 @@ describe 'gitlab_ci_runner class' do
       include gitlab_ci_runner
       EOS
 
-      shell('/opt/puppetlabs/puppet/bin/gem install toml-rb')
       apply_manifest(pp, catch_failures: true)
       apply_manifest(pp, catch_changes: true)
     end

@@ -36,7 +36,7 @@ describe 'gitlab_ci_runner class' do
       it { is_expected.to be_enabled }
     end
 
-    xit 'registered the runner' do
+    it 'registered the runner' do
       authtoken = shell("grep 'token = ' /etc/gitlab-runner/config.toml | cut -d '\"' -f2").stdout
       shell("/usr/bin/env curl -X POST --form 'token=#{authtoken}' http://gitlab/api/v4/runners/verify") do |r|
         expect(r.stdout).to eq('"200"')

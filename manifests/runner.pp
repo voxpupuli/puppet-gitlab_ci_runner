@@ -60,24 +60,60 @@
 #   See https://docs.gitlab.com/runner/configuration/advanced-configuration.html for all possible options.
 #   If you omit the 'name' configuration, we will automatically use the $title of this define class.
 #
+# @param ensure
+#   If the runner should be 'present' or 'absent'.
+#   Will add/remove the configuration from config.toml
+#   Will also register/unregister the runner.
+#
 define gitlab_ci_runner::runner (
   Hash $config,
+  Enum['present', 'absent'] $ensure = 'present',
 ) {
   include gitlab_ci_runner
 
-  $config_path = $gitlab_ci_runner::config_path
-
+  $config_path       = $gitlab_ci_runner::config_path
   # Use title parameter if config hash doesn't contain one.
   $_config     = $config['name'] ? {
-    undef   => merge($config, { name => $title }),
+    undef   => $config + { name => $title },
     default => $config,
   }
 
-  $__config = { runners => [$_config], }
+  if $_config['registration-token'] {
+    $register_additional_options = $config
+    .filter |$item| { $item[0] =~ Gitlab_ci_runner::Register_parameters } # Get all items use for the registration process
+    .reduce( {}) |$memo, $item| { $memo + { regsubst($item[0], '-', '_', 'G') => $item[1] } } # Ensure all keys use '_' instead of '-'
 
-  concat::fragment { "${config_path} - ${title}":
-    target  => $config_path,
-    order   => 2,
-    content => inline_template("<%= require 'toml-rb'; TomlRB.dump(@__config) %>"),
+    $deferred_call = Deferred('gitlab_ci_runner::register_to_file', [$_config['url'], $_config['registration-token'], $_config['name'], $register_additional_options,])
+
+    # Remove registration-token and add a 'token' key to the config with a Deferred function to get it.
+    $__config = ($_config - (Array(Gitlab_ci_runner::Register_parameters) + 'registration-token')) + { 'token' => $deferred_call }
+  } else {
+    # Fail if the user supplied configuration options which are meant for the registration, but not for the config file
+    $_config.keys.each |$key| {
+      if $key in Array(Gitlab_ci_runner::Register_parameters) {
+        fail("\$config contains a configuration key (${key}) which is meant for the registration, but not for the config file. Please remove it or add a 'registration-token'!")
+      }
+    }
+
+    $__config = $_config
+  }
+
+  $content = $__config['token'] =~ Deferred ? {
+    true  => Deferred('gitlab_ci_runner::to_toml', [{ runners => [$__config], }]),
+    false => gitlab_ci_runner::to_toml( { runners => [$__config], }),
+  }
+
+  if $ensure == 'present' {
+    concat::fragment { "${config_path} - ${title}":
+      target  => $config_path,
+      order   => 2,
+      content => $content,
+    }
+  } else {
+    $absent_content = Deferred('gitlab_ci_runner::unregister_from_file', [$_config['url'], $_config['name'],])
+
+    file { "/etc/gitlab-runner/auth-token-${_config['name']}":
+      ensure  => absent,
+    }
   }
 }
