@@ -46,3 +46,7 @@ file_line { '/etc/hosts-gitlab':
   path => '/etc/hosts',
   line => "${facts['gitlab_ip']} gitlab",
 }
+file_line { '/etc/hosts-squid':
+  path => '/etc/hosts',
+  line => "${facts['squid_ip']} squid",
+}
