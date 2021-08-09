@@ -65,6 +65,32 @@ describe 'gitlab_ci_runner', type: :class do
           )
       end
 
+      describe 'runner ensure' do
+        before do
+          allow(File).to receive(:exist?).and_call_original
+          allow(File).to receive(:read).and_call_original
+          allow(File).to receive(:exist?).with('/etc/gitlab-runner/auth-token-runner_with_ensure_present').and_return(true)
+          allow(File).to receive(:read).with('/etc/gitlab-runner/auth-token-runner_with_ensure_present').and_return('authtoken')
+          allow(File).to receive(:exist?).with('/etc/gitlab-runner/auth-token-runner_with_ensure_absent').and_return(false)
+        end
+        let(:params) do
+          {
+            runner_defaults: {
+              'url' => 'https://git.example.com/ci',
+              'registration-token' => '1234567890abcdef',
+              'executor' => 'shell'
+            },
+            runners: {
+              'runner_with_ensure_absent' => { 'ensure' => 'absent' },
+              'runner_with_ensure_present' => { 'ensure' => 'present' },
+            }
+          }
+        end
+
+        it { is_expected.to contain_gitlab_ci_runner__runner('runner_with_ensure_present').with_ensure('present') }
+        it { is_expected.to contain_gitlab_ci_runner__runner('runner_with_ensure_absent').with_ensure('absent') }
+      end
+
       context 'with concurrent => 10' do
         let(:params) do
           {

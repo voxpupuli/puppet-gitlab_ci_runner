@@ -100,6 +100,7 @@ class gitlab_ci_runner (
     }
 
     gitlab_ci_runner::runner { $title:
+      ensure  => $_config['ensure'],
       config  => $_config - ['ensure', 'name'],
       require => Class['gitlab_ci_runner::config'],
       notify  => Class['gitlab_ci_runner::service'],
