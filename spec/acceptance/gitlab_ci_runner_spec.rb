@@ -7,6 +7,7 @@ describe 'gitlab_ci_runner class' do
     File.read(File.expand_path('~/INSTANCE_TOKEN')).chomp
   end
 
+  authtoken = nil
   context 'default parameters' do
     it 'idempotently with no errors' do
       pp = <<-EOS
@@ -40,6 +41,44 @@ describe 'gitlab_ci_runner class' do
       authtoken = shell("grep 'token = ' /etc/gitlab-runner/config.toml | cut -d '\"' -f2").stdout
       shell("/usr/bin/env curl -X POST --form 'token=#{authtoken}' http://gitlab/api/v4/runners/verify") do |r|
         expect(r.stdout).to eq('"200"')
+      end
+    end
+  end
+
+  context 'unregistering' do
+    it 'idempotently with no errors' do
+      pp = <<-EOS
+      class { 'gitlab_ci_runner':
+        manage_docker   => false,
+        runners         => {
+          test_runner => {
+            ensure => absent,
+          }
+        },
+        runner_defaults => {
+          url                => 'http://gitlab',
+          registration-token => '#{registrationtoken}',
+          executor           => 'shell',
+        }
+      }
+      EOS
+
+      apply_manifest(pp, catch_failures: true)
+      apply_manifest(pp, catch_changes: true)
+    end
+
+    describe package('gitlab-runner') do
+      it { is_expected.to be_installed }
+    end
+
+    describe service('gitlab-runner') do
+      it { is_expected.to be_running }
+      it { is_expected.to be_enabled }
+    end
+
+    it 'unregistered the runner' do
+      shell("/usr/bin/env curl -X POST --form 'token=#{authtoken}' http://gitlab/api/v4/runners/verify") do |r|
+        expect(r.stdout).not_to eq('"200"')
       end
     end
   end

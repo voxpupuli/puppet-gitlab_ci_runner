@@ -20,7 +20,7 @@ describe 'gitlab_ci_runner::unregister_from_file' do
       allow(PuppetX::Gitlab::Runner).to receive(:unregister).with(url, token: 'authtoken').and_return(nil)
     end
 
-    it { is_expected.to run.with_params(url, runner_name).and_return(nil) }
+    it { is_expected.to run.with_params(url, runner_name).and_return('Successfully unregistered gitlab runner testrunner') }
   end
 
   context "does nothing if file doesn't exist" do
@@ -29,6 +29,6 @@ describe 'gitlab_ci_runner::unregister_from_file' do
       allow(File).to receive(:exist?).with(filename).and_return(false)
     end
 
-    it { is_expected.to run.with_params(url, runner_name).and_return(nil) }
+    it { is_expected.to run.with_params(url, runner_name).and_return('/etc/gitlab-runner/auth-token-testrunner file doesn\'t exist') }
   end
 end

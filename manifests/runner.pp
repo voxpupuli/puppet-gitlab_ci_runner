@@ -114,6 +114,7 @@ define gitlab_ci_runner::runner (
 
     file { "/etc/gitlab-runner/auth-token-${_config['name']}":
       ensure  => absent,
+      content => $absent_content, # This line might look pointless, but isn't.  The Deferred must appear in the catalog if we actually want it to run.
     }
   }
 }
