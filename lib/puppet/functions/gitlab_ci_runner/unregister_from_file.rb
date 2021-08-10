@@ -12,17 +12,33 @@ Puppet::Functions.create_function(:'gitlab_ci_runner::unregister_from_file') do
   #     content => Deferred('gitlab_ci_runner::unregister_from_file', ['http://gitlab.example.org'])
   #   }
   #
-  dispatch :unregister_to_file do
+  dispatch :unregister_from_file do
     # We use only core data types because others aren't synced to the agent.
     param 'String[1]', :url
     param 'String[1]', :runner_name
     optional_param 'String[1]', :filename
   end
 
-  def unregister_to_file(url, runner_name, filename = "/etc/gitlab-runner/auth-token-#{runner_name}")
-    return unless File.exist?(filename)
+  def unregister_from_file(url, runner_name, filename = "/etc/gitlab-runner/auth-token-#{runner_name}")
+    return "#{filename} file doesn't exist" unless File.exist?(filename)
 
     authtoken = File.read(filename).strip
-    PuppetX::Gitlab::Runner.unregister(url, token: authtoken) unless Puppet.settings[:noop]
+    if Puppet.settings[:noop]
+      message = "Not unregistering gitlab runner #{runner_name} when in noop mode"
+      Puppet.debug message
+      message
+    else
+      begin
+        PuppetX::Gitlab::Runner.unregister(url, token: authtoken)
+        message = "Successfully unregistered gitlab runner #{runner_name}"
+        Puppet.debug message
+        message
+      rescue Net::HTTPError => e
+        # Chances are the runner is already unregistered.  Best to just log a warning message but otherwise exit the function cleanly
+        message = "Error whilst unregistering gitlab runner #{runner_name}: #{e.message}"
+        Puppet.warning message
+        message
+      end
+    end
   end
 end
