@@ -26,15 +26,14 @@ describe 'gitlab_ci_runner class' do
   end
 
   context 'concurrent => 20' do
-    it 'idempotently with no errors' do
-      pp = <<-EOS
-      class { 'gitlab_ci_runner':
-        concurrent => 20,
-      }
-      EOS
-
-      apply_manifest(pp, catch_failures: true)
-      apply_manifest(pp, catch_changes: true)
+    it_behaves_like 'an idempotent resource' do
+      let(:manifest) do
+        <<-EOS
+        class { 'gitlab_ci_runner':
+          concurrent => 20,
+        }
+        EOS
+      end
     end
 
     describe file('/etc/gitlab-runner/config.toml') do
@@ -43,15 +42,14 @@ describe 'gitlab_ci_runner class' do
   end
 
   context 'log_level => error' do
-    it 'idempotently with no errors' do
-      pp = <<-EOS
-      class { 'gitlab_ci_runner':
-        log_level => 'error',
-      }
-      EOS
-
-      apply_manifest(pp, catch_failures: true)
-      apply_manifest(pp, catch_changes: true)
+    it_behaves_like 'an idempotent resource' do
+      let(:manifest) do
+        <<-EOS
+        class { 'gitlab_ci_runner':
+          log_level => 'error',
+        }
+        EOS
+      end
     end
 
     describe file('/etc/gitlab-runner/config.toml') do
@@ -60,15 +58,14 @@ describe 'gitlab_ci_runner class' do
   end
 
   context 'log_format => text' do
-    it 'idempotently with no errors' do
-      pp = <<-EOS
-      class { 'gitlab_ci_runner':
-        log_format => 'text',
-      }
-      EOS
-
-      apply_manifest(pp, catch_failures: true)
-      apply_manifest(pp, catch_changes: true)
+    it_behaves_like 'an idempotent resource' do
+      let(:manifest) do
+        <<-EOS
+        class { 'gitlab_ci_runner':
+          log_format => 'text',
+        }
+        EOS
+      end
     end
 
     describe file('/etc/gitlab-runner/config.toml') do
@@ -77,15 +74,14 @@ describe 'gitlab_ci_runner class' do
   end
 
   context 'check_interval => 42' do
-    it 'idempotently with no errors' do
-      pp = <<-EOS
-      class { 'gitlab_ci_runner':
-        check_interval => 42,
-      }
-      EOS
-
-      apply_manifest(pp, catch_failures: true)
-      apply_manifest(pp, catch_changes: true)
+    it_behaves_like 'an idempotent resource' do
+      let(:manifest) do
+        <<-EOS
+        class { 'gitlab_ci_runner':
+          check_interval => 42,
+        }
+        EOS
+      end
     end
 
     describe file('/etc/gitlab-runner/config.toml') do
@@ -94,15 +90,14 @@ describe 'gitlab_ci_runner class' do
   end
 
   context 'sentry_dsn => https://123abc@localhost/1' do
-    it 'idempotently with no errors' do
-      pp = <<-EOS
-      class { 'gitlab_ci_runner':
-        sentry_dsn => 'https://123abc@localhost/1',
-      }
-      EOS
-
-      apply_manifest(pp, catch_failures: true)
-      apply_manifest(pp, catch_changes: true)
+    it_behaves_like 'an idempotent resource' do
+      let(:manifest) do
+        <<-EOS
+        class { 'gitlab_ci_runner':
+          sentry_dsn => 'https://123abc@localhost/1',
+        }
+        EOS
+      end
     end
 
     describe file('/etc/gitlab-runner/config.toml') do
@@ -111,15 +106,14 @@ describe 'gitlab_ci_runner class' do
   end
 
   context 'listen_address => localhost:9252' do
-    it 'idempotently with no errors' do
-      pp = <<-EOS
-      class { 'gitlab_ci_runner':
-        listen_address => 'localhost:9252',
-      }
-      EOS
-
-      apply_manifest(pp, catch_failures: true)
-      apply_manifest(pp, catch_changes: true)
+    it_behaves_like 'an idempotent resource' do
+      let(:manifest) do
+        <<-EOS
+        class { 'gitlab_ci_runner':
+          listen_address => 'localhost:9252',
+        }
+        EOS
+      end
     end
 
     describe file('/etc/gitlab-runner/config.toml') do
