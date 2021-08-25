@@ -83,6 +83,7 @@ The following parameters are available in the `gitlab_ci_runner` class:
 * [`repo_base_url`](#repo_base_url)
 * [`repo_keyserver`](#repo_keyserver)
 * [`config_path`](#config_path)
+* [`http_proxy`](#http_proxy)
 
 ##### <a name="runners"></a>`runners`
 
@@ -210,6 +211,20 @@ The path to the config file of Gitlab runner.
 
 Default value: `'/etc/gitlab-runner/config.toml'`
 
+##### <a name="http_proxy"></a>`http_proxy`
+
+Data type: `Optional[Stdlib::HTTPUrl]`
+
+An HTTP proxy to use whilst registering runners.
+This setting is only used when registering or unregistering runners and will be used for all runners in the `runners` parameter.
+If you have some runners that need to use a proxy and others that don't, leave `runners` and `http_proxy` unset and declare `gitlab_ci_runnner::runner` resources separately.
+If you do need to use an http proxy, you'll probably also want to configure other aspects of your runners to use it, (eg. setting `http_proxy` environment variables, `pre-clone-script`, `pre-build-script` etc.)
+Exactly how you might need to configure your runners varies between runner executors and specific use-cases.
+This module makes no attempt to automatically alter your runner configurations based on the value of this parameter.
+More information on what you might need to configure can be found [here](https://docs.gitlab.com/runner/configuration/proxy.html)
+
+Default value: ``undef``
+
 ## Defined types
 
 ### <a name="gitlab_ci_runnerrunner"></a>`gitlab_ci_runner::runner`
@@ -285,6 +300,7 @@ The following parameters are available in the `gitlab_ci_runner::runner` defined
 
 * [`config`](#config)
 * [`ensure`](#ensure)
+* [`http_proxy`](#http_proxy)
 
 ##### <a name="config"></a>`config`
 
@@ -303,6 +319,14 @@ Will add/remove the configuration from config.toml
 Will also register/unregister the runner.
 
 Default value: `'present'`
+
+##### <a name="http_proxy"></a>`http_proxy`
+
+Data type: `Optional[Stdlib::HTTPUrl]`
+
+
+
+Default value: ``undef``
 
 ## Functions
 
@@ -373,7 +397,7 @@ gitlab_ci_runner::runner { 'testrunner':
 }
 ```
 
-#### `gitlab_ci_runner::register_to_file(String[1] $url, String[1] $regtoken, String[1] $runner_name, Optional[Hash] $additional_options, Optional[String[1]] $filename)`
+#### `gitlab_ci_runner::register_to_file(String[1] $url, String[1] $regtoken, String[1] $runner_name, Optional[Hash] $additional_options, Optional[Optional[String[1]]] $proxy)`
 
 A function that registers a Gitlab runner on a Gitlab instance, if it doesn't already exist,
 _and_ saves the retrieved authentication token to a file. This is helpful for Deferred functions.
@@ -412,17 +436,17 @@ Data type: `String[1]`
 
 The name of the runner. Use as identifier for the retrieved auth token.
 
-##### `filename`
-
-Data type: `Optional[String[1]]`
-
-The filename where the token should be saved.
-
 ##### `additional_options`
 
 Data type: `Optional[Hash]`
 
 A hash with all additional configuration options for that runner
+
+##### `proxy`
+
+Data type: `Optional[Optional[String[1]]]`
+
+The HTTP proxy to use when registering
 
 ### <a name="gitlab_ci_runnerto_toml"></a>`gitlab_ci_runner::to_toml`
 
@@ -522,7 +546,7 @@ file { '/etc/gitlab-runner/auth-token-testrunner':
 }
 ```
 
-#### `gitlab_ci_runner::unregister_from_file(String[1] $url, String[1] $runner_name, Optional[String[1]] $filename)`
+#### `gitlab_ci_runner::unregister_from_file(String[1] $url, String[1] $runner_name, Optional[Optional[String[1]]] $proxy)`
 
 A function that unregisters a Gitlab runner from a Gitlab instance, if the local token is there.
 This is meant to be used in conjunction with the gitlab_ci_runner::register_to_file function.
@@ -552,11 +576,11 @@ Data type: `String[1]`
 
 The name of the runner. Use as identifier for the retrived auth token.
 
-##### `filename`
+##### `proxy`
 
-Data type: `Optional[String[1]]`
+Data type: `Optional[Optional[String[1]]]`
 
-The filename where the token should be saved.
+HTTP proxy to use when unregistering
 
 ## Data types
 

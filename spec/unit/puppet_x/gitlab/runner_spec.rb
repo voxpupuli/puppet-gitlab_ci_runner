@@ -18,14 +18,14 @@ module PuppetX::Gitlab
           ).
           to_return(status: 204, body: '', headers: {})
 
-        expect(described_class.delete('https://example.org', {})).to eq({})
+        expect(described_class.delete('https://example.org', {}, nil)).to eq({})
       end
 
       it 'raises an exception on non 200 http code' do
         stub_request(:delete, 'https://example.org').
           to_return(status: 403)
 
-        expect { described_class.delete('https://example.org', {}) }.to raise_error(Net::HTTPError)
+        expect { described_class.delete('https://example.org', {}, nil) }.to raise_error(Net::HTTPError)
       end
     end
 
@@ -43,14 +43,14 @@ module PuppetX::Gitlab
           ).
           to_return(status: 201, body: '{ "id": "12345", "token": "6337ff461c94fd3fa32ba3b1ff4125" }', headers: {})
 
-        expect(described_class.post('https://example.org', {})).to eq('id' => '12345', 'token' => '6337ff461c94fd3fa32ba3b1ff4125')
+        expect(described_class.post('https://example.org', {}, nil)).to eq('id' => '12345', 'token' => '6337ff461c94fd3fa32ba3b1ff4125')
       end
 
       it 'raises an exception on non 200 http code' do
         stub_request(:delete, 'https://example.org').
           to_return(status: 501)
 
-        expect { described_class.delete('https://example.org', {}) }.to raise_error(Net::HTTPError)
+        expect { described_class.delete('https://example.org', {}, nil) }.to raise_error(Net::HTTPError)
       end
     end
 
@@ -58,7 +58,7 @@ module PuppetX::Gitlab
       context 'when doing a request' do
         before do
           stub_request(:post, 'example.org')
-          described_class.request('http://example.org/', Net::HTTP::Post, {})
+          described_class.request('http://example.org/', Net::HTTP::Post, {}, nil)
         end
 
         it 'uses Accept: application/json' do
@@ -77,7 +77,7 @@ module PuppetX::Gitlab
       context 'when doing a HTTPS request' do
         before do
           stub_request(:post, 'https://example.org/')
-          described_class.request('https://example.org/', Net::HTTP::Post, {})
+          described_class.request('https://example.org/', Net::HTTP::Post, {}, nil)
         end
 
         it 'uses SSL if url contains https://' do
@@ -92,10 +92,10 @@ module PuppetX::Gitlab
       before do
         PuppetX::Gitlab::APIClient.
           stub(:post).
-          with('https://gitlab.example.org/api/v4/runners', token: 'registrationtoken').
+          with('https://gitlab.example.org/api/v4/runners', { token: 'registrationtoken' }, nil).
           and_return('id' => 1234, 'token' => '1234567890abcd')
       end
-      let(:response) { described_class.register('https://gitlab.example.org', token: 'registrationtoken') }
+      let(:response) { described_class.register('https://gitlab.example.org', { token: 'registrationtoken' }, nil) }
 
       it 'returns a token' do
         expect(response['token']).to eq('1234567890abcd')
@@ -106,10 +106,10 @@ module PuppetX::Gitlab
       before do
         PuppetX::Gitlab::APIClient.
           stub(:delete).
-          with('https://gitlab.example.org/api/v4/runners', token: '1234567890abcd').
+          with('https://gitlab.example.org/api/v4/runners', { token: '1234567890abcd' }, nil).
           and_return({})
       end
-      let(:response) { described_class.unregister('https://gitlab.example.org', token: '1234567890abcd') }
+      let(:response) { described_class.unregister('https://gitlab.example.org', { token: '1234567890abcd' }, nil) }
 
       it 'returns an empty hash' do
         expect(response).to eq({})

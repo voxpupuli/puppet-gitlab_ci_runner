@@ -43,7 +43,14 @@
 #   The keyserver which should be used to get the repository key.
 # @param config_path
 #   The path to the config file of Gitlab runner.
-#
+# @param http_proxy
+#   An HTTP proxy to use whilst registering runners.
+#   This setting is only used when registering or unregistering runners and will be used for all runners in the `runners` parameter.
+#   If you have some runners that need to use a proxy and others that don't, leave `runners` and `http_proxy` unset and declare `gitlab_ci_runnner::runner` resources separately.
+#   If you do need to use an http proxy, you'll probably also want to configure other aspects of your runners to use it, (eg. setting `http_proxy` environment variables, `pre-clone-script`, `pre-build-script` etc.)
+#   Exactly how you might need to configure your runners varies between runner executors and specific use-cases.
+#   This module makes no attempt to automatically alter your runner configurations based on the value of this parameter.
+#   More information on what you might need to configure can be found [here](https://docs.gitlab.com/runner/configuration/proxy.html)
 class gitlab_ci_runner (
   String                                 $xz_package_name, # Defaults in module hieradata
   Hash                                   $runners         = {},
@@ -61,6 +68,7 @@ class gitlab_ci_runner (
   Stdlib::HTTPUrl                        $repo_base_url   = 'https://packages.gitlab.com',
   Optional[Gitlab_ci_runner::Keyserver]  $repo_keyserver   = undef,
   String                                 $config_path     = '/etc/gitlab-runner/config.toml',
+  Optional[Stdlib::HTTPUrl]              $http_proxy      = undef,
 ) {
   if $manage_docker {
     # workaround for cirunner issue #1617
@@ -100,10 +108,11 @@ class gitlab_ci_runner (
     }
 
     gitlab_ci_runner::runner { $title:
-      ensure  => $_config['ensure'],
-      config  => $_config - ['ensure', 'name'],
-      require => Class['gitlab_ci_runner::config'],
-      notify  => Class['gitlab_ci_runner::service'],
+      ensure     => $_config['ensure'],
+      config     => $_config - ['ensure', 'name'],
+      http_proxy => $http_proxy,
+      require    => Class['gitlab_ci_runner::config'],
+      notify     => Class['gitlab_ci_runner::service'],
     }
   }
 }

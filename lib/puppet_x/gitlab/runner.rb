@@ -5,28 +5,36 @@ require 'uri'
 module PuppetX
   module Gitlab
     module APIClient
-      def self.delete(url, options)
-        response = request(url, Net::HTTP::Delete, options)
+      def self.delete(url, options, proxy)
+        response = request(url, Net::HTTP::Delete, options, proxy)
         validate(response)
 
         {}
       end
 
-      def self.post(url, options)
-        response = request(url, Net::HTTP::Post, options)
+      def self.post(url, options, proxy)
+        response = request(url, Net::HTTP::Post, options, proxy)
         validate(response)
 
         JSON.parse(response.body)
       end
 
-      def self.request(url, http_method, options)
+      def self.request(url, http_method, options, proxy)
         uri     = URI.parse(url)
         headers = {
           'Accept'       => 'application/json',
           'Content-Type' => 'application/json'
         }
+        if proxy
+          proxy_uri = URI.parse(proxy)
+          proxy_host = proxy_uri.host
+          proxy_port = proxy_uri.port
+        else
+          proxy_host = nil
+          proxy_port = nil
+        end
 
-        http = Net::HTTP.new(uri.host, uri.port)
+        http = Net::HTTP.new(uri.host, uri.port, proxy_host, proxy_port)
         if uri.scheme == 'https'
           http.use_ssl     = true
           http.verify_mode = OpenSSL::SSL::VERIFY_PEER
@@ -42,14 +50,14 @@ module PuppetX
     end
 
     module Runner
-      def self.register(host, options)
+      def self.register(host, options, proxy = nil)
         url = "#{host}/api/v4/runners"
-        PuppetX::Gitlab::APIClient.post(url, options)
+        PuppetX::Gitlab::APIClient.post(url, options, proxy)
       end
 
-      def self.unregister(host, options)
+      def self.unregister(host, options, proxy = nil)
         url = "#{host}/api/v4/runners"
-        PuppetX::Gitlab::APIClient.delete(url, options)
+        PuppetX::Gitlab::APIClient.delete(url, options, proxy)
       end
     end
   end
