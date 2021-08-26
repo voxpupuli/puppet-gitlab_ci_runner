@@ -31,6 +31,7 @@
 
 ### Data types
 
+* [`Gitlab_ci_runner::Keyserver`](#gitlab_ci_runnerkeyserver): Type to match repo_keyserver Regex from: https://github.com/puppetlabs/puppetlabs-apt/blob/main/manifests/key.pp
 * [`Gitlab_ci_runner::Log_format`](#gitlab_ci_runnerlog_format): Gitlab Runner log format configuration
 * [`Gitlab_ci_runner::Log_level`](#gitlab_ci_runnerlog_level): Gitlab Runner log level configuration
 * [`Gitlab_ci_runner::Register`](#gitlab_ci_runnerregister): A struct of all possible additionl options for gitlab_ci_runner::register
@@ -197,7 +198,7 @@ Default value: `'https://packages.gitlab.com'`
 
 ##### <a name="repo_keyserver"></a>`repo_keyserver`
 
-Data type: `Optional[Stdlib::Fqdn]`
+Data type: `Optional[Gitlab_ci_runner::Keyserver]`
 
 The keyserver which should be used to get the repository key.
 
@@ -583,6 +584,17 @@ Data type: `Optional[Optional[String[1]]]`
 HTTP proxy to use when unregistering
 
 ## Data types
+
+### <a name="gitlab_ci_runnerkeyserver"></a>`Gitlab_ci_runner::Keyserver`
+
+Type to match repo_keyserver
+Regex from: https://github.com/puppetlabs/puppetlabs-apt/blob/main/manifests/key.pp
+
+Alias of
+
+```puppet
+Pattern[/\A((hkp|hkps|http|https):\/\/)?([a-z\d])([a-z\d-]{0,61}\.)+[a-z\d]+(:\d{2,5})?(\/[a-zA-Z\d\-_.]+)*\/?$/]
+```
 
 ### <a name="gitlab_ci_runnerlog_format"></a>`Gitlab_ci_runner::Log_format`
 
