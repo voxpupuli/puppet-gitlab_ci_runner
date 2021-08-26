@@ -4,6 +4,45 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
+## [v4.0.0](https://github.com/voxpupuli/puppet-gitlab_ci_runner/tree/v4.0.0) (2021-08-26)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-gitlab_ci_runner/compare/v3.0.0...v4.0.0)
+
+Version 4.0.0 is a new major release of this module.  It has many improvements but also significant breaking changes that you should read about and test before deploying into a production environment.  Specifically Puppet 6 is required, your code will probably need updating and existing runners will reregister.
+
+The [README ](https://github.com/voxpupuli/puppet-gitlab_ci_runner/blob/383db3524e7cd3eac13755da251ef1871290f941/README.md#upgrading-from-version-3)has further details.
+
+Huge thanks to all our contributors and especially to [Matthias Baur](https://github.com/baurmatt) for his excellent contributions to this release.
+
+**Breaking changes:**
+
+- Drop RHEL/CentOS 6 and Amazon Linux Support [\#118](https://github.com/voxpupuli/puppet-gitlab_ci_runner/issues/118)
+- Deprecate support for Debian 8 and Ubuntu 16.04 \(and add support for Ubuntu 20.04\) [\#114](https://github.com/voxpupuli/puppet-gitlab_ci_runner/pull/114) ([alexjfisher](https://github.com/alexjfisher))
+- Add support for registration by leveraging a "Deferred" function [\#107](https://github.com/voxpupuli/puppet-gitlab_ci_runner/pull/107) ([baurmatt](https://github.com/baurmatt))
+- Move to concat for config.toml [\#75](https://github.com/voxpupuli/puppet-gitlab_ci_runner/pull/75) ([baurmatt](https://github.com/baurmatt))
+
+**Implemented enhancements:**
+
+- Support Puppet 7 [\#116](https://github.com/voxpupuli/puppet-gitlab_ci_runner/pull/116) ([alexjfisher](https://github.com/alexjfisher))
+- Add runner registration proxy support [\#109](https://github.com/voxpupuli/puppet-gitlab_ci_runner/pull/109) ([alexjfisher](https://github.com/alexjfisher))
+- Allow `hkp://` style URLs for `repo_keyserver` URL [\#102](https://github.com/voxpupuli/puppet-gitlab_ci_runner/pull/102) ([hp197](https://github.com/hp197))
+
+**Fixed bugs:**
+
+- Fix runner unregistering [\#111](https://github.com/voxpupuli/puppet-gitlab_ci_runner/pull/111) ([alexjfisher](https://github.com/alexjfisher))
+- Fix unregistering runner with `ensure => absent` [\#110](https://github.com/voxpupuli/puppet-gitlab_ci_runner/pull/110) ([alexjfisher](https://github.com/alexjfisher))
+
+**Closed issues:**
+
+- Get acceptance tests setup and running [\#20](https://github.com/voxpupuli/puppet-gitlab_ci_runner/issues/20)
+
+**Merged pull requests:**
+
+- Allow up-to-date dependencies [\#117](https://github.com/voxpupuli/puppet-gitlab_ci_runner/pull/117) ([smortex](https://github.com/smortex))
+- Update README with upgrade information [\#115](https://github.com/voxpupuli/puppet-gitlab_ci_runner/pull/115) ([alexjfisher](https://github.com/alexjfisher))
+- Update module dependencies [\#112](https://github.com/voxpupuli/puppet-gitlab_ci_runner/pull/112) ([alexjfisher](https://github.com/alexjfisher))
+- Fix typos in README.md [\#94](https://github.com/voxpupuli/puppet-gitlab_ci_runner/pull/94) ([nikitasg](https://github.com/nikitasg))
+
 ## [v3.0.0](https://github.com/voxpupuli/puppet-gitlab_ci_runner/tree/v3.0.0) (2020-09-15)
 
 [Full Changelog](https://github.com/voxpupuli/puppet-gitlab_ci_runner/compare/v2.1.0...v3.0.0)
