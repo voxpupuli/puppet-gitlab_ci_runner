@@ -9,6 +9,7 @@ group :test do
   gem 'simplecov-console',          :require => false
   gem 'puppet_metadata', '~> 1.0',  :require => false
   gem 'webmock',                    :require => false
+  gem 'puppet-lint-param-docs',     :require => false
 end
 
 group :development do
