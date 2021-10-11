@@ -9,6 +9,7 @@ Puppet::Functions.create_function(:'gitlab_ci_runner::register_to_file') do
   # @param runner_name The name of the runner. Use as identifier for the retrieved auth token.
   # @param additional_options A hash with all additional configuration options for that runner
   # @param proxy The HTTP proxy to use when registering
+  # @param ca_file An absolute path to a trusted certificate authority file.
   # @return [String] Returns the authentication token
   # @example Using it as a Deferred function
   #   gitlab_ci_runner::runner { 'testrunner':
@@ -26,17 +27,18 @@ Puppet::Functions.create_function(:'gitlab_ci_runner::register_to_file') do
     param 'String[1]', :runner_name
     optional_param 'Hash', :additional_options
     optional_param 'Optional[String[1]]', :proxy
+    optional_param 'Optional[Stdlib::Absolutepath]', :ca_file
     return_type 'String[1]'
   end
 
-  def register_to_file(url, regtoken, runner_name, additional_options = {}, proxy = nil)
+  def register_to_file(url, regtoken, runner_name, additional_options = {}, proxy = nil, ca_file = nil)
     filename = "/etc/gitlab-runner/auth-token-#{runner_name}"
     if File.exist?(filename)
       authtoken = File.read(filename).strip
     else
       return 'DUMMY-NOOP-TOKEN' if Puppet.settings[:noop]
       begin
-        authtoken = PuppetX::Gitlab::Runner.register(url, additional_options.merge('token' => regtoken), proxy)['token']
+        authtoken = PuppetX::Gitlab::Runner.register(url, additional_options.merge('token' => regtoken), proxy, ca_file)['token']
 
         # If this function is used as a Deferred function the Gitlab Runner config dir
         # will not exist on the first run, because the package isn't installed yet.

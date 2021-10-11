@@ -17,7 +17,7 @@ describe 'gitlab_ci_runner::unregister_from_file' do
       allow(File).to receive(:exist?).with(filename).and_return(true)
       allow(File).to receive(:read).and_call_original
       allow(File).to receive(:read).with(filename).and_return('authtoken')
-      allow(PuppetX::Gitlab::Runner).to receive(:unregister).with(url, { token: 'authtoken' }, nil).and_return(nil)
+      allow(PuppetX::Gitlab::Runner).to receive(:unregister).with(url, { 'token' => 'authtoken' }, nil, nil).and_return(nil)
     end
 
     it { is_expected.to run.with_params(url, runner_name).and_return('Successfully unregistered gitlab runner testrunner') }

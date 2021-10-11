@@ -19,14 +19,14 @@ describe 'gitlab_ci_runner::register' do
   it { is_expected.to run.with_params('https://gitlab.com', 'registration-token', project: 1234).and_raise_error(ArgumentError) }
 
   it "calls 'PuppetX::Gitlab::Runner.register'" do
-    allow(PuppetX::Gitlab::Runner).to receive(:register).with(url, 'token' => regtoken).and_return(return_hash)
+    allow(PuppetX::Gitlab::Runner).to receive(:register).with(url, { 'token' => regtoken }, ca_file: nil).and_return(return_hash)
 
     is_expected.to run.with_params(url, regtoken).and_return(return_hash)
     expect(PuppetX::Gitlab::Runner).to have_received(:register)
   end
 
   it "passes additional args to 'PuppetX::Gitlab::Runner.register'" do
-    allow(PuppetX::Gitlab::Runner).to receive(:register).with(url, 'token' => regtoken, 'active' => false).and_return(return_hash)
+    allow(PuppetX::Gitlab::Runner).to receive(:register).with(url, { 'token' => regtoken, 'active' => false }, ca_file: nil).and_return(return_hash)
 
     is_expected.to run.with_params(url, regtoken, 'active' => false).and_return(return_hash)
     expect(PuppetX::Gitlab::Runner).to have_received(:register)
