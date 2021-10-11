@@ -53,6 +53,14 @@
 #   Exactly how you might need to configure your runners varies between runner executors and specific use-cases.
 #   This module makes no attempt to automatically alter your runner configurations based on the value of this parameter.
 #   More information on what you might need to configure can be found [here](https://docs.gitlab.com/runner/configuration/proxy.html)
+# @param ca_file
+#   A file containing public keys of trusted certificate authorities in PEM format. 
+#   This setting is only used when registering or unregistering runners and will be used for all runners in the `runners` parameter.
+#   It can be used when the certificate of the gitlab server is signed using a CA
+#   and when upon registering a runner the following error is shown:
+#   `certificate verify failed (self signed certificate in certificate chain)`
+#   Using the CA file solves https://github.com/voxpupuli/puppet-gitlab_ci_runner/issues/124.
+#
 class gitlab_ci_runner (
   String                                     $xz_package_name, # Defaults in module hieradata
   Hash                                       $runners         = {},
@@ -69,9 +77,10 @@ class gitlab_ci_runner (
   String                                     $package_ensure  = installed,
   String                                     $package_name    = 'gitlab-runner',
   Stdlib::HTTPUrl                            $repo_base_url   = 'https://packages.gitlab.com',
-  Optional[Gitlab_ci_runner::Keyserver]      $repo_keyserver   = undef,
+  Optional[Gitlab_ci_runner::Keyserver]      $repo_keyserver  = undef,
   String                                     $config_path     = '/etc/gitlab-runner/config.toml',
   Optional[Stdlib::HTTPUrl]                  $http_proxy      = undef,
+  Optional[Stdlib::Unixpath]                 $ca_file         = undef,
 ) {
   if $manage_docker {
     # workaround for cirunner issue #1617
@@ -114,6 +123,7 @@ class gitlab_ci_runner (
       ensure     => $_config['ensure'],
       config     => $_config - ['ensure', 'name'],
       http_proxy => $http_proxy,
+      ca_file    => $ca_file,
       require    => Class['gitlab_ci_runner::config'],
       notify     => Class['gitlab_ci_runner::service'],
     }

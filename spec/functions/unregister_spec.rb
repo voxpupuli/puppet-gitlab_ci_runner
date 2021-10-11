@@ -14,7 +14,7 @@ describe 'gitlab_ci_runner::unregister' do
   it { is_expected.to run.with_params('https://gitlab.com', 'registration-token', project: 1234).and_raise_error(ArgumentError) }
 
   it "calls 'PuppetX::Gitlab::Runner.unregister'" do
-    allow(PuppetX::Gitlab::Runner).to receive(:unregister).with(url, token: authtoken).and_return(return_hash)
+    allow(PuppetX::Gitlab::Runner).to receive(:unregister).with(url, { 'token' => authtoken }, ca_file: nil).and_return(return_hash)
 
     is_expected.to run.with_params(url, authtoken).and_return(return_hash)
     expect(PuppetX::Gitlab::Runner).to have_received(:unregister)
