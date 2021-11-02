@@ -36,6 +36,7 @@
 * [`Gitlab_ci_runner::Log_level`](#gitlab_ci_runnerlog_level): Gitlab Runner log level configuration
 * [`Gitlab_ci_runner::Register`](#gitlab_ci_runnerregister): A struct of all possible additionl options for gitlab_ci_runner::register
 * [`Gitlab_ci_runner::Register_parameters`](#gitlab_ci_runnerregister_parameters): A enum containing a possible keys used for Gitlab runner registrations
+* [`Gitlab_ci_runner::Session_server`](#gitlab_ci_runnersession_server): Gitlab Runner session_server configuration
 
 ### Tasks
 
@@ -77,6 +78,7 @@ The following parameters are available in the `gitlab_ci_runner` class:
 * [`check_interval`](#check_interval)
 * [`sentry_dsn`](#sentry_dsn)
 * [`listen_address`](#listen_address)
+* [`session_server`](#session_server)
 * [`manage_docker`](#manage_docker)
 * [`manage_repo`](#manage_repo)
 * [`package_ensure`](#package_ensure)
@@ -153,6 +155,14 @@ Default value: ``undef``
 Data type: `Optional[Pattern[/.*:.+/]]`
 
 Address (<host>:<port>) on which the Prometheus metrics HTTP server should be listening.
+
+Default value: ``undef``
+
+##### <a name="session_server"></a>`session_server`
+
+Data type: `Optional[Gitlab_ci_runner::Session_server]`
+
+Session server lets users interact with jobs, for example, in the interactive web terminal.
 
 Default value: ``undef``
 
@@ -643,6 +653,20 @@ Alias of
 
 ```puppet
 Enum['description', 'info', 'active', 'locked', 'run_untagged', 'run-untagged', 'tag_list', 'tag-list', 'access_level', 'access-level', 'maximum_timeout', 'maximum-timeout']
+```
+
+### <a name="gitlab_ci_runnersession_server"></a>`Gitlab_ci_runner::Session_server`
+
+Gitlab Runner session_server configuration
+
+Alias of
+
+```puppet
+Struct[{
+    listen_address    => String[1],
+    advertise_address => String[1],
+    session_timeout   => Optional[Integer],
+  }]
 ```
 
 ## Tasks

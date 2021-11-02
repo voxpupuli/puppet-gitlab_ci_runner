@@ -9,6 +9,7 @@ class gitlab_ci_runner::config (
   $log_format     = $gitlab_ci_runner::log_format,
   $check_interval = $gitlab_ci_runner::check_interval,
   $sentry_dsn     = $gitlab_ci_runner::sentry_dsn,
+  $session_server = $gitlab_ci_runner::session_server,
   $listen_address = $gitlab_ci_runner::listen_address,
   $package_name   = $gitlab_ci_runner::package_name,
 ) {
@@ -28,6 +29,7 @@ class gitlab_ci_runner::config (
     log_format     => $log_format,
     check_interval => $check_interval,
     sentry_dsn     => $sentry_dsn,
+    session_server => $session_server,
     listen_address => $listen_address,
   }.filter |$key, $val| { $val =~ NotUndef }
 
