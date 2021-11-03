@@ -193,6 +193,56 @@ describe 'gitlab_ci_runner', type: :class do
         end
       end
 
+      context 'with session_server' do
+        context 'with session_server => { listen_address => "[::]:8093", advertise_address => "runner-host-name.tld:8093"}' do
+          let(:params) do
+            {
+              'session_server' => {
+                listen_address: '[::]:8093',
+                advertise_address: 'runner-host-name.tld:8093',
+              }
+            }
+          end
+
+          it do
+            verify_concat_fragment_exact_contents(
+              catalogue,
+              '/etc/gitlab-runner/config.toml - global options',
+              [
+                '[session_server]',
+                'listen_address = "[::]:8093"',
+                'advertise_address = "runner-host-name.tld:8093"',
+              ]
+            )
+          end
+        end
+
+        context 'with session_server => { listen_address => "[::]:8093", advertise_address => "runner-host-name.tld:8093", session_timeout => 1234 }' do
+          let(:params) do
+            {
+              'session_server' => {
+                listen_address: '[::]:8093',
+                advertise_address: 'runner-host-name.tld:8093',
+                session_timeout: 1234,
+              }
+            }
+          end
+
+          it do
+            verify_concat_fragment_exact_contents(
+              catalogue,
+              '/etc/gitlab-runner/config.toml - global options',
+              [
+                '[session_server]',
+                'listen_address = "[::]:8093"',
+                'advertise_address = "runner-host-name.tld:8093"',
+                'session_timeout = 1234'
+              ]
+            )
+          end
+        end
+      end
+
       # puppetlabs-docker doesn't support CentOS 6 anymore.
       unless facts[:os]['name'] == 'CentOS' && facts[:os]['release']['major'] == '6'
         context 'with manage_docker => true' do
