@@ -33,7 +33,7 @@ describe 'gitlab_ci_runner::register_to_file' do
 
   context "retrieves from Gitlab and writes auth token to file if it doesn't exist" do
     before do
-      allow(PuppetX::Gitlab::Runner).to receive(:register).with(url, { 'token' => regtoken }, nil).and_return(return_hash)
+      allow(PuppetX::Gitlab::Runner).to receive(:register).with(url, { 'token' => regtoken }, nil, nil).and_return(return_hash)
       allow(File).to receive(:exist?).and_call_original
       allow(File).to receive(:exist?).with(File.dirname(filename)).and_return(true)
       allow(File).to receive(:write).with(filename, return_hash['token'])
@@ -41,6 +41,14 @@ describe 'gitlab_ci_runner::register_to_file' do
     end
 
     it { is_expected.to run.with_params(url, regtoken, runner_name).and_return(return_hash['token']) }
+
+    context 'with ca_file option' do
+      before do
+        allow(PuppetX::Gitlab::Runner).to receive(:register).with(url, { 'token' => regtoken }, nil, '/path/to/ca_file').and_return(return_hash)
+      end
+
+      it { is_expected.to run.with_params(url, regtoken, runner_name, {}, nil, '/path/to/ca_file').and_return(return_hash['token']) }
+    end
   end
 
   context 'noop does not register runner and returns dummy token' do

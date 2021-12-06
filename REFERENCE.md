@@ -87,6 +87,7 @@ The following parameters are available in the `gitlab_ci_runner` class:
 * [`repo_keyserver`](#repo_keyserver)
 * [`config_path`](#config_path)
 * [`http_proxy`](#http_proxy)
+* [`ca_file`](#ca_file)
 
 ##### <a name="runners"></a>`runners`
 
@@ -236,6 +237,19 @@ More information on what you might need to configure can be found [here](https:/
 
 Default value: ``undef``
 
+##### <a name="ca_file"></a>`ca_file`
+
+Data type: `Optional[Stdlib::Unixpath]`
+
+A file containing public keys of trusted certificate authorities in PEM format.
+This setting is only used when registering or unregistering runners and will be used for all runners in the `runners` parameter.
+It can be used when the certificate of the gitlab server is signed using a CA
+and when upon registering a runner the following error is shown:
+`certificate verify failed (self signed certificate in certificate chain)`
+Using the CA file solves https://github.com/voxpupuli/puppet-gitlab_ci_runner/issues/124.
+
+Default value: ``undef``
+
 ## Defined types
 
 ### <a name="gitlab_ci_runnerrunner"></a>`gitlab_ci_runner::runner`
@@ -311,6 +325,7 @@ The following parameters are available in the `gitlab_ci_runner::runner` defined
 
 * [`config`](#config)
 * [`ensure`](#ensure)
+* [`ca_file`](#ca_file)
 * [`http_proxy`](#http_proxy)
 
 ##### <a name="config"></a>`config`
@@ -330,6 +345,15 @@ Will add/remove the configuration from config.toml
 Will also register/unregister the runner.
 
 Default value: `'present'`
+
+##### <a name="ca_file"></a>`ca_file`
+
+Data type: `Optional[Stdlib::Unixpath]`
+
+A path to a file containing public keys of trusted certificate authorities in PEM format.
+Used during runner registration/unregistration only.
+
+Default value: ``undef``
 
 ##### <a name="http_proxy"></a>`http_proxy`
 
@@ -355,7 +379,7 @@ A function that registers a Gitlab runner on a Gitlab instance. Be careful, this
 puppet apply -e "notice(gitlab_ci_runner::register('https://gitlab.com', 'registration-token'))"
 ```
 
-#### `gitlab_ci_runner::register(Stdlib::HTTPUrl $url, String[1] $token, Optional[Gitlab_ci_runner::Register] $additional_options)`
+#### `gitlab_ci_runner::register(Stdlib::HTTPUrl $url, String[1] $token, Optional[Gitlab_ci_runner::Register] $additional_options, Optional[Optional[Stdlib::Unixpath]] $ca_file)`
 
 A function that registers a Gitlab runner on a Gitlab instance. Be careful, this will be triggered on noop runs as well!
 
@@ -387,6 +411,12 @@ Data type: `Optional[Gitlab_ci_runner::Register]`
 
 A hash with all additional configuration options for that runner
 
+##### `ca_file`
+
+Data type: `Optional[Optional[Stdlib::Unixpath]]`
+
+An absolute path to a trusted certificate authority file.
+
 ### <a name="gitlab_ci_runnerregister_to_file"></a>`gitlab_ci_runner::register_to_file`
 
 Type: Ruby 4.x API
@@ -408,7 +438,7 @@ gitlab_ci_runner::runner { 'testrunner':
 }
 ```
 
-#### `gitlab_ci_runner::register_to_file(String[1] $url, String[1] $regtoken, String[1] $runner_name, Optional[Hash] $additional_options, Optional[Optional[String[1]]] $proxy)`
+#### `gitlab_ci_runner::register_to_file(String[1] $url, String[1] $regtoken, String[1] $runner_name, Optional[Hash] $additional_options, Optional[Optional[String[1]]] $proxy, Optional[Optional[String[1]]] $ca_file)`
 
 A function that registers a Gitlab runner on a Gitlab instance, if it doesn't already exist,
 _and_ saves the retrieved authentication token to a file. This is helpful for Deferred functions.
@@ -458,6 +488,12 @@ A hash with all additional configuration options for that runner
 Data type: `Optional[Optional[String[1]]]`
 
 The HTTP proxy to use when registering
+
+##### `ca_file`
+
+Data type: `Optional[Optional[String[1]]]`
+
+An absolute path to a trusted certificate authority file.
 
 ### <a name="gitlab_ci_runnerto_toml"></a>`gitlab_ci_runner::to_toml`
 
@@ -513,7 +549,7 @@ A function that unregisters a Gitlab runner from a Gitlab instance. Be careful, 
 puppet apply -e "notice(gitlab_ci_runner::unregister('https://gitlab.com', 'runner-auth-token'))"
 ```
 
-#### `gitlab_ci_runner::unregister(Stdlib::HTTPUrl $url, String[1] $token)`
+#### `gitlab_ci_runner::unregister(Stdlib::HTTPUrl $url, String[1] $token, Optional[Optional[Stdlib::Unixpath]] $ca_file)`
 
 A function that unregisters a Gitlab runner from a Gitlab instance. Be careful, this will be triggered on noop runs as well!
 
@@ -539,6 +575,12 @@ Data type: `String[1]`
 
 Runners authentication token.
 
+##### `ca_file`
+
+Data type: `Optional[Optional[Stdlib::Unixpath]]`
+
+An absolute path to a trusted certificate authority file.
+
 ### <a name="gitlab_ci_runnerunregister_from_file"></a>`gitlab_ci_runner::unregister_from_file`
 
 Type: Ruby 4.x API
@@ -557,7 +599,7 @@ file { '/etc/gitlab-runner/auth-token-testrunner':
 }
 ```
 
-#### `gitlab_ci_runner::unregister_from_file(String[1] $url, String[1] $runner_name, Optional[Optional[String[1]]] $proxy)`
+#### `gitlab_ci_runner::unregister_from_file(String[1] $url, String[1] $runner_name, Optional[Optional[String[1]]] $proxy, Optional[Optional[String[1]]] $ca_file)`
 
 A function that unregisters a Gitlab runner from a Gitlab instance, if the local token is there.
 This is meant to be used in conjunction with the gitlab_ci_runner::register_to_file function.
@@ -592,6 +634,12 @@ The name of the runner. Use as identifier for the retrived auth token.
 Data type: `Optional[Optional[String[1]]]`
 
 HTTP proxy to use when unregistering
+
+##### `ca_file`
+
+Data type: `Optional[Optional[String[1]]]`
+
+An absolute path to a trusted certificate authority file.
 
 ## Data types
 
