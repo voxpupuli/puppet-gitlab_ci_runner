@@ -4,6 +4,18 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
+## [v4.2.0](https://github.com/voxpupuli/puppet-gitlab_ci_runner/tree/v4.2.0) (2021-12-06)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-gitlab_ci_runner/compare/v4.1.0...v4.2.0)
+
+**Closed issues:**
+
+- Certificate verify failed on update to v4.0.0 [\#124](https://github.com/voxpupuli/puppet-gitlab_ci_runner/issues/124)
+
+**Merged pull requests:**
+
+- Add `ca_file` parameter for use during registration [\#135](https://github.com/voxpupuli/puppet-gitlab_ci_runner/pull/135) ([alexjfisher](https://github.com/alexjfisher))
+
 ## [v4.1.0](https://github.com/voxpupuli/puppet-gitlab_ci_runner/tree/v4.1.0) (2021-11-04)
 
 [Full Changelog](https://github.com/voxpupuli/puppet-gitlab_ci_runner/compare/v4.0.0...v4.1.0)
@@ -21,6 +33,7 @@ These should not affect the functionality of the module.
 [Full Changelog](https://github.com/voxpupuli/puppet-gitlab_ci_runner/compare/v3.0.0...v4.0.0)
 
 Version 4.0.0 is a new major release of this module.  It has many improvements but also significant breaking changes that you should read about and test before deploying into a production environment.  Specifically Puppet 6 is required, your code will probably need updating and existing runners will reregister.
+
 The [README ](https://github.com/voxpupuli/puppet-gitlab_ci_runner/blob/383db3524e7cd3eac13755da251ef1871290f941/README.md#upgrading-from-version-3)has further details.
 
 Huge thanks to all our contributors and especially to [Matthias Baur](https://github.com/baurmatt) for his excellent contributions to this release.
