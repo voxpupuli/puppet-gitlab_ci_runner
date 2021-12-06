@@ -65,6 +65,18 @@ describe 'gitlab_ci_runner', type: :class do
           )
       end
 
+      describe 'ca_file' do
+        context 'without ca_file' do
+          it { is_expected.to contain_gitlab_ci_runner__runner('test_runner').without(['ca_file']) }
+        end
+
+        context 'with ca_file' do
+          let(:params) { super().merge(ca_file: '/path/to/ca_file') }
+
+          it { is_expected.to contain_gitlab_ci_runner__runner('test_runner').with_ca_file('/path/to/ca_file') }
+        end
+      end
+
       describe 'runner ensure' do
         before do
           allow(File).to receive(:exist?).and_call_original

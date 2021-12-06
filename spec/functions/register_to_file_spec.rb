@@ -41,6 +41,14 @@ describe 'gitlab_ci_runner::register_to_file' do
     end
 
     it { is_expected.to run.with_params(url, regtoken, runner_name).and_return(return_hash['token']) }
+
+    context 'with ca_file option' do
+      before do
+        allow(PuppetX::Gitlab::Runner).to receive(:register).with(url, { 'token' => regtoken }, nil, '/path/to/ca_file').and_return(return_hash)
+      end
+
+      it { is_expected.to run.with_params(url, regtoken, runner_name, {}, nil, '/path/to/ca_file').and_return(return_hash['token']) }
+    end
   end
 
   context 'noop does not register runner and returns dummy token' do
