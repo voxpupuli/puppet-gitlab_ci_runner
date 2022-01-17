@@ -24,7 +24,7 @@ describe 'Gitlab Runner bolt tasks' do
 
     context 'returns error on failure' do
       let(:result) do
-        result = shell('bolt task run gitlab_ci_runner::register_runner --format json --targets localhost url=http://gitlab token=wrong-token', acceptable_exit_codes: [0, 2]).stdout.chomp
+        result = shell('bolt task run gitlab_ci_runner::register_runner --format json --targets localhost url=http://gitlab token=wrong-token', acceptable_exit_codes: [0, 1, 2]).stdout.chomp
         JSON.parse(result)['items'][0]['value']
       end
 
@@ -52,7 +52,7 @@ describe 'Gitlab Runner bolt tasks' do
 
     context 'returns error on failure' do
       let(:result) do
-        result = shell('bolt task run gitlab_ci_runner::unregister_runner --format json --targets localhost url=http://gitlab token=wrong-token', acceptable_exit_codes: [0, 2]).stdout.chomp
+        result = shell('bolt task run gitlab_ci_runner::unregister_runner --format json --targets localhost url=http://gitlab token=wrong-token', acceptable_exit_codes: [0, 1, 2]).stdout.chomp
         JSON.parse(result)['items'][0]['value']
       end
 
