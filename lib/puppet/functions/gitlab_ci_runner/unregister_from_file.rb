@@ -1,4 +1,6 @@
-require_relative '../../../puppet_x/gitlab/runner.rb'
+# frozen_string_literal: true
+
+require_relative '../../../puppet_x/gitlab/runner'
 
 # A function that unregisters a Gitlab runner from a Gitlab instance, if the local token is there.
 # This is meant to be used in conjunction with the gitlab_ci_runner::register_to_file function.

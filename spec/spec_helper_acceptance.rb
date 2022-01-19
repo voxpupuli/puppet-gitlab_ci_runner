@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'voxpupuli/acceptance/spec_helper_acceptance'
 
 ENV['BEAKER_FACTER_GITLAB_IP'] = File.read(File.expand_path('~/GITLAB_IP')).chomp

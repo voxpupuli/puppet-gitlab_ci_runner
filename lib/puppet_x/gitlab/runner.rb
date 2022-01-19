@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'json'
 require 'net/http'
 require 'uri'
@@ -22,7 +24,7 @@ module PuppetX
       def self.request(url, http_method, options, proxy, ca_file)
         uri     = URI.parse(url)
         headers = {
-          'Accept'       => 'application/json',
+          'Accept' => 'application/json',
           'Content-Type' => 'application/json'
         }
         if proxy

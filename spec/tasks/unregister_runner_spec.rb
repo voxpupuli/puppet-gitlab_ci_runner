@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 require 'webmock/rspec'
-require_relative '../../tasks/unregister_runner.rb'
+require_relative '../../tasks/unregister_runner'
 
 describe UnregisterRunnerTask do
   let(:params) do

@@ -1,4 +1,6 @@
-require_relative '../../../puppet_x/gitlab/runner.rb'
+# frozen_string_literal: true
+
+require_relative '../../../puppet_x/gitlab/runner'
 require 'fileutils'
 
 # A function that registers a Gitlab runner on a Gitlab instance, if it doesn't already exist,
@@ -37,6 +39,7 @@ Puppet::Functions.create_function(:'gitlab_ci_runner::register_to_file') do
       authtoken = File.read(filename).strip
     else
       return 'DUMMY-NOOP-TOKEN' if Puppet.settings[:noop]
+
       begin
         authtoken = PuppetX::Gitlab::Runner.register(url, additional_options.merge('token' => regtoken), proxy, ca_file)['token']
 
