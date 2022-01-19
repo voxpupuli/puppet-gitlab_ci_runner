@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative '../../../puppet_x/gitlab/runner'
 
 # A function that unregisters a Gitlab runner from a Gitlab instance. Be careful, this will be triggered on noop runs as well!
