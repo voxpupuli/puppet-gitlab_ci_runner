@@ -1,6 +1,6 @@
 require 'spec_helper'
 require 'webmock/rspec'
-require_relative '../../../../lib/puppet_x/gitlab/runner.rb'
+require_relative '../../../../lib/puppet_x/gitlab/runner'
 
 module PuppetX::Gitlab
   describe APIClient do
@@ -95,6 +95,7 @@ module PuppetX::Gitlab
           with('https://gitlab.example.org/api/v4/runners', { token: 'registrationtoken' }, nil, nil).
           and_return('id' => 1234, 'token' => '1234567890abcd')
       end
+
       let(:response) { described_class.register('https://gitlab.example.org', { token: 'registrationtoken' }, nil, nil) }
 
       it 'returns a token' do
@@ -109,6 +110,7 @@ module PuppetX::Gitlab
           with('https://gitlab.example.org/api/v4/runners', { token: '1234567890abcd' }, nil, nil).
           and_return({})
       end
+
       let(:response) { described_class.unregister('https://gitlab.example.org', { token: '1234567890abcd' }, nil, nil) }
 
       it 'returns an empty hash' do

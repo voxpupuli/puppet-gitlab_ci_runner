@@ -1,8 +1,8 @@
 #!/opt/puppetlabs/puppet/bin/ruby
 # frozen_string_literal: true
 
-require_relative '../lib/puppet_x/gitlab/runner.rb'
-require_relative '../../ruby_task_helper/files/task_helper.rb'
+require_relative '../lib/puppet_x/gitlab/runner'
+require_relative '../../ruby_task_helper/files/task_helper'
 
 class UnregisterRunnerTask < TaskHelper
   def task(**kwargs)

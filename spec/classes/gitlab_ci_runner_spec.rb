@@ -15,6 +15,7 @@ describe 'gitlab_ci_runner', type: :class do
         allow(File).to receive(:read).and_call_original
         allow(File).to receive(:read).with('/etc/gitlab-runner/auth-token-test_runner').and_return('authtoken')
       end
+
       let(:facts) do
         facts
       end
@@ -38,11 +39,13 @@ describe 'gitlab_ci_runner', type: :class do
       it { is_expected.to contain_package('gitlab-runner') }
       it { is_expected.to contain_service('gitlab-runner') }
       it { is_expected.to contain_class('gitlab_ci_runner::install') }
+
       it do
         is_expected.to contain_class('gitlab_ci_runner::config').
           that_requires('Class[gitlab_ci_runner::install]').
           that_notifies('Class[gitlab_ci_runner::service]')
       end
+
       it { is_expected.to contain_class('gitlab_ci_runner::service') }
 
       it do
@@ -85,6 +88,7 @@ describe 'gitlab_ci_runner', type: :class do
           allow(File).to receive(:read).with('/etc/gitlab-runner/auth-token-runner_with_ensure_present').and_return('authtoken')
           allow(File).to receive(:exist?).with('/etc/gitlab-runner/auth-token-runner_with_ensure_absent').and_return(false)
         end
+
         let(:params) do
           {
             runner_defaults: {
@@ -117,7 +121,7 @@ describe 'gitlab_ci_runner', type: :class do
         it do
           is_expected.to contain_concat('/etc/gitlab-runner/config.toml').with('owner' => 'gitlab-runner',
                                                                                'group' => 'gitlab-runner',
-                                                                               'mode'  => '0640')
+                                                                               'mode' => '0640')
         end
       end
 
@@ -151,7 +155,7 @@ describe 'gitlab_ci_runner', type: :class do
           is_expected.to contain_file('/etc/gitlab-runner').with('ensure' => 'directory',
                                                                  'owner' => 'gitlab-runner',
                                                                  'group' => 'gitlab-runner',
-                                                                 'mode'  => '0750')
+                                                                 'mode' => '0750')
         end
       end
 
@@ -319,12 +323,13 @@ describe 'gitlab_ci_runner', type: :class do
           it { is_expected.to compile }
 
           it { is_expected.to contain_class('docker') }
+
           it do
             is_expected.to contain_class('docker::images').
               with(
                 images: {
                   'ubuntu_focal' => {
-                    'image'     => 'ubuntu',
+                    'image' => 'ubuntu',
                     'image_tag' => 'focal'
                   }
                 }
@@ -438,6 +443,7 @@ describe 'gitlab_ci_runner', type: :class do
             is_expected.to contain_apt__source('apt_gitlabci').with_key('id' => 'F6403F6544A38863DAA0B6E03F01618A51312F3F', 'server' => 'hkp://keys.gnupg.net:80')
           end
         end
+
         context 'with manage_repo => true and repo_keyserver => https://keys.gnupg.net:88' do
           let(:params) do
             super().merge(

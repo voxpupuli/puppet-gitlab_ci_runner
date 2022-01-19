@@ -3,6 +3,7 @@ require 'spec_helper'
 describe 'gitlab_ci_runner::to_toml' do
   context 'fails on invalid params' do
     it { is_expected.not_to eq(nil) }
+
     [
       nil,
       '',

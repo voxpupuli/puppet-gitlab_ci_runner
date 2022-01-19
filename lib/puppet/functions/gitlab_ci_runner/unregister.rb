@@ -1,4 +1,4 @@
-require_relative '../../../puppet_x/gitlab/runner.rb'
+require_relative '../../../puppet_x/gitlab/runner'
 
 # A function that unregisters a Gitlab runner from a Gitlab instance. Be careful, this will be triggered on noop runs as well!
 Puppet::Functions.create_function(:'gitlab_ci_runner::unregister') do

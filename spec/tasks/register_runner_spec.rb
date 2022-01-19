@@ -1,5 +1,5 @@
 require 'webmock/rspec'
-require_relative '../../tasks/register_runner.rb'
+require_relative '../../tasks/register_runner'
 
 describe RegisterRunnerTask do
   let(:params) do

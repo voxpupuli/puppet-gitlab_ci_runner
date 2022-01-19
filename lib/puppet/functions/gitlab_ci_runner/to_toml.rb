@@ -1,4 +1,4 @@
-require_relative '../../../puppet_x/gitlab/dumper.rb'
+require_relative '../../../puppet_x/gitlab/dumper'
 # @summary Convert a data structure and output to TOML.
 Puppet::Functions.create_function(:'gitlab_ci_runner::to_toml') do
   # @param data Data structure which needs to be converted into TOML

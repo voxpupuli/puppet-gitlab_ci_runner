@@ -17,7 +17,7 @@ describe 'Gitlab Runner bolt tasks' do
         expect(result['token']).to be_instance_of(String)
       end
 
-      it 'returns  a runner id' do
+      it 'returns a runner id' do
         expect(result['id']).to be_instance_of(Integer)
       end
     end

@@ -41,9 +41,7 @@ module PuppetX
       def visit(hash, prefix, extra_brackets = false)
         simple_pairs, nested_pairs, table_array_pairs = sort_pairs hash
 
-        if prefix.any? && (simple_pairs.any? || hash.empty?)
-          print_prefix prefix, extra_brackets
-        end
+        print_prefix prefix, extra_brackets if prefix.any? && (simple_pairs.any? || hash.empty?)
 
         dump_pairs simple_pairs, nested_pairs, table_array_pairs, prefix
       end
@@ -127,10 +125,8 @@ module PuppetX
       end
 
       def bare_key?(key)
-        # rubocop:disable Style/DoubleNegation
         # rubocop:disable Style/RegexpLiteral
         !!key.to_s.match(/^[a-zA-Z0-9_-]*$/)
-        # rubocop:enable Style/DoubleNegation
         # rubocop:enable Style/RegexpLiteral
       end
 
