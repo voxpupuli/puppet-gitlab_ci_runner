@@ -33,7 +33,7 @@ module PuppetX
       attr_reader :toml_str
 
       def initialize(hash)
-        @toml_str = ''
+        @toml_str = +''
 
         visit(hash, [])
       end
