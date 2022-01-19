@@ -33,7 +33,7 @@ module PuppetX
       attr_reader :toml_str
 
       def initialize(hash)
-        @toml_str = +''
+        @toml_str = ''
 
         visit(hash, [])
       end
@@ -79,7 +79,7 @@ module PuppetX
       def dump_simple_pairs(simple_pairs)
         simple_pairs.each do |key, val|
           key = quote_key(key) unless bare_key? key
-          @toml_str << "#{key} = #{to_toml(val)}\n"
+          @toml_str += "#{key} = #{to_toml(val)}\n"
         end
       end
 
