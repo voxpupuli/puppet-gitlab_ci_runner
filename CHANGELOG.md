@@ -4,6 +4,18 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
+## [v4.3.0](https://github.com/voxpupuli/puppet-gitlab_ci_runner/tree/v4.3.0) (2022-01-19)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-gitlab_ci_runner/compare/v4.2.0...v4.3.0)
+
+**Implemented enhancements:**
+
+- Implement support for config file/dir permission management. [\#95](https://github.com/voxpupuli/puppet-gitlab_ci_runner/pull/95) ([UiP9AV6Y](https://github.com/UiP9AV6Y))
+
+**Merged pull requests:**
+
+- toml gem: apply upstream changes [\#139](https://github.com/voxpupuli/puppet-gitlab_ci_runner/pull/139) ([bastelfreak](https://github.com/bastelfreak))
+
 ## [v4.2.0](https://github.com/voxpupuli/puppet-gitlab_ci_runner/tree/v4.2.0) (2021-12-06)
 
 [Full Changelog](https://github.com/voxpupuli/puppet-gitlab_ci_runner/compare/v4.1.0...v4.2.0)

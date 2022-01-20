@@ -230,29 +230,29 @@ Default value: `'/etc/gitlab-runner/config.toml'`
 
 ##### <a name="config_owner"></a>`config_owner`
 
-Data type: `Optional[String[1]]`
+Data type: `String[1]`
 
 The user owning the config file.
 (and config directory if managed).
 
-Default value: ``undef``
+Default value: `'root'`
 
 ##### <a name="config_group"></a>`config_group`
 
-Data type: `Optional[String[1]]`
+Data type: `String[1]`
 
 The group ownership assigned to the config file
 (and config directory if managed).
 
-Default value: ``undef``
+Default value: `'root'`
 
 ##### <a name="config_mode"></a>`config_mode`
 
-Data type: `Optional[Stdlib::Filemode]`
+Data type: `Stdlib::Filemode`
 
 The file permissions applied to the config file.
 
-Default value: ``undef``
+Default value: `'0444'`
 
 ##### <a name="manage_config_dir"></a>`manage_config_dir`
 
