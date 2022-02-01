@@ -86,9 +86,9 @@ For example:
 ```puppet
 class { 'gitlab_ci_runner':
   # [...]
-  runners: {
+  runners => {
     'my_runner' => {
-      'url'                => 'https://gitlab.com',
+      'url'                => 'https://gitlab.com/ci',
       'registration-token' => 'abcdef1234567890',
       'docker-image'       => 'ubuntu:focal',
     },
@@ -101,7 +101,7 @@ would need to be converted to:
 ```puppet
 class { 'gitlab_ci_runner':
   # [...]
-  runners: {
+  runners => {
     'my_runner' => {
       'url'                => 'https://gitlab.com',
       'registration-token' => 'abcdef1234567890',
