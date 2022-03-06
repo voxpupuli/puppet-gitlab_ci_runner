@@ -50,8 +50,6 @@ gitlab_ci_runner::runner_defaults:
   executor: "docker"
   docker:
     image: "ubuntu:focal"
-  builds_dir: "/tmp"
-  cache_dir: "/tmp"
 ```
 
 To unregister a specific runner you may use `ensure` param:
