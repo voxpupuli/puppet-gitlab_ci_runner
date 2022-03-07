@@ -44,12 +44,20 @@ describe 'gitlab_ci_runner::register_to_file' do
 
     it { is_expected.to run.with_params(url, regtoken, runner_name).and_return(return_hash['token']) }
 
-    context 'with ca_file option' do
+    context 'with existing file ca_file option' do
+      before do
+        allow(PuppetX::Gitlab::Runner).to receive(:register).with(url, { 'token' => regtoken }, nil, '/tmp').and_return(return_hash)
+      end
+
+      it { is_expected.to run.with_params(url, regtoken, runner_name, {}, nil, '/tmp').and_return(return_hash['token']) }
+    end
+
+    context 'with non existent ca_file option' do
       before do
         allow(PuppetX::Gitlab::Runner).to receive(:register).with(url, { 'token' => regtoken }, nil, '/path/to/ca_file').and_return(return_hash)
       end
 
-      it { is_expected.to run.with_params(url, regtoken, runner_name, {}, nil, '/path/to/ca_file').and_return(return_hash['token']) }
+      it { is_expected.to run.with_params(url, regtoken, runner_name, {}, nil, '/path/to/ca_file').and_return('Specified CA file doesn\'t exist, not attempting to create authtoken') }
     end
   end
 
