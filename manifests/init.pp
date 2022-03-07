@@ -72,6 +72,7 @@
 #   and when upon registering a runner the following error is shown:
 #   `certificate verify failed (self signed certificate in certificate chain)`
 #   Using the CA file solves https://github.com/voxpupuli/puppet-gitlab_ci_runner/issues/124.
+#   The ca_file must exist, if it does not. Gitlab runner token generation will be skipped. Gitlab runner will not register until either the file exists or the ca_file parameter is not specified.
 #
 class gitlab_ci_runner (
   String                                     $xz_package_name, # Defaults in module hieradata
