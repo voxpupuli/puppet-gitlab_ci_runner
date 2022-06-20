@@ -4,7 +4,21 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
-## [v4.3.0](https://github.com/voxpupuli/puppet-gitlab_ci_runner/tree/v4.3.0) (2022-01-19)
+## [v4.3.1](https://github.com/voxpupuli/puppet-gitlab_ci_runner/tree/v4.3.1) (2022-06-20)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-gitlab_ci_runner/compare/v4.3.0...v4.3.1)
+
+**Fixed bugs:**
+
+- Ubuntu 18 Puppet 6: Install lsb-release during CI [\#151](https://github.com/voxpupuli/puppet-gitlab_ci_runner/pull/151) ([bastelfreak](https://github.com/bastelfreak))
+- Set ca\_file per runner [\#150](https://github.com/voxpupuli/puppet-gitlab_ci_runner/pull/150) ([tuxmea](https://github.com/tuxmea))
+
+**Merged pull requests:**
+
+- Remove temp directories in docs [\#143](https://github.com/voxpupuli/puppet-gitlab_ci_runner/pull/143) ([logicminds](https://github.com/logicminds))
+- Fix puppet markup [\#140](https://github.com/voxpupuli/puppet-gitlab_ci_runner/pull/140) ([smortex](https://github.com/smortex))
+
+## [v4.3.0](https://github.com/voxpupuli/puppet-gitlab_ci_runner/tree/v4.3.0) (2022-01-20)
 
 [Full Changelog](https://github.com/voxpupuli/puppet-gitlab_ci_runner/compare/v4.2.0...v4.3.0)
 
