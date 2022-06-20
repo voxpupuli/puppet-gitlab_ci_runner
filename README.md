@@ -43,6 +43,7 @@ gitlab_ci_runner::runners:
     url: "https://git.alternative.org/ci"
     registration-token: "abcdef1234567890"
     tag-list: "aws,docker,example-tag"
+    ca_file: "/etc/pki/cert/foo.pem"
 
 gitlab_ci_runner::runner_defaults:
   url: "https://git.example.com/ci"
