@@ -135,12 +135,16 @@ class gitlab_ci_runner (
       undef   => $runner_name,
       default => $_config['name'],
     }
+    $_ca_file = $_config['ca_file'] ? {
+      undef   => $ca_file,
+      default => $_config['ca_file'],
+    }
 
     gitlab_ci_runner::runner { $title:
       ensure     => $_config['ensure'],
-      config     => $_config - ['ensure', 'name'],
+      config     => $_config - ['ensure', 'name', 'ca_file'],
       http_proxy => $http_proxy,
-      ca_file    => $ca_file,
+      ca_file    => $_ca_file,
       require    => Class['gitlab_ci_runner::config'],
       notify     => Class['gitlab_ci_runner::service'],
     }
