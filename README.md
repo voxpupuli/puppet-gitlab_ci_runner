@@ -17,6 +17,12 @@
 
 This module installs and configures the Gitlab CI Runner Package or nodes.
 
+## Installation Notes
+
+The 4.0 and greater releases of puppet-gitlab_ci_runner require Puppet 6 or newer, since it now uses the Deferred function. 
+
+Additionally, you must have puppetlabs-concat installed at version 6.3 or greater; earlier versions also do not support Deferred.
+
 ## Usage
 
 Here is an example how to configure Gitlab CI runners using Hiera:
