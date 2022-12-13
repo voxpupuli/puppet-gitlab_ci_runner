@@ -87,7 +87,7 @@ define gitlab_ci_runner::runner (
   if $_config['registration-token'] {
     $register_additional_options = $config
     .filter |$item| { $item[0] =~ Gitlab_ci_runner::Register_parameters } # Get all items use for the registration process
-    .reduce( {}) |$memo, $item| { $memo + { regsubst($item[0], '-', '_', 'G') => $item[1] } } # Ensure all keys use '_' instead of '-'
+    .reduce({}) |$memo, $item| { $memo + { regsubst($item[0], '-', '_', 'G') => $item[1] } } # Ensure all keys use '_' instead of '-'
 
     $deferred_call = Deferred('gitlab_ci_runner::register_to_file', [$_config['url'], $_config['registration-token'], $_config['name'], $register_additional_options, $http_proxy, $ca_file])
 
@@ -106,7 +106,7 @@ define gitlab_ci_runner::runner (
 
   $content = $__config['token'] =~ Deferred ? {
     true  => Deferred('gitlab_ci_runner::to_toml', [{ runners => [$__config], }]),
-    false => gitlab_ci_runner::to_toml( { runners => [$__config], }),
+    false => gitlab_ci_runner::to_toml({ runners => [$__config], }),
   }
 
   if $ensure == 'present' {
@@ -116,7 +116,7 @@ define gitlab_ci_runner::runner (
       content => $content,
     }
   } else {
-    $absent_content = Deferred('gitlab_ci_runner::unregister_from_file',[$_config['url'], $_config['name'], $http_proxy, $ca_file])
+    $absent_content = Deferred('gitlab_ci_runner::unregister_from_file', [$_config['url'], $_config['name'], $http_proxy, $ca_file])
 
     file { "/etc/gitlab-runner/auth-token-${_config['name']}":
       ensure  => absent,
