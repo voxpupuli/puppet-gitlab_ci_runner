@@ -3,6 +3,7 @@
 require 'json'
 require 'net/http'
 require 'uri'
+require 'puppet'
 
 module PuppetX
   module Gitlab
@@ -44,7 +45,17 @@ module PuppetX
         end
         request          = http_method.new(uri.request_uri, headers)
         request.body     = options.to_json
-        http.request(request)
+
+        begin
+          http.request(request)
+        rescue Net::OpenTimeout
+          msg = if http.proxy?
+                  "Timeout connecting to proxy #{http.proxy_address} when trying to register/unregister gitlab runner"
+                else
+                  "Timeout connecting to #{http.address} when trying to register/unregister gitlab runner"
+                end
+          raise Puppet::Error, msg
+        end
       end
 
       def self.validate(response)
@@ -55,11 +66,13 @@ module PuppetX
     module Runner
       def self.register(host, options, proxy = nil, ca_file = nil)
         url = "#{host}/api/v4/runners"
+        Puppet.info "Registering gitlab runner with #{host}"
         PuppetX::Gitlab::APIClient.post(url, options, proxy, ca_file)
       end
 
       def self.unregister(host, options, proxy = nil, ca_file = nil)
         url = "#{host}/api/v4/runners"
+        Puppet.info "Unregistering gitlab runner with #{host}"
         PuppetX::Gitlab::APIClient.delete(url, options, proxy, ca_file)
       end
     end
