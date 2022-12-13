@@ -66,12 +66,13 @@
 #   This module makes no attempt to automatically alter your runner configurations based on the value of this parameter.
 #   More information on what you might need to configure can be found [here](https://docs.gitlab.com/runner/configuration/proxy.html)
 # @param ca_file
-#   A file containing public keys of trusted certificate authorities in PEM format. 
+#   A file containing public keys of trusted certificate authorities in PEM format.
 #   This setting is only used when registering or unregistering runners and will be used for all runners in the `runners` parameter.
 #   It can be used when the certificate of the gitlab server is signed using a CA
 #   and when upon registering a runner the following error is shown:
 #   `certificate verify failed (self signed certificate in certificate chain)`
 #   Using the CA file solves https://github.com/voxpupuli/puppet-gitlab_ci_runner/issues/124.
+#   The ca_file must exist. If it doesn't, Gitlab runner token generation will be skipped. Gitlab runner will not register until either the file exists or the ca_file parameter is not specified.
 #
 class gitlab_ci_runner (
   String                                     $xz_package_name, # Defaults in module hieradata
