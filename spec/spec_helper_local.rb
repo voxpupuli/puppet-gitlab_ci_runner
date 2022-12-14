@@ -4,5 +4,5 @@
 def verify_concat_fragment_exact_contents(subject, title, expected_lines)
   is_expected.to contain_concat__fragment(title)
   content = subject.resource('concat::fragment', title).send(:parameters)[:content]
-  expect(content.split(%r{\n}).reject { |line| line =~ %r{(^#|^$|^\s+#)} }).to match_array(expected_lines)
+  expect(content.split(%r{\n}).grep_v(%r{(^#|^$|^\s+#)})).to match_array(expected_lines)
 end
