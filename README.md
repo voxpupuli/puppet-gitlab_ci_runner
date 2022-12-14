@@ -1,9 +1,13 @@
 # Gitlab-CI runner module for Puppet
 
+[![Build Status](https://github.com/voxpupuli/puppet-gitlab_ci_runner/workflows/CI/badge.svg)](https://github.com/voxpupuli/puppet-gitlab_ci_runner/actions?query=workflow%3ACI)
+[![Release](https://github.com/voxpupuli/puppet-gitlab_ci_runner/actions/workflows/release.yml/badge.svg)](https://github.com/voxpupuli/puppet-gitlab_ci_runner/actions/workflows/release.yml)
 [![Puppet Forge](https://img.shields.io/puppetforge/v/puppet/gitlab_ci_runner.svg)](https://forge.puppetlabs.com/puppet/gitlab_ci_runner)
 [![Puppet Forge - downloads](https://img.shields.io/puppetforge/dt/puppet/gitlab_ci_runner.svg)](https://forge.puppetlabs.com/puppet/gitlab_ci_runner)
 [![Puppet Forge - endorsement](https://img.shields.io/puppetforge/e/puppet/gitlab_ci_runner.svg)](https://forge.puppetlabs.com/puppet/gitlab_ci_runner)
 [![Puppet Forge - scores](https://img.shields.io/puppetforge/f/puppet/gitlab_ci_runner.svg)](https://forge.puppetlabs.com/puppet/gitlab_ci_runner)
+[![puppetmodule.info docs](http://www.puppetmodule.info/images/badge.png)](http://www.puppetmodule.info/m/puppet-gitlab_ci_runner)
+[![Apache-2 License](https://img.shields.io/github/license/voxpupuli/puppet-gitlab_ci_runner.svg)](LICENSE)
 
 #### Table of Contents
 
@@ -119,8 +123,10 @@ Changing these after registration has no affect.
 
 The Gitlab CI runner installation is at the moment only tested on:
 * CentOS 7/8
-* Debian 9/10
-* Ubuntu 18.04/20.04
+* Debian 10/11
+* Ubuntu 18.04/20.04/22.04
+
+For the current list of tested and support operating systems, please checkout the metadata.json file.
 
 It is currently not possible to alter registration specific configuration settings after a runner is registered.
 
