@@ -4,6 +4,18 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
+## [v4.4.0](https://github.com/voxpupuli/puppet-gitlab_ci_runner/tree/v4.4.0) (2022-12-14)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-gitlab_ci_runner/compare/v4.3.1...v4.4.0)
+
+**Implemented enhancements:**
+
+- Add Ubuntu 22.04 support [\#160](https://github.com/voxpupuli/puppet-gitlab_ci_runner/pull/160) ([bastelfreak](https://github.com/bastelfreak))
+- check for presence of specifed ca\_file [\#159](https://github.com/voxpupuli/puppet-gitlab_ci_runner/pull/159) ([bastelfreak](https://github.com/bastelfreak))
+- Add extra logging when registering/unregistering [\#157](https://github.com/voxpupuli/puppet-gitlab_ci_runner/pull/157) ([bastelfreak](https://github.com/bastelfreak))
+- Allow up-to-date dependencies [\#154](https://github.com/voxpupuli/puppet-gitlab_ci_runner/pull/154) ([smortex](https://github.com/smortex))
+- Add Debian 11 support [\#122](https://github.com/voxpupuli/puppet-gitlab_ci_runner/pull/122) ([bastelfreak](https://github.com/bastelfreak))
+
 ## [v4.3.1](https://github.com/voxpupuli/puppet-gitlab_ci_runner/tree/v4.3.1) (2022-06-20)
 
 [Full Changelog](https://github.com/voxpupuli/puppet-gitlab_ci_runner/compare/v4.3.0...v4.3.1)

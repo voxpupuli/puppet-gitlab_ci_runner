@@ -19,24 +19,24 @@
 
 ### Defined types
 
-* [`gitlab_ci_runner::runner`](#gitlab_ci_runner--runner): This configures a Gitlab CI runner.
+* [`gitlab_ci_runner::runner`](#gitlab_ci_runnerrunner): This configures a Gitlab CI runner.
 
 ### Functions
 
-* [`gitlab_ci_runner::register`](#gitlab_ci_runner--register): A function that registers a Gitlab runner on a Gitlab instance. Be careful, this will be triggered on noop runs as well!
-* [`gitlab_ci_runner::register_to_file`](#gitlab_ci_runner--register_to_file): A function that registers a Gitlab runner on a Gitlab instance, if it doesn't already exist, _and_ saves the retrieved authentication token t
-* [`gitlab_ci_runner::to_toml`](#gitlab_ci_runner--to_toml): Convert a data structure and output to TOML.
-* [`gitlab_ci_runner::unregister`](#gitlab_ci_runner--unregister): A function that unregisters a Gitlab runner from a Gitlab instance. Be careful, this will be triggered on noop runs as well!
-* [`gitlab_ci_runner::unregister_from_file`](#gitlab_ci_runner--unregister_from_file): A function that unregisters a Gitlab runner from a Gitlab instance, if the local token is there. This is meant to be used in conjunction with
+* [`gitlab_ci_runner::register`](#gitlab_ci_runnerregister): A function that registers a Gitlab runner on a Gitlab instance. Be careful, this will be triggered on noop runs as well!
+* [`gitlab_ci_runner::register_to_file`](#gitlab_ci_runnerregister_to_file): A function that registers a Gitlab runner on a Gitlab instance, if it doesn't already exist, _and_ saves the retrieved authentication token t
+* [`gitlab_ci_runner::to_toml`](#gitlab_ci_runnerto_toml): Convert a data structure and output to TOML.
+* [`gitlab_ci_runner::unregister`](#gitlab_ci_runnerunregister): A function that unregisters a Gitlab runner from a Gitlab instance. Be careful, this will be triggered on noop runs as well!
+* [`gitlab_ci_runner::unregister_from_file`](#gitlab_ci_runnerunregister_from_file): A function that unregisters a Gitlab runner from a Gitlab instance, if the local token is there. This is meant to be used in conjunction with
 
 ### Data types
 
-* [`Gitlab_ci_runner::Keyserver`](#Gitlab_ci_runner--Keyserver): Type to match repo_keyserver Regex from: https://github.com/puppetlabs/puppetlabs-apt/blob/main/manifests/key.pp
-* [`Gitlab_ci_runner::Log_format`](#Gitlab_ci_runner--Log_format): Gitlab Runner log format configuration
-* [`Gitlab_ci_runner::Log_level`](#Gitlab_ci_runner--Log_level): Gitlab Runner log level configuration
-* [`Gitlab_ci_runner::Register`](#Gitlab_ci_runner--Register): A struct of all possible additionl options for gitlab_ci_runner::register
-* [`Gitlab_ci_runner::Register_parameters`](#Gitlab_ci_runner--Register_parameters): A enum containing a possible keys used for Gitlab runner registrations
-* [`Gitlab_ci_runner::Session_server`](#Gitlab_ci_runner--Session_server): Gitlab Runner session_server configuration
+* [`Gitlab_ci_runner::Keyserver`](#gitlab_ci_runnerkeyserver): Type to match repo_keyserver Regex from: https://github.com/puppetlabs/puppetlabs-apt/blob/main/manifests/key.pp
+* [`Gitlab_ci_runner::Log_format`](#gitlab_ci_runnerlog_format): Gitlab Runner log format configuration
+* [`Gitlab_ci_runner::Log_level`](#gitlab_ci_runnerlog_level): Gitlab Runner log level configuration
+* [`Gitlab_ci_runner::Register`](#gitlab_ci_runnerregister): A struct of all possible additionl options for gitlab_ci_runner::register
+* [`Gitlab_ci_runner::Register_parameters`](#gitlab_ci_runnerregister_parameters): A enum containing a possible keys used for Gitlab runner registrations
+* [`Gitlab_ci_runner::Session_server`](#gitlab_ci_runnersession_server): Gitlab Runner session_server configuration
 
 ### Tasks
 
@@ -69,32 +69,32 @@ class { 'gitlab_ci_runner':
 
 The following parameters are available in the `gitlab_ci_runner` class:
 
-* [`runners`](#-gitlab_ci_runner--runners)
-* [`runner_defaults`](#-gitlab_ci_runner--runner_defaults)
-* [`xz_package_name`](#-gitlab_ci_runner--xz_package_name)
-* [`concurrent`](#-gitlab_ci_runner--concurrent)
-* [`log_level`](#-gitlab_ci_runner--log_level)
-* [`log_format`](#-gitlab_ci_runner--log_format)
-* [`check_interval`](#-gitlab_ci_runner--check_interval)
-* [`sentry_dsn`](#-gitlab_ci_runner--sentry_dsn)
-* [`listen_address`](#-gitlab_ci_runner--listen_address)
-* [`session_server`](#-gitlab_ci_runner--session_server)
-* [`manage_docker`](#-gitlab_ci_runner--manage_docker)
-* [`manage_repo`](#-gitlab_ci_runner--manage_repo)
-* [`package_ensure`](#-gitlab_ci_runner--package_ensure)
-* [`package_name`](#-gitlab_ci_runner--package_name)
-* [`repo_base_url`](#-gitlab_ci_runner--repo_base_url)
-* [`repo_keyserver`](#-gitlab_ci_runner--repo_keyserver)
-* [`config_path`](#-gitlab_ci_runner--config_path)
-* [`config_owner`](#-gitlab_ci_runner--config_owner)
-* [`config_group`](#-gitlab_ci_runner--config_group)
-* [`config_mode`](#-gitlab_ci_runner--config_mode)
-* [`manage_config_dir`](#-gitlab_ci_runner--manage_config_dir)
-* [`config_dir_mode`](#-gitlab_ci_runner--config_dir_mode)
-* [`http_proxy`](#-gitlab_ci_runner--http_proxy)
-* [`ca_file`](#-gitlab_ci_runner--ca_file)
+* [`runners`](#runners)
+* [`runner_defaults`](#runner_defaults)
+* [`xz_package_name`](#xz_package_name)
+* [`concurrent`](#concurrent)
+* [`log_level`](#log_level)
+* [`log_format`](#log_format)
+* [`check_interval`](#check_interval)
+* [`sentry_dsn`](#sentry_dsn)
+* [`listen_address`](#listen_address)
+* [`session_server`](#session_server)
+* [`manage_docker`](#manage_docker)
+* [`manage_repo`](#manage_repo)
+* [`package_ensure`](#package_ensure)
+* [`package_name`](#package_name)
+* [`repo_base_url`](#repo_base_url)
+* [`repo_keyserver`](#repo_keyserver)
+* [`config_path`](#config_path)
+* [`config_owner`](#config_owner)
+* [`config_group`](#config_group)
+* [`config_mode`](#config_mode)
+* [`manage_config_dir`](#manage_config_dir)
+* [`config_dir_mode`](#config_dir_mode)
+* [`http_proxy`](#http_proxy)
+* [`ca_file`](#ca_file)
 
-##### <a name="-gitlab_ci_runner--runners"></a>`runners`
+##### <a name="runners"></a>`runners`
 
 Data type: `Hash`
 
@@ -102,7 +102,7 @@ Hashkeys are used as $title in runners.pp. The subkeys have to be named as the p
 
 Default value: `{}`
 
-##### <a name="-gitlab_ci_runner--runner_defaults"></a>`runner_defaults`
+##### <a name="runner_defaults"></a>`runner_defaults`
 
 Data type: `Hash`
 
@@ -110,85 +110,85 @@ A hash with defaults which will be later merged with $runners.
 
 Default value: `{}`
 
-##### <a name="-gitlab_ci_runner--xz_package_name"></a>`xz_package_name`
+##### <a name="xz_package_name"></a>`xz_package_name`
 
 Data type: `String`
 
 The name of the 'xz' package. Needed for local docker installations.
 
-##### <a name="-gitlab_ci_runner--concurrent"></a>`concurrent`
+##### <a name="concurrent"></a>`concurrent`
 
 Data type: `Optional[Integer]`
 
 Limits how many jobs globally can be run concurrently. The most upper limit of jobs using all defined runners. 0 does not mean unlimited!
 
-Default value: `undef`
+Default value: ``undef``
 
-##### <a name="-gitlab_ci_runner--log_level"></a>`log_level`
+##### <a name="log_level"></a>`log_level`
 
 Data type: `Optional[Gitlab_ci_runner::Log_level]`
 
 Log level (options: debug, info, warn, error, fatal, panic). Note that this setting has lower priority than level set by command line argument --debug, -l or --log-level
 
-Default value: `undef`
+Default value: ``undef``
 
-##### <a name="-gitlab_ci_runner--log_format"></a>`log_format`
+##### <a name="log_format"></a>`log_format`
 
 Data type: `Optional[Gitlab_ci_runner::Log_format]`
 
 Log format (options: runner, text, json). Note that this setting has lower priority than format set by command line argument --log-format
 
-Default value: `undef`
+Default value: ``undef``
 
-##### <a name="-gitlab_ci_runner--check_interval"></a>`check_interval`
+##### <a name="check_interval"></a>`check_interval`
 
 Data type: `Optional[Integer]`
 
 defines the interval length, in seconds, between new jobs check. The default value is 3; if set to 0 or lower, the default value will be used.
 
-Default value: `undef`
+Default value: ``undef``
 
-##### <a name="-gitlab_ci_runner--sentry_dsn"></a>`sentry_dsn`
+##### <a name="sentry_dsn"></a>`sentry_dsn`
 
 Data type: `Optional[String]`
 
 Enable tracking of all system level errors to sentry.
 
-Default value: `undef`
+Default value: ``undef``
 
-##### <a name="-gitlab_ci_runner--listen_address"></a>`listen_address`
+##### <a name="listen_address"></a>`listen_address`
 
 Data type: `Optional[Pattern[/.*:.+/]]`
 
 Address (<host>:<port>) on which the Prometheus metrics HTTP server should be listening.
 
-Default value: `undef`
+Default value: ``undef``
 
-##### <a name="-gitlab_ci_runner--session_server"></a>`session_server`
+##### <a name="session_server"></a>`session_server`
 
 Data type: `Optional[Gitlab_ci_runner::Session_server]`
 
 Session server lets users interact with jobs, for example, in the interactive web terminal.
 
-Default value: `undef`
+Default value: ``undef``
 
-##### <a name="-gitlab_ci_runner--manage_docker"></a>`manage_docker`
+##### <a name="manage_docker"></a>`manage_docker`
 
 Data type: `Boolean`
 
 If docker should be installs (uses the puppetlabs-docker).
 
-Default value: `false`
+Default value: ``false``
 
-##### <a name="-gitlab_ci_runner--manage_repo"></a>`manage_repo`
+##### <a name="manage_repo"></a>`manage_repo`
 
 Data type: `Boolean`
 
 If the repository should be managed.
 
-Default value: `true`
+Default value: ``true``
 
-##### <a name="-gitlab_ci_runner--package_ensure"></a>`package_ensure`
+##### <a name="package_ensure"></a>`package_ensure`
 
 Data type: `String`
 
@@ -196,7 +196,7 @@ The package 'ensure' state.
 
 Default value: `installed`
 
-##### <a name="-gitlab_ci_runner--package_name"></a>`package_name`
+##### <a name="package_name"></a>`package_name`
 
 Data type: `String`
 
@@ -204,7 +204,7 @@ The name of the package.
 
 Default value: `'gitlab-runner'`
 
-##### <a name="-gitlab_ci_runner--repo_base_url"></a>`repo_base_url`
+##### <a name="repo_base_url"></a>`repo_base_url`
 
 Data type: `Stdlib::HTTPUrl`
 
@@ -212,15 +212,15 @@ The base repository url.
 
 Default value: `'https://packages.gitlab.com'`
 
-##### <a name="-gitlab_ci_runner--repo_keyserver"></a>`repo_keyserver`
+##### <a name="repo_keyserver"></a>`repo_keyserver`
 
 Data type: `Optional[Gitlab_ci_runner::Keyserver]`
 
 The keyserver which should be used to get the repository key.
 
-Default value: `undef`
+Default value: ``undef``
 
-##### <a name="-gitlab_ci_runner--config_path"></a>`config_path`
+##### <a name="config_path"></a>`config_path`
 
 Data type: `String`
 
@@ -228,7 +228,7 @@ The path to the config file of Gitlab runner.
 
 Default value: `'/etc/gitlab-runner/config.toml'`
 
-##### <a name="-gitlab_ci_runner--config_owner"></a>`config_owner`
+##### <a name="config_owner"></a>`config_owner`
 
 Data type: `String[1]`
 
@@ -237,7 +237,7 @@ The user owning the config file.
 
 Default value: `'root'`
 
-##### <a name="-gitlab_ci_runner--config_group"></a>`config_group`
+##### <a name="config_group"></a>`config_group`
 
 Data type: `String[1]`
 
@@ -246,7 +246,7 @@ The group ownership assigned to the config file
 
 Default value: `'root'`
 
-##### <a name="-gitlab_ci_runner--config_mode"></a>`config_mode`
+##### <a name="config_mode"></a>`config_mode`
 
 Data type: `Stdlib::Filemode`
 
@@ -254,23 +254,23 @@ The file permissions applied to the config file.
 
 Default value: `'0444'`
 
-##### <a name="-gitlab_ci_runner--manage_config_dir"></a>`manage_config_dir`
+##### <a name="manage_config_dir"></a>`manage_config_dir`
 
 Data type: `Boolean`
 
 Manage the parent directory of the config file.
 
-Default value: `false`
+Default value: ``false``
 
-##### <a name="-gitlab_ci_runner--config_dir_mode"></a>`config_dir_mode`
+##### <a name="config_dir_mode"></a>`config_dir_mode`
 
 Data type: `Optional[Stdlib::Filemode]`
 
 The file permissions applied to the config directory.
 
-Default value: `undef`
+Default value: ``undef``
 
-##### <a name="-gitlab_ci_runner--http_proxy"></a>`http_proxy`
+##### <a name="http_proxy"></a>`http_proxy`
 
 Data type: `Optional[Stdlib::HTTPUrl]`
 
@@ -282,9 +282,9 @@ Exactly how you might need to configure your runners varies between runner execu
 This module makes no attempt to automatically alter your runner configurations based on the value of this parameter.
 More information on what you might need to configure can be found [here](https://docs.gitlab.com/runner/configuration/proxy.html)
 
-Default value: `undef`
+Default value: ``undef``
 
-##### <a name="-gitlab_ci_runner--ca_file"></a>`ca_file`
+##### <a name="ca_file"></a>`ca_file`
 
 Data type: `Optional[Stdlib::Unixpath]`
 
@@ -296,11 +296,11 @@ and when upon registering a runner the following error is shown:
 Using the CA file solves https://github.com/voxpupuli/puppet-gitlab_ci_runner/issues/124.
 The ca_file must exist. If it doesn't, Gitlab runner token generation will be skipped. Gitlab runner will not register until either the file exists or the ca_file parameter is not specified.
 
-Default value: `undef`
+Default value: ``undef``
 
 ## Defined types
 
-### <a name="gitlab_ci_runner--runner"></a>`gitlab_ci_runner::runner`
+### <a name="gitlab_ci_runnerrunner"></a>`gitlab_ci_runner::runner`
 
 This configures a Gitlab CI runner.
 
@@ -371,12 +371,12 @@ gitlab_ci_runner::runner { 'autoscale-runner':
 
 The following parameters are available in the `gitlab_ci_runner::runner` defined type:
 
-* [`config`](#-gitlab_ci_runner--runner--config)
-* [`ensure`](#-gitlab_ci_runner--runner--ensure)
-* [`ca_file`](#-gitlab_ci_runner--runner--ca_file)
-* [`http_proxy`](#-gitlab_ci_runner--runner--http_proxy)
+* [`config`](#config)
+* [`ensure`](#ensure)
+* [`ca_file`](#ca_file)
+* [`http_proxy`](#http_proxy)
 
-##### <a name="-gitlab_ci_runner--runner--config"></a>`config`
+##### <a name="config"></a>`config`
 
 Data type: `Hash`
 
@@ -384,7 +384,7 @@ Hash with configuration options.
 See https://docs.gitlab.com/runner/configuration/advanced-configuration.html for all possible options.
 If you omit the 'name' configuration, we will automatically use the $title of this define class.
 
-##### <a name="-gitlab_ci_runner--runner--ensure"></a>`ensure`
+##### <a name="ensure"></a>`ensure`
 
 Data type: `Enum['present', 'absent']`
 
@@ -394,26 +394,26 @@ Will also register/unregister the runner.
 
 Default value: `'present'`
 
-##### <a name="-gitlab_ci_runner--runner--ca_file"></a>`ca_file`
+##### <a name="ca_file"></a>`ca_file`
 
 Data type: `Optional[Stdlib::Unixpath]`
 
 A path to a file containing public keys of trusted certificate authorities in PEM format.
 Used during runner registration/unregistration only.
 
-Default value: `undef`
+Default value: ``undef``
 
-##### <a name="-gitlab_ci_runner--runner--http_proxy"></a>`http_proxy`
+##### <a name="http_proxy"></a>`http_proxy`
 
 Data type: `Optional[Stdlib::HTTPUrl]`
 
 
 
-Default value: `undef`
+Default value: ``undef``
 
 ## Functions
 
-### <a name="gitlab_ci_runner--register"></a>`gitlab_ci_runner::register`
+### <a name="gitlab_ci_runnerregister"></a>`gitlab_ci_runner::register`
 
 Type: Ruby 4.x API
 
@@ -465,7 +465,7 @@ Data type: `Optional[Optional[Stdlib::Unixpath]]`
 
 An absolute path to a trusted certificate authority file.
 
-### <a name="gitlab_ci_runner--register_to_file"></a>`gitlab_ci_runner::register_to_file`
+### <a name="gitlab_ci_runnerregister_to_file"></a>`gitlab_ci_runner::register_to_file`
 
 Type: Ruby 4.x API
 
@@ -543,7 +543,7 @@ Data type: `Optional[Optional[String[1]]]`
 
 An absolute path to a trusted certificate authority file.
 
-### <a name="gitlab_ci_runner--to_toml"></a>`gitlab_ci_runner::to_toml`
+### <a name="gitlab_ci_runnerto_toml"></a>`gitlab_ci_runner::to_toml`
 
 Type: Ruby 4.x API
 
@@ -583,7 +583,7 @@ Data type: `Hash`
 
 Data structure which needs to be converted into TOML
 
-### <a name="gitlab_ci_runner--unregister"></a>`gitlab_ci_runner::unregister`
+### <a name="gitlab_ci_runnerunregister"></a>`gitlab_ci_runner::unregister`
 
 Type: Ruby 4.x API
 
@@ -629,7 +629,7 @@ Data type: `Optional[Optional[Stdlib::Unixpath]]`
 
 An absolute path to a trusted certificate authority file.
 
-### <a name="gitlab_ci_runner--unregister_from_file"></a>`gitlab_ci_runner::unregister_from_file`
+### <a name="gitlab_ci_runnerunregister_from_file"></a>`gitlab_ci_runner::unregister_from_file`
 
 Type: Ruby 4.x API
 
@@ -691,26 +691,38 @@ An absolute path to a trusted certificate authority file.
 
 ## Data types
 
-### <a name="Gitlab_ci_runner--Keyserver"></a>`Gitlab_ci_runner::Keyserver`
+### <a name="gitlab_ci_runnerkeyserver"></a>`Gitlab_ci_runner::Keyserver`
 
 Type to match repo_keyserver
 Regex from: https://github.com/puppetlabs/puppetlabs-apt/blob/main/manifests/key.pp
 
-Alias of `Pattern[/\A((hkp|hkps|http|https):\/\/)?([a-z\d])([a-z\d-]{0,61}\.)+[a-z\d]+(:\d{2,5})?(\/[a-zA-Z\d\-_.]+)*\/?$/]`
+Alias of
 
-### <a name="Gitlab_ci_runner--Log_format"></a>`Gitlab_ci_runner::Log_format`
+```puppet
+Pattern[/\A((hkp|hkps|http|https):\/\/)?([a-z\d])([a-z\d-]{0,61}\.)+[a-z\d]+(:\d{2,5})?(\/[a-zA-Z\d\-_.]+)*\/?$/]
+```
+
+### <a name="gitlab_ci_runnerlog_format"></a>`Gitlab_ci_runner::Log_format`
 
 Gitlab Runner log format configuration
 
-Alias of `Enum['runner', 'text', 'json']`
+Alias of
 
-### <a name="Gitlab_ci_runner--Log_level"></a>`Gitlab_ci_runner::Log_level`
+```puppet
+Enum['runner', 'text', 'json']
+```
+
+### <a name="gitlab_ci_runnerlog_level"></a>`Gitlab_ci_runner::Log_level`
 
 Gitlab Runner log level configuration
 
-Alias of `Enum['debug', 'info', 'warn', 'error', 'fatal', 'panic']`
+Alias of
 
-### <a name="Gitlab_ci_runner--Register"></a>`Gitlab_ci_runner::Register`
+```puppet
+Enum['debug', 'info', 'warn', 'error', 'fatal', 'panic']
+```
+
+### <a name="gitlab_ci_runnerregister"></a>`Gitlab_ci_runner::Register`
 
 A struct of all possible additionl options for gitlab_ci_runner::register
 
@@ -729,13 +741,17 @@ Struct[{
 }]
 ```
 
-### <a name="Gitlab_ci_runner--Register_parameters"></a>`Gitlab_ci_runner::Register_parameters`
+### <a name="gitlab_ci_runnerregister_parameters"></a>`Gitlab_ci_runner::Register_parameters`
 
 A enum containing a possible keys used for Gitlab runner registrations
 
-Alias of `Enum['description', 'info', 'active', 'locked', 'run_untagged', 'run-untagged', 'tag_list', 'tag-list', 'access_level', 'access-level', 'maximum_timeout', 'maximum-timeout']`
+Alias of
 
-### <a name="Gitlab_ci_runner--Session_server"></a>`Gitlab_ci_runner::Session_server`
+```puppet
+Enum['description', 'info', 'active', 'locked', 'run_untagged', 'run-untagged', 'tag_list', 'tag-list', 'access_level', 'access-level', 'maximum_timeout', 'maximum-timeout']
+```
+
+### <a name="gitlab_ci_runnersession_server"></a>`Gitlab_ci_runner::Session_server`
 
 Gitlab Runner session_server configuration
 
