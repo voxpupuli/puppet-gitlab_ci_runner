@@ -25,7 +25,7 @@ Puppet::Functions.create_function(:'gitlab_ci_runner::register_to_file') do
   dispatch :register_to_file do
     # We use only core data types because others aren't synced to the agent.
     param 'String[1]', :url
-    param 'Variant[String[1], Sensitive[String]]', :regtoken
+    param 'Variant[String[1], Sensitive[String[1]]]', :regtoken
     param 'String[1]', :runner_name
     optional_param 'Hash', :additional_options
     optional_param 'Optional[String[1]]', :proxy
