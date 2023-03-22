@@ -42,7 +42,7 @@ describe 'gitlab_ci_runner class' do
       it 'registered the runner' do
         authtoken = shell("grep 'token = ' /etc/gitlab-runner/config.toml | cut -d '\"' -f2").stdout
         shell("/usr/bin/env curl -X POST --form 'token=#{authtoken}' http://gitlab/api/v4/runners/verify") do |r|
-          expect(r.stdout).to eq('"200"')
+          expect(JSON.parse(r.stdout)).to include('token' => authtoken.chomp)
         end
       end
     end
@@ -81,7 +81,7 @@ describe 'gitlab_ci_runner class' do
     describe 'registration' do
       it 'unregistered the runner' do
         shell("/usr/bin/env curl -X POST --form 'token=#{authtoken}' http://gitlab/api/v4/runners/verify") do |r|
-          expect(r.stdout).not_to eq('"200"')
+          expect(JSON.parse(r.stdout)).to include('message' => '403 Forbidden')
         end
       end
     end
@@ -120,7 +120,7 @@ describe 'gitlab_ci_runner class' do
       it 'registered the runner' do
         authtoken = shell("grep 'token = ' /etc/gitlab-runner/config.toml | cut -d '\"' -f2").stdout
         shell("/usr/bin/env curl -X POST --form 'token=#{authtoken}' http://gitlab/api/v4/runners/verify") do |r|
-          expect(r.stdout).to eq('"200"')
+          expect(JSON.parse(r.stdout)).to include('token' => authtoken.chomp)
         end
       end
     end
