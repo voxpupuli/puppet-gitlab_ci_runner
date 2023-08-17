@@ -383,7 +383,7 @@ describe 'gitlab_ci_runner', type: :class do
             is_expected.to contain_yumrepo('runner_gitlab-runner').
               with(
                 ensure: 'present',
-                baseurl: "https://packages.gitlab.com/runner/gitlab-runner/el/#{os_release_version}/\$basearch",
+                baseurl: "https://packages.gitlab.com/runner/gitlab-runner/el/#{os_release_version}/$basearch",
                 descr: 'runner_gitlab-runner',
                 enabled: '1',
                 gpgcheck: '0',

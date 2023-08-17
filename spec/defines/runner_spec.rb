@@ -125,8 +125,7 @@ describe 'gitlab_ci_runner::runner' do
       context 'with name not included in config' do
         let(:params) do
           {
-            config: {
-            }
+            config: {}
           }
         end
 
