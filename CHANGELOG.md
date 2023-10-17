@@ -4,6 +4,33 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
+## [v5.0.0](https://github.com/voxpupuli/puppet-gitlab_ci_runner/tree/v5.0.0) (2023-10-17)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-gitlab_ci_runner/compare/v4.4.0...v5.0.0)
+
+**Breaking changes:**
+
+- Replace deprecated ensure\_packages\(\) with stdlib::ensure\_packages\(\) [\#180](https://github.com/voxpupuli/puppet-gitlab_ci_runner/pull/180) ([bastelfreak](https://github.com/bastelfreak))
+- Drop Debian 9 \(EOL\) [\#170](https://github.com/voxpupuli/puppet-gitlab_ci_runner/pull/170) ([smortex](https://github.com/smortex))
+- Drop Puppet 6 support [\#168](https://github.com/voxpupuli/puppet-gitlab_ci_runner/pull/168) ([bastelfreak](https://github.com/bastelfreak))
+
+**Implemented enhancements:**
+
+- Replace legacy merge\(\) with native puppet code [\#179](https://github.com/voxpupuli/puppet-gitlab_ci_runner/pull/179) ([bastelfreak](https://github.com/bastelfreak))
+- Add EL9 support [\#175](https://github.com/voxpupuli/puppet-gitlab_ci_runner/pull/175) ([bastelfreak](https://github.com/bastelfreak))
+- Add AlmaLinux/Rocky support [\#174](https://github.com/voxpupuli/puppet-gitlab_ci_runner/pull/174) ([bastelfreak](https://github.com/bastelfreak))
+- Relax dependencies version requirements [\#171](https://github.com/voxpupuli/puppet-gitlab_ci_runner/pull/171) ([smortex](https://github.com/smortex))
+
+**Fixed bugs:**
+
+- Fix broken apt::source declaration for Debian-based systems [\#142](https://github.com/voxpupuli/puppet-gitlab_ci_runner/pull/142) ([logicminds](https://github.com/logicminds))
+
+**Merged pull requests:**
+
+- .fixtures.yml: Drop puppet 6 leftovers [\#178](https://github.com/voxpupuli/puppet-gitlab_ci_runner/pull/178) ([bastelfreak](https://github.com/bastelfreak))
+- Fix acceptance tests [\#165](https://github.com/voxpupuli/puppet-gitlab_ci_runner/pull/165) ([smortex](https://github.com/smortex))
+- Fix broken Apache-2 license [\#163](https://github.com/voxpupuli/puppet-gitlab_ci_runner/pull/163) ([bastelfreak](https://github.com/bastelfreak))
+
 ## [v4.4.0](https://github.com/voxpupuli/puppet-gitlab_ci_runner/tree/v4.4.0) (2022-12-14)
 
 [Full Changelog](https://github.com/voxpupuli/puppet-gitlab_ci_runner/compare/v4.3.1...v4.4.0)
