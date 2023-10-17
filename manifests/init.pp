@@ -103,7 +103,7 @@ class gitlab_ci_runner (
   if $manage_docker {
     # workaround for cirunner issue #1617
     # https://gitlab.com/gitlab-org/gitlab-ci-multi-runner/issues/1617
-    ensure_packages($xz_package_name)
+    stdlib::ensure_packages($xz_package_name)
 
     $docker_images = {
       ubuntu_focal => {
