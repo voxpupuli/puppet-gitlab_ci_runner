@@ -131,7 +131,7 @@ class gitlab_ci_runner (
   ~> Class['gitlab_ci_runner::service']
 
   $runners.each |$runner_name,$config| {
-    $_config = merge($runner_defaults, $config)
+    $_config = $runner_defaults + $config
     $title   = $_config['name'] ? {
       undef   => $runner_name,
       default => $_config['name'],
