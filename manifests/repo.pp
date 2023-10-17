@@ -5,6 +5,7 @@
 class gitlab_ci_runner::repo (
   $repo_base_url  = $gitlab_ci_runner::repo_base_url,
   $repo_keyserver = $gitlab_ci_runner::repo_keyserver,
+  $repo_keysource = $gitlab_ci_runner::repo_keysource,
   $package_name   = $gitlab_ci_runner::package_name,
 ) {
   assert_private()
@@ -16,7 +17,7 @@ class gitlab_ci_runner::repo (
         repos    => 'main',
         key      => {
           'id'     => 'F6403F6544A38863DAA0B6E03F01618A51312F3F',
-          'source' => 'https://packages.gitlab.com/gpg.key',
+          'source' => $repo_keysource,
           'server' => $repo_keyserver,
         },
         include  => {

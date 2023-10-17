@@ -360,7 +360,8 @@ describe 'gitlab_ci_runner', type: :class do
                 repos: 'main',
                 key: {
                   'id' => 'F6403F6544A38863DAA0B6E03F01618A51312F3F',
-                  'server' => undef_value
+                  'server' => undef_value,
+                  'source' => 'https://packages.gitlab.com/gpg.key',
                 },
                 include: {
                   'src' => false,
@@ -425,7 +426,7 @@ describe 'gitlab_ci_runner', type: :class do
           it { is_expected.to contain_class('gitlab_ci_runner::repo') }
 
           it do
-            is_expected.to contain_apt__source('apt_gitlabci').with_key('id' => 'F6403F6544A38863DAA0B6E03F01618A51312F3F', 'server' => 'keys.gnupg.net')
+            is_expected.to contain_apt__source('apt_gitlabci').with_key('id' => 'F6403F6544A38863DAA0B6E03F01618A51312F3F', 'server' => 'keys.gnupg.net', 'source' => 'https://packages.gitlab.com/gpg.key')
           end
         end
 
@@ -442,7 +443,7 @@ describe 'gitlab_ci_runner', type: :class do
           it { is_expected.to contain_class('gitlab_ci_runner::repo') }
 
           it do
-            is_expected.to contain_apt__source('apt_gitlabci').with_key('id' => 'F6403F6544A38863DAA0B6E03F01618A51312F3F', 'server' => 'hkp://keys.gnupg.net:80')
+            is_expected.to contain_apt__source('apt_gitlabci').with_key('id' => 'F6403F6544A38863DAA0B6E03F01618A51312F3F', 'server' => 'hkp://keys.gnupg.net:80', 'source' => 'https://packages.gitlab.com/gpg.key')
           end
         end
 
@@ -458,7 +459,7 @@ describe 'gitlab_ci_runner', type: :class do
           it { is_expected.to contain_class('gitlab_ci_runner::repo') }
 
           it do
-            is_expected.to contain_apt__source('apt_gitlabci').with_key('id' => 'F6403F6544A38863DAA0B6E03F01618A51312F3F', 'server' => 'https://keys.gnupg.net:88')
+            is_expected.to contain_apt__source('apt_gitlabci').with_key('id' => 'F6403F6544A38863DAA0B6E03F01618A51312F3F', 'server' => 'https://keys.gnupg.net:88', 'source' => 'https://packages.gitlab.com/gpg.key')
           end
         end
       end
