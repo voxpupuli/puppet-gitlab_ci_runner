@@ -73,6 +73,7 @@
 #   `certificate verify failed (self signed certificate in certificate chain)`
 #   Using the CA file solves https://github.com/voxpupuli/puppet-gitlab_ci_runner/issues/124.
 #   The ca_file must exist. If it doesn't, Gitlab runner token generation will be skipped. Gitlab runner will not register until either the file exists or the ca_file parameter is not specified.
+# @param repo_keysource URL to the gpg file used to sign the apt packages
 #
 class gitlab_ci_runner (
   String                                     $xz_package_name, # Defaults in module hieradata
@@ -99,6 +100,7 @@ class gitlab_ci_runner (
   Optional[Stdlib::Filemode]                 $config_dir_mode = undef,
   Optional[Stdlib::HTTPUrl]                  $http_proxy      = undef,
   Optional[Stdlib::Unixpath]                 $ca_file         = undef,
+  Stdlib::HTTPSUrl                           $repo_keysource  = "${repo_base_url}/gpg.key",
 ) {
   if $manage_docker {
     # workaround for cirunner issue #1617

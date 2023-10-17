@@ -5,6 +5,7 @@
 class gitlab_ci_runner::repo (
   $repo_base_url  = $gitlab_ci_runner::repo_base_url,
   $repo_keyserver = $gitlab_ci_runner::repo_keyserver,
+  $repo_keysource = $gitlab_ci_runner::repo_keysource,
   $package_name   = $gitlab_ci_runner::package_name,
 ) {
   assert_private()
@@ -16,6 +17,7 @@ class gitlab_ci_runner::repo (
         repos    => 'main',
         key      => {
           'id'     => 'F6403F6544A38863DAA0B6E03F01618A51312F3F',
+          'source' => $repo_keysource,
           'server' => $repo_keyserver,
         },
         include  => {
@@ -46,7 +48,7 @@ class gitlab_ci_runner::repo (
         descr         => "runner_${package_name}",
         enabled       => '1',
         gpgcheck      => '0',
-        gpgkey        => "${repo_base_url}/gpg.key",
+        gpgkey        => $repo_keysource,
         repo_gpgcheck => '1',
         sslcacert     => '/etc/pki/tls/certs/ca-bundle.crt',
         sslverify     => '1',
@@ -58,7 +60,7 @@ class gitlab_ci_runner::repo (
         descr         => "runner_${package_name}-source",
         enabled       => '1',
         gpgcheck      => '0',
-        gpgkey        => "${repo_base_url}/gpg.key",
+        gpgkey        => $repo_keysource,
         repo_gpgcheck => '1',
         sslcacert     => '/etc/pki/tls/certs/ca-bundle.crt',
         sslverify     => '1',
