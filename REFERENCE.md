@@ -76,6 +76,7 @@ The following parameters are available in the `gitlab_ci_runner` class:
 * [`log_level`](#-gitlab_ci_runner--log_level)
 * [`log_format`](#-gitlab_ci_runner--log_format)
 * [`check_interval`](#-gitlab_ci_runner--check_interval)
+* [`shutdown_timeout`](#-gitlab_ci_runner--shutdown_timeout)
 * [`sentry_dsn`](#-gitlab_ci_runner--sentry_dsn)
 * [`listen_address`](#-gitlab_ci_runner--listen_address)
 * [`session_server`](#-gitlab_ci_runner--session_server)
@@ -145,7 +146,15 @@ Default value: `undef`
 
 Data type: `Optional[Integer]`
 
-defines the interval length, in seconds, between new jobs check. The default value is 3; if set to 0 or lower, the default value will be used.
+Defines the interval length, in seconds, between the runner checking for new jobs. The default value is 3. If set to 0 or lower, the default value is used.
+
+Default value: `undef`
+
+##### <a name="-gitlab_ci_runner--shutdown_timeout"></a>`shutdown_timeout`
+
+Data type: `Optional[Integer]`
+
+Number of seconds until the forceful shutdown operation times out and exits the process.
 
 Default value: `undef`
 
