@@ -24,7 +24,7 @@
 # @param log_format
 #   Log format (options: runner, text, json). Note that this setting has lower priority than format set by command line argument --log-format
 # @param check_interval
-#   defines the interval length, in seconds, between new jobs check. The default value is 3; if set to 0 or lower, the default value will be used.
+#   Defines the interval length, in seconds, between new jobs check. The default value is 3; if set to 0 or lower, the default value will be used.
 # @param shutdown_timeout
 #   Number of seconds until the forceful shutdown operation times out and exits the process.
 # @param sentry_dsn

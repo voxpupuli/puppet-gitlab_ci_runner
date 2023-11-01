@@ -146,7 +146,7 @@ Default value: `undef`
 
 Data type: `Optional[Integer]`
 
-Defines the interval length, in seconds, between the runner checking for new jobs. The default value is 3. If set to 0 or lower, the default value is used.
+Defines the interval length, in seconds, between new jobs check. The default value is 3; if set to 0 or lower, the default value will be used.
 
 Default value: `undef`
 
