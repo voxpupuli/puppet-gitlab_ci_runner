@@ -229,6 +229,23 @@ describe 'gitlab_ci_runner', type: :class do
         end
       end
 
+      context 'with shutdown_timeout => 4' do
+        let(:params) do
+          {
+            'shutdown_timeout' => 4
+          }
+        end
+
+        it do
+          is_expected.to contain_concat__fragment('/etc/gitlab-runner/config.toml - global options').
+            with(
+              target: '/etc/gitlab-runner/config.toml',
+              order: 1,
+              content: %r{shutdown_timeout = 4}
+            )
+        end
+      end
+
       context 'with sentry_dsn => https://123abc@localhost/1' do
         let(:params) do
           {

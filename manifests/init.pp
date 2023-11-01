@@ -24,7 +24,9 @@
 # @param log_format
 #   Log format (options: runner, text, json). Note that this setting has lower priority than format set by command line argument --log-format
 # @param check_interval
-#   defines the interval length, in seconds, between new jobs check. The default value is 3; if set to 0 or lower, the default value will be used.
+#   Defines the interval length, in seconds, between new jobs check. The default value is 3; if set to 0 or lower, the default value will be used.
+# @param shutdown_timeout
+#   Number of seconds until the forceful shutdown operation times out and exits the process.
 # @param sentry_dsn
 #   Enable tracking of all system level errors to sentry.
 # @param listen_address
@@ -77,30 +79,31 @@
 #
 class gitlab_ci_runner (
   String                                     $xz_package_name, # Defaults in module hieradata
-  Hash                                       $runners         = {},
-  Hash                                       $runner_defaults = {},
-  Optional[Integer]                          $concurrent      = undef,
-  Optional[Gitlab_ci_runner::Log_level]      $log_level       = undef,
-  Optional[Gitlab_ci_runner::Log_format]     $log_format      = undef,
-  Optional[Integer]                          $check_interval  = undef,
-  Optional[String]                           $sentry_dsn      = undef,
-  Optional[Pattern[/.*:.+/]]                 $listen_address  = undef,
-  Optional[Gitlab_ci_runner::Session_server] $session_server  = undef,
-  Boolean                                    $manage_docker   = false,
-  Boolean                                    $manage_repo     = true,
-  String                                     $package_ensure  = installed,
-  String                                     $package_name    = 'gitlab-runner',
-  Stdlib::HTTPUrl                            $repo_base_url   = 'https://packages.gitlab.com',
-  Optional[Gitlab_ci_runner::Keyserver]      $repo_keyserver  = undef,
-  String                                     $config_path     = '/etc/gitlab-runner/config.toml',
-  String[1]                                  $config_owner    = 'root',
-  String[1]                                  $config_group    = 'root',
-  Stdlib::Filemode                           $config_mode     = '0444',
+  Hash                                       $runners           = {},
+  Hash                                       $runner_defaults   = {},
+  Optional[Integer]                          $concurrent        = undef,
+  Optional[Gitlab_ci_runner::Log_level]      $log_level         = undef,
+  Optional[Gitlab_ci_runner::Log_format]     $log_format        = undef,
+  Optional[Integer]                          $check_interval    = undef,
+  Optional[Integer]                          $shutdown_timeout  = undef,
+  Optional[String]                           $sentry_dsn        = undef,
+  Optional[Pattern[/.*:.+/]]                 $listen_address    = undef,
+  Optional[Gitlab_ci_runner::Session_server] $session_server    = undef,
+  Boolean                                    $manage_docker     = false,
+  Boolean                                    $manage_repo       = true,
+  String                                     $package_ensure    = installed,
+  String                                     $package_name      = 'gitlab-runner',
+  Stdlib::HTTPUrl                            $repo_base_url     = 'https://packages.gitlab.com',
+  Optional[Gitlab_ci_runner::Keyserver]      $repo_keyserver    = undef,
+  String                                     $config_path       = '/etc/gitlab-runner/config.toml',
+  String[1]                                  $config_owner      = 'root',
+  String[1]                                  $config_group      = 'root',
+  Stdlib::Filemode                           $config_mode       = '0444',
   Boolean                                    $manage_config_dir = false,
-  Optional[Stdlib::Filemode]                 $config_dir_mode = undef,
-  Optional[Stdlib::HTTPUrl]                  $http_proxy      = undef,
-  Optional[Stdlib::Unixpath]                 $ca_file         = undef,
-  Stdlib::HTTPSUrl                           $repo_keysource  = "${repo_base_url}/gpg.key",
+  Optional[Stdlib::Filemode]                 $config_dir_mode   = undef,
+  Optional[Stdlib::HTTPUrl]                  $http_proxy        = undef,
+  Optional[Stdlib::Unixpath]                 $ca_file           = undef,
+  Stdlib::HTTPSUrl                           $repo_keysource    = "${repo_base_url}/gpg.key",
 ) {
   if $manage_docker {
     # workaround for cirunner issue #1617

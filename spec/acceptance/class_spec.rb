@@ -91,6 +91,22 @@ describe 'gitlab_ci_runner class' do
     end
   end
 
+  context 'shutdown_timeout => 22' do
+    it_behaves_like 'an idempotent resource' do
+      let(:manifest) do
+        <<-EOS
+        class { 'gitlab_ci_runner':
+        shutdown_timeout => 22,
+        }
+        EOS
+      end
+    end
+
+    describe file('/etc/gitlab-runner/config.toml') do
+      it { is_expected.to contain 'shutdown_timeout = 22' }
+    end
+  end
+
   context 'sentry_dsn => https://123abc@localhost/1' do
     it_behaves_like 'an idempotent resource' do
       let(:manifest) do
