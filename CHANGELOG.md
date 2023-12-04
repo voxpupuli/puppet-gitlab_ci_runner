@@ -4,6 +4,15 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
+## [v5.1.0](https://github.com/voxpupuli/puppet-gitlab_ci_runner/tree/v5.1.0) (2023-12-04)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-gitlab_ci_runner/compare/v5.0.0...v5.1.0)
+
+**Implemented enhancements:**
+
+- Add shutdown\_timeout parameter [\#182](https://github.com/voxpupuli/puppet-gitlab_ci_runner/pull/182) ([wardhus](https://github.com/wardhus))
+- Add Puppet 8 support [\#173](https://github.com/voxpupuli/puppet-gitlab_ci_runner/pull/173) ([bastelfreak](https://github.com/bastelfreak))
+
 ## [v5.0.0](https://github.com/voxpupuli/puppet-gitlab_ci_runner/tree/v5.0.0) (2023-10-17)
 
 [Full Changelog](https://github.com/voxpupuli/puppet-gitlab_ci_runner/compare/v4.4.0...v5.0.0)
