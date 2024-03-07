@@ -16,7 +16,7 @@ class gitlab_ci_runner::repo (
         location => "${repo_base_url}/runner/${package_name}/${facts['os']['distro']['id'].downcase}/",
         repos    => 'main',
         key      => {
-          'id'     => 'F6403F6544A38863DAA0B6E03F01618A51312F3F',
+          'name'   => 'gitlab_ci_runner.gpg',
           'source' => $repo_keysource,
           'server' => $repo_keyserver,
         },
