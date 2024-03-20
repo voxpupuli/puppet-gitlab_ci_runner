@@ -504,7 +504,7 @@ gitlab_ci_runner::runner { 'testrunner':
 }
 ```
 
-#### `gitlab_ci_runner::register_to_file(String[1] $url, String[1] $regtoken, String[1] $runner_name, Optional[Hash] $additional_options, Optional[Optional[String[1]]] $proxy, Optional[Optional[String[1]]] $ca_file)`
+#### `gitlab_ci_runner::register_to_file(String[1] $url, Variant[String[1], Sensitive[String[1]]] $regtoken, String[1] $runner_name, Optional[Hash] $additional_options, Optional[Optional[String[1]]] $proxy, Optional[Optional[String[1]]] $ca_file)`
 
 A function that registers a Gitlab runner on a Gitlab instance, if it doesn't already exist,
 _and_ saves the retrieved authentication token to a file. This is helpful for Deferred functions.
@@ -533,7 +533,7 @@ The url to your Gitlab instance. Please only provide the host part (e.g https://
 
 ##### `regtoken`
 
-Data type: `String[1]`
+Data type: `Variant[String[1], Sensitive[String[1]]]`
 
 Registration token.
 
