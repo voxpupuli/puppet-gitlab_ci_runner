@@ -373,7 +373,7 @@ describe 'gitlab_ci_runner', type: :class do
                 location: "https://packages.gitlab.com/runner/gitlab-runner/#{facts[:lsbdistid].downcase}/",
                 repos: 'main',
                 key: {
-                  'id' => 'F6403F6544A38863DAA0B6E03F01618A51312F3F',
+                  'name' => 'gitlab_ci_runner.asc',
                   'server' => undef_value,
                   'source' => 'https://packages.gitlab.com/gpg.key',
                 },
