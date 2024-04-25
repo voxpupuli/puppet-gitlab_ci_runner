@@ -124,7 +124,7 @@ Changing these after registration has no affect.
 The Gitlab CI runner installation is at the moment only tested on:
 * CentOS 7/8
 * Debian 10/11
-* Ubuntu 18.04/20.04/22.04
+* Ubuntu 20.04/22.04
 
 For the current list of tested and support operating systems, please checkout the metadata.json file.
 
