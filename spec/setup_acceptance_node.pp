@@ -9,15 +9,6 @@ package { 'curl':
   ensure => present,
 }
 
-# https://gitlab.com/gitlab-org/omnibus-gitlab/issues/2229
-# There is no /usr/share/zoneinfo in latest Docker image for ubuntu 16.04
-# Gitlab installer fail without this file
-if $facts['os']['release']['major'] in ['16.04', '18.04'] {
-  package { 'tzdata':
-    ensure => present,
-  }
-}
-
 # Setup Puppet Bolt
 $bolt_config = @("BOLTPROJECT"/L)
 modulepath: "/etc/puppetlabs/code/modules:/etc/puppetlabs/code/environments/production/modules"

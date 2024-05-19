@@ -330,30 +330,27 @@ describe 'gitlab_ci_runner', type: :class do
         end
       end
 
-      # puppetlabs-docker doesn't support CentOS 6 anymore.
-      unless facts[:os]['name'] == 'CentOS' && facts[:os]['release']['major'] == '6'
-        context 'with manage_docker => true' do
-          let(:params) do
-            {
-              manage_docker: true
-            }
-          end
+      context 'with manage_docker => true' do
+        let(:params) do
+          {
+            manage_docker: true
+          }
+        end
 
-          it { is_expected.to compile }
+        it { is_expected.to compile }
 
-          it { is_expected.to contain_class('docker') }
+        it { is_expected.to contain_class('docker') }
 
-          it do
-            is_expected.to contain_class('docker::images').
-              with(
-                images: {
-                  'ubuntu_focal' => {
-                    'image' => 'ubuntu',
-                    'image_tag' => 'focal'
-                  }
+        it do
+          is_expected.to contain_class('docker::images').
+            with(
+              images: {
+                'ubuntu_focal' => {
+                  'image' => 'ubuntu',
+                  'image_tag' => 'focal'
                 }
-              )
-          end
+              }
+            )
         end
       end
 
