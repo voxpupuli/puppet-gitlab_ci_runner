@@ -84,6 +84,9 @@ The following parameters are available in the `gitlab_ci_runner` class:
 * [`install_method`](#-gitlab_ci_runner--install_method)
 * [`binary_source`](#-gitlab_ci_runner--binary_source)
 * [`binary_path`](#-gitlab_ci_runner--binary_path)
+* [`manage_user`](#-gitlab_ci_runner--manage_user)
+* [`user`](#-gitlab_ci_runner--user)
+* [`group`](#-gitlab_ci_runner--group)
 * [`manage_repo`](#-gitlab_ci_runner--manage_repo)
 * [`package_ensure`](#-gitlab_ci_runner--package_ensure)
 * [`package_name`](#-gitlab_ci_runner--package_name)
@@ -216,6 +219,30 @@ Data type: `Stdlib::Absolutepath`
 Absolute path where to install gitlab_runner binary
 
 Default value: `'/usr/local/bin/gitlab-runner'`
+
+##### <a name="-gitlab_ci_runner--manage_user"></a>`manage_user`
+
+Data type: `Boolean`
+
+If the user should be managed.
+
+Default value: `false`
+
+##### <a name="-gitlab_ci_runner--user"></a>`user`
+
+Data type: `String[1]`
+
+The user to manage.
+
+Default value: `'gitlab-runner'`
+
+##### <a name="-gitlab_ci_runner--group"></a>`group`
+
+Data type: `String[1]`
+
+The group to manage.
+
+Default value: `$user`
 
 ##### <a name="-gitlab_ci_runner--manage_repo"></a>`manage_repo`
 
