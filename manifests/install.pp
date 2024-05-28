@@ -25,6 +25,10 @@ class gitlab_ci_runner::install (
         extract => false,
         creates => $gitlab_ci_runner::binary_path,
       }
+      file { $gitlab_ci_runner::binary_path:
+        ensure => file,
+        mode   => '0755',
+      }
     }
     default: {
       fail("Unsupported install method: ${gitlab_ci_runner::install_method}")
