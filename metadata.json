@@ -82,6 +82,13 @@
         "20.04",
         "22.04"
       ]
+    },
+    {
+      "operatingsystem": "SLES",
+      "operatingsystemrelease": [
+        "12",
+        "15"
+      ]
     }
   ],
   "requirements": [

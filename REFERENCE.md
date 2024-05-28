@@ -81,6 +81,9 @@ The following parameters are available in the `gitlab_ci_runner` class:
 * [`listen_address`](#-gitlab_ci_runner--listen_address)
 * [`session_server`](#-gitlab_ci_runner--session_server)
 * [`manage_docker`](#-gitlab_ci_runner--manage_docker)
+* [`install_method`](#-gitlab_ci_runner--install_method)
+* [`binary_source`](#-gitlab_ci_runner--binary_source)
+* [`binary_path`](#-gitlab_ci_runner--binary_path)
 * [`manage_repo`](#-gitlab_ci_runner--manage_repo)
 * [`package_ensure`](#-gitlab_ci_runner--package_ensure)
 * [`package_name`](#-gitlab_ci_runner--package_name)
@@ -189,6 +192,30 @@ Data type: `Boolean`
 If docker should be installs (uses the puppetlabs-docker).
 
 Default value: `false`
+
+##### <a name="-gitlab_ci_runner--install_method"></a>`install_method`
+
+Data type: `Enum['repo', 'binary']`
+
+If repo or binary should be installed
+
+Default value: `'repo'`
+
+##### <a name="-gitlab_ci_runner--binary_source"></a>`binary_source`
+
+Data type: `Stdlib::HTTPUrl`
+
+URL to the binary file
+
+Default value: `'https://s3.dualstack.us-east-1.amazonaws.com/gitlab-runner-downloads/latest/binaries/gitlab-runner-linux-amd64'`
+
+##### <a name="-gitlab_ci_runner--binary_path"></a>`binary_path`
+
+Data type: `Stdlib::Absolutepath`
+
+Absolute path where to install gitlab_runner binary
+
+Default value: `'/usr/local/bin/gitlab-runner'`
 
 ##### <a name="-gitlab_ci_runner--manage_repo"></a>`manage_repo`
 

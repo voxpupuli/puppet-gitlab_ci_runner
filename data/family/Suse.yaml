@@ -1,0 +1,3 @@
+---
+gitlab_ci_runner::install_method: 'binary'
+gitlab_ci_runner::manage_repo: false

@@ -38,7 +38,9 @@ describe 'gitlab_ci_runner', type: :class do
 
       it { is_expected.not_to contain_class('docker') }
       it { is_expected.not_to contain_class('docker::images') }
-      it { is_expected.to contain_package('gitlab-runner') }
+
+      it { is_expected.to contain_package('gitlab-runner') } unless facts[:os]['family'] == 'Suse'
+
       it { is_expected.to contain_service('gitlab-runner') }
       it { is_expected.to contain_class('gitlab_ci_runner::install') }
 
@@ -337,20 +339,22 @@ describe 'gitlab_ci_runner', type: :class do
           }
         end
 
-        it { is_expected.to compile }
+        unless facts[:os]['family'] == 'Suse'
+          it { is_expected.to compile }
 
-        it { is_expected.to contain_class('docker') }
+          it { is_expected.to contain_class('docker') }
 
-        it do
-          is_expected.to contain_class('docker::images').
-            with(
-              images: {
-                'ubuntu_focal' => {
-                  'image' => 'ubuntu',
-                  'image_tag' => 'focal'
+          it do
+            is_expected.to contain_class('docker::images').
+              with(
+                images: {
+                  'ubuntu_focal' => {
+                    'image' => 'ubuntu',
+                    'image_tag' => 'focal'
+                  }
                 }
-              }
-            )
+              )
+          end
         end
       end
 
@@ -361,9 +365,10 @@ describe 'gitlab_ci_runner', type: :class do
           )
         end
 
-        it { is_expected.to compile }
-        it { is_expected.to contain_class('gitlab_ci_runner::repo') }
-
+        unless facts[:os]['family'] == 'Suse'
+          it { is_expected.to compile }
+          it { is_expected.to contain_class('gitlab_ci_runner::repo') }
+        end
         case facts[:os]['family']
         when 'Debian'
           it do
