@@ -41,6 +41,12 @@
 #   URL to the binary file
 # @param binary_path
 #   Absolute path where to install gitlab_runner binary
+# @param manage_user
+#   If the user should be managed.
+# @param user
+#   The user to manage.
+# @param group
+#   The group to manage.
 # @param manage_repo
 #   If the repository should be managed.
 # @param package_ensure
@@ -98,6 +104,9 @@ class gitlab_ci_runner (
   Enum['repo', 'binary']                     $install_method    = 'repo',
   Stdlib::HTTPUrl                            $binary_source     = 'https://s3.dualstack.us-east-1.amazonaws.com/gitlab-runner-downloads/latest/binaries/gitlab-runner-linux-amd64',
   Stdlib::Absolutepath                       $binary_path       = '/usr/local/bin/gitlab-runner',
+  Boolean                                    $manage_user       = false,
+  String[1]                                  $user              = 'gitlab-runner',
+  String[1]                                  $group             = $user,
   Boolean                                    $manage_docker     = false,
   Boolean                                    $manage_repo       = true,
   String                                     $package_ensure    = installed,

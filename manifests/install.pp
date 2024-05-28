@@ -29,6 +29,15 @@ class gitlab_ci_runner::install (
         ensure => file,
         mode   => '0755',
       }
+      if $gitlab_ci_runner::manage_user {
+        group { $gitlab_ci_runner::group:
+          ensure => present,
+        }
+        user { $gitlab_ci_runner::user:
+          ensure => present,
+          gid    => $gitlab_ci_runner::group,
+        }
+      }
     }
     default: {
       fail("Unsupported install method: ${gitlab_ci_runner::install_method}")
