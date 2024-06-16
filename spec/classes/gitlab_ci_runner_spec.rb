@@ -373,7 +373,7 @@ describe 'gitlab_ci_runner', type: :class do
                 location: "https://packages.gitlab.com/runner/gitlab-runner/#{facts[:lsbdistid].downcase}/",
                 repos: 'main',
                 key: {
-                  'id' => 'F6403F6544A38863DAA0B6E03F01618A51312F3F',
+                  'name' => 'gitlab_ci_runner.asc',
                   'server' => undef_value,
                   'source' => 'https://packages.gitlab.com/gpg.key',
                 },
@@ -440,7 +440,7 @@ describe 'gitlab_ci_runner', type: :class do
           it { is_expected.to contain_class('gitlab_ci_runner::repo') }
 
           it do
-            is_expected.to contain_apt__source('apt_gitlabci').with_key('id' => 'F6403F6544A38863DAA0B6E03F01618A51312F3F', 'server' => 'keys.gnupg.net', 'source' => 'https://packages.gitlab.com/gpg.key')
+            is_expected.to contain_apt__source('apt_gitlabci').with_key('name' => 'gitlab_ci_runner.asc', 'source' => 'https://packages.gitlab.com/gpg.key', 'server' => 'keys.gnupg.net')
           end
         end
 
@@ -457,7 +457,7 @@ describe 'gitlab_ci_runner', type: :class do
           it { is_expected.to contain_class('gitlab_ci_runner::repo') }
 
           it do
-            is_expected.to contain_apt__source('apt_gitlabci').with_key('id' => 'F6403F6544A38863DAA0B6E03F01618A51312F3F', 'server' => 'hkp://keys.gnupg.net:80', 'source' => 'https://packages.gitlab.com/gpg.key')
+            is_expected.to contain_apt__source('apt_gitlabci').with_key('name' => 'gitlab_ci_runner.asc', 'source' => 'https://packages.gitlab.com/gpg.key', 'server' => 'hkp://keys.gnupg.net:80')
           end
         end
 
@@ -473,7 +473,7 @@ describe 'gitlab_ci_runner', type: :class do
           it { is_expected.to contain_class('gitlab_ci_runner::repo') }
 
           it do
-            is_expected.to contain_apt__source('apt_gitlabci').with_key('id' => 'F6403F6544A38863DAA0B6E03F01618A51312F3F', 'server' => 'https://keys.gnupg.net:88', 'source' => 'https://packages.gitlab.com/gpg.key')
+            is_expected.to contain_apt__source('apt_gitlabci').with_key('name' => 'gitlab_ci_runner.asc', 'source' => 'https://packages.gitlab.com/gpg.key', 'server' => 'https://keys.gnupg.net:88')
           end
         end
       end
