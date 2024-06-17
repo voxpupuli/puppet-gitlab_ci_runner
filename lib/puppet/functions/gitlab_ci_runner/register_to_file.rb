@@ -25,7 +25,7 @@ Puppet::Functions.create_function(:'gitlab_ci_runner::register_to_file') do
   dispatch :register_to_file do
     # We use only core data types because others aren't synced to the agent.
     param 'String[1]', :url
-    param 'String[1]', :regtoken
+    param 'Variant[String[1], Sensitive[String[1]]]', :regtoken
     param 'String[1]', :runner_name
     optional_param 'Hash', :additional_options
     optional_param 'Optional[String[1]]', :proxy
@@ -46,6 +46,11 @@ Puppet::Functions.create_function(:'gitlab_ci_runner::register_to_file') do
           Puppet.warning('Unable to register gitlab runner at this time as the specified `ca_file` does not exist (yet).  If puppet is managing this file, the next run should complete the registration process.')
           return 'Specified CA file doesn\'t exist, not attempting to create authtoken'
         end
+
+        # If this is a Sensitive value it will be unwrapped, otherwise the String
+        # will be returned unmodified.
+        regtoken = call_function('unwrap', regtoken)
+
         authtoken = PuppetX::Gitlab::Runner.register(url, additional_options.merge('token' => regtoken), proxy, ca_file)['token']
 
         # If this function is used as a Deferred function the Gitlab Runner config dir
