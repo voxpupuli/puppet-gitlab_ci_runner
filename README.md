@@ -11,11 +11,14 @@
 
 #### Table of Contents
 
-1. [Overview](#overview)
-1. [Usage - Configuration options and additional functionality](#usage)
-1. [Limitations - OS compatibility, etc.](#limitations)
-1. [Upgrading from version 3](#upgrading-from-version-3)
-1. [License](#license)
+- [Gitlab-CI runner module for Puppet](#gitlab-ci-runner-module-for-puppet)
+      - [Table of Contents](#table-of-contents)
+  - [Overview](#overview)
+  - [Usage](#usage)
+  - [SLES](#sles)
+  - [Upgrading from version 3](#upgrading-from-version-3)
+  - [Limitations](#limitations)
+  - [License](#license)
 
 ## Overview
 
@@ -67,6 +70,20 @@ gitlab_ci_runner::runners:
     url: "https://git.alternative.org/ci"
     registration-token: "abcdef1234567890"
     ensure: absent
+```
+
+## SLES
+
+There are no gitlab_ci_runner repositories for SLES/zypper available!
+Instead one can use the go binary.
+This setup requires the [puppet-archive](https://github.com/voxpupuli/puppet-archive) module.
+
+Please set the following data to be able to use this module on SLES:
+
+```yaml
+gitlab_ci_runner::install_method: 'binary' # required for SLES
+gitlab_ci_runner::binary_source: 'https://s3.dualstack.us-east-1.amazonaws.com/gitlab-runner-downloads/latest/binaries/gitlab-runner-linux-amd64' # default value
+gitlab_ci_runner::binary_path: '/usr/local/bin/gitlab-runner' # default value
 ```
 
 ## Upgrading from version 3
