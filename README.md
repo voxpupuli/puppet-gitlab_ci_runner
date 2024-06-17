@@ -75,6 +75,9 @@ gitlab_ci_runner::runners:
 ## SLES
 
 There are no gitlab_ci_runner repositories for SLES/zypper available!
+Instead one can use the go binary.
+This setup requires the [puppet-archive](https://github.com/voxpupuli/puppet-archive) module.
+
 Please set the following data to be able to use this module on SLES:
 
 ```yaml
