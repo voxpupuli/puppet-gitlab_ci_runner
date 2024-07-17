@@ -8,7 +8,7 @@ Puppet::Functions.create_function(:'gitlab_ci_runner::unregister') do
   # @param url The url to your Gitlab instance. Please only provide the host part (e.g https://gitlab.com)
   # @param token Runners authentication token.
   # @param ca_file An absolute path to a trusted certificate authority file.
-  # @return [Struct[{ id => Integer[1], token => String[1], }]] Returns a hash with the runner id and authentcation token
+  # @return [Struct[{ status => String[1], }]] Returns status
   # @example Using it as a replacement for the Bolt 'unregister_runner' task
   #   puppet apply -e "notice(gitlab_ci_runner::unregister('https://gitlab.com', 'runner-auth-token'))"
   #
