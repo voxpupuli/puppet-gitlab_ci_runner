@@ -21,7 +21,11 @@ Puppet::Functions.create_function(:'gitlab_ci_runner::register') do
   end
 
   def register(url, token, additional_options = {}, ca_file = nil)
-    PuppetX::Gitlab::Runner.register(url, additional_options.merge('token' => token), ca_file: ca_file)
+    options = additional_options.merge(
+      token.start_with?('glrt-') ? { 'token' => token } : { 'registration-token' => token }
+    )
+
+    PuppetX::Gitlab::Runner.register(url, options, ca_file: ca_file)
   rescue Net::HTTPError => e
     raise "Gitlab runner failed to register: #{e.message}"
   end

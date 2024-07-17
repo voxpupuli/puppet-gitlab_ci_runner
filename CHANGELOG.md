@@ -4,6 +4,17 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
+## [v5.2.0](https://github.com/voxpupuli/puppet-gitlab_ci_runner/tree/v5.1.0) (2024-07-21)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-gitlab_ci_runner/compare/v5.0.0...v5.1.0)
+
+**Implemented enhancements:**
+
+- New Registration Flow being rolled out - requires adaption [\#186](https://github.com/voxpupuli/puppet-gitlab_ci_runner/pull/186) ([juokelis](https://github.com/juokelis))
+- Drop RHEL/CentOS 7,8 support
+- Drop Debian 10 \(EOL\)
+- Add Debian 12
+
 ## [v5.1.0](https://github.com/voxpupuli/puppet-gitlab_ci_runner/tree/v5.1.0) (2023-12-04)
 
 [Full Changelog](https://github.com/voxpupuli/puppet-gitlab_ci_runner/compare/v5.0.0...v5.1.0)
