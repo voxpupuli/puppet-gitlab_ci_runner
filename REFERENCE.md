@@ -36,7 +36,6 @@
 * [`Gitlab_ci_runner::Log_level`](#Gitlab_ci_runner--Log_level): Gitlab Runner log level configuration
 * [`Gitlab_ci_runner::Register`](#Gitlab_ci_runner--Register): A struct of all possible additionl options for gitlab_ci_runner::register
 * [`Gitlab_ci_runner::Register_parameters`](#Gitlab_ci_runner--Register_parameters): A enum containing a possible keys used for Gitlab runner registrations
-* [`Gitlab_ci_runner::Register_parameters_deprecated`](#Gitlab_ci_runner--Register_parameters): A enum containing a possible keys used for Gitlab runner registrations
 * [`Gitlab_ci_runner::Session_server`](#Gitlab_ci_runner--Session_server): Gitlab Runner session_server configuration
 
 ### Tasks

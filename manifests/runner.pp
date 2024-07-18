@@ -85,18 +85,11 @@ define gitlab_ci_runner::runner (
   }
 
   if $_config['registration-token'] or $_config['token'] {
-    $register_additional_options_legacy = $config
+    $register_additional_options = $config
     .filter |$item| { $item[0] =~ Gitlab_ci_runner::Register_parameters } # Get all items use for the registration process
     .reduce({}) |$memo, $item| { $memo + { regsubst($item[0], '-', '_', 'G') => $item[1] } } # Ensure all keys use '_' instead of '-'
 
     $token = pick($_config['token'], $_config['registration-token'])
-    if $token =~ /^glrt-/ {
-      $register_additional_options = $register_additional_options_legacy
-      .filter |$item| { $item[0] =~ Gitlab_ci_runner::Register_parameters_deprecated } # Leave only items allowed in new flow
-      # TODO rise a depracetion warning - do not use deprecated params with 'token' or gitlab 17+
-    } else {
-      $register_additional_options = $register_additional_options_legacy
-    }
 
     $deferred_call = Deferred('gitlab_ci_runner::register_to_file', [$_config['url'], $token, $_config['name'], $register_additional_options, $http_proxy, $ca_file])
 

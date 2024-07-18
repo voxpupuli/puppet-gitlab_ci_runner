@@ -70,6 +70,12 @@ module PuppetX
         PuppetX::Gitlab::APIClient.post(url, options, proxy, ca_file)
       end
 
+      def self.verify(host, token, proxy = nil, ca_file = nil)
+        url = "#{host}/api/v4/runners/verify"
+        Puppet.info "Verifying gitlab runner with #{host}"
+        PuppetX::Gitlab::APIClient.post(url, {'token'=>token}, proxy, ca_file)
+      end
+
       def self.unregister(host, options, proxy = nil, ca_file = nil)
         url = "#{host}/api/v4/runners"
         Puppet.info "Unregistering gitlab runner with #{host}"
