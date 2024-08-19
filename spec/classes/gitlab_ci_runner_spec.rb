@@ -375,7 +375,7 @@ describe 'gitlab_ci_runner', type: :class do
             is_expected.to contain_apt__source('apt_gitlabci').
               with(
                 comment: 'GitlabCI Runner Repo',
-                location: "https://packages.gitlab.com/runner/gitlab-runner/#{facts[:lsbdistid].downcase}/",
+                location: "https://packages.gitlab.com/runner/gitlab-runner/#{facts[:os]['name'].downcase}/",
                 repos: 'main',
                 key: {
                   'name' => 'gitlab_ci_runner.asc',
