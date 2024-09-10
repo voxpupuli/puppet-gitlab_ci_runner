@@ -406,8 +406,8 @@ describe 'gitlab_ci_runner', type: :class do
                 baseurl: "https://packages.gitlab.com/runner/gitlab-runner/el/#{os_release_version}/$basearch",
                 descr: 'runner_gitlab-runner',
                 enabled: '1',
-                gpgcheck: '0',
-                gpgkey: 'https://packages.gitlab.com/gpg.key',
+                gpgcheck: '1',
+                gpgkey: 'https://packages.gitlab.com/gpg.key https://packages.gitlab.com/runner/gitlab-runner/gpgkey/runner-gitlab-runner-49F16C5CC3A0F81F.pub.gpg',
                 repo_gpgcheck: '1',
                 sslcacert: '/etc/pki/tls/certs/ca-bundle.crt',
                 sslverify: '1'
@@ -421,12 +421,26 @@ describe 'gitlab_ci_runner', type: :class do
                 baseurl: "https://packages.gitlab.com/runner/gitlab-runner/el/#{os_release_version}/SRPMS",
                 descr: 'runner_gitlab-runner-source',
                 enabled: '1',
-                gpgcheck: '0',
-                gpgkey: 'https://packages.gitlab.com/gpg.key',
+                gpgcheck: '1',
+                gpgkey: 'https://packages.gitlab.com/gpg.key https://packages.gitlab.com/runner/gitlab-runner/gpgkey/runner-gitlab-runner-49F16C5CC3A0F81F.pub.gpg',
                 repo_gpgcheck: '1',
                 sslcacert: '/etc/pki/tls/certs/ca-bundle.crt',
                 sslverify: '1'
               )
+          end
+
+          context 'when package_gpgcheck is false' do
+            let(:params) do
+              super().merge(package_gpgcheck: false)
+            end
+
+            it do
+              is_expected.to contain_yumrepo('runner_gitlab-runner').with_gpgcheck('0')
+            end
+
+            it do
+              is_expected.to contain_yumrepo('runner_gitlab-runner-source').with_gpgcheck('0')
+            end
           end
         end
       end
