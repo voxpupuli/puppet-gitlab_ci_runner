@@ -6,9 +6,10 @@ require_relative '../../../puppet_x/gitlab/runner'
 # This is meant to be used in conjunction with the gitlab_ci_runner::register_to_file function.
 Puppet::Functions.create_function(:'gitlab_ci_runner::unregister_from_file') do
   # @param url The url to your Gitlab instance. Please only provide the host part (e.g https://gitlab.com)
-  # @param runner_name The name of the runner. Use as identifier for the retrived auth token.
+  # @param runner_name The name of the runner. Use as identifier for the retrieved auth token.
   # @param proxy HTTP proxy to use when unregistering
   # @param ca_file An absolute path to a trusted certificate authority file.
+  # @return [String] Returns status
   # @example Using it as a Deferred function with a file resource
   #   file { '/etc/gitlab-runner/auth-token-testrunner':
   #     file    => absent,

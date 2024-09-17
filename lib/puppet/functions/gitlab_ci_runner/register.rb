@@ -8,7 +8,7 @@ Puppet::Functions.create_function(:'gitlab_ci_runner::register') do
   # @param token Registration token.
   # @param additional_options A hash with all additional configuration options for that runner
   # @param ca_file An absolute path to a trusted certificate authority file.
-  # @return [Struct[{ id => Integer[1], token => String[1], }]] Returns a hash with the runner id and authentcation token
+  # @return [Struct[{ id => Integer[1], token => String[1], }]] Returns a hash with the runner id and authentication token
   # @example Using it as a replacement for the Bolt 'register_runner' task
   #   puppet apply -e "notice(gitlab_ci_runner::register('https://gitlab.com', 'registration-token'))"
   #
@@ -21,7 +21,11 @@ Puppet::Functions.create_function(:'gitlab_ci_runner::register') do
   end
 
   def register(url, token, additional_options = {}, ca_file = nil)
-    PuppetX::Gitlab::Runner.register(url, additional_options.merge('token' => token), ca_file: ca_file)
+    if token.start_with?('glrt-')
+      PuppetX::Gitlab::Runner.verify(url, token, ca_file: ca_file)
+    else
+      PuppetX::Gitlab::Runner.register(url, additional_options.merge('registration-token' => token), ca_file: ca_file)
+    end
   rescue Net::HTTPError => e
     raise "Gitlab runner failed to register: #{e.message}"
   end

@@ -94,14 +94,29 @@ module PuppetX::Gitlab
       before do
         PuppetX::Gitlab::APIClient.
           stub(:post).
-          with('https://gitlab.example.org/api/v4/runners', { token: 'registrationtoken' }, nil, nil).
+          with('https://gitlab.example.org/api/v4/runners', { 'registration-token' => 'registrationtoken' }, nil, nil).
           and_return('id' => 1234, 'token' => '1234567890abcd')
       end
 
-      let(:response) { described_class.register('https://gitlab.example.org', { token: 'registrationtoken' }, nil, nil) }
+      let(:response) { described_class.register('https://gitlab.example.org', { 'registration-token' => 'registrationtoken' }, nil, nil) }
 
       it 'returns a token' do
         expect(response['token']).to eq('1234567890abcd')
+      end
+    end
+
+    describe 'self.verify' do
+      before do
+        PuppetX::Gitlab::APIClient.
+          stub(:post).
+          with('https://gitlab.example.org/api/v4/runners/verify', { 'token' => 'glrt-authentication-token' }, nil, nil).
+          and_return('id' => 1234, 'token' => 'glrt-authentication-token')
+      end
+
+      let(:response) { described_class.verify('https://gitlab.example.org', 'glrt-authentication-token', nil, nil) }
+
+      it 'returns the authentication token' do
+        expect(response['token']).to eq('glrt-authentication-token')
       end
     end
 
@@ -109,11 +124,11 @@ module PuppetX::Gitlab
       before do
         PuppetX::Gitlab::APIClient.
           stub(:delete).
-          with('https://gitlab.example.org/api/v4/runners', { token: '1234567890abcd' }, nil, nil).
+          with('https://gitlab.example.org/api/v4/runners', { 'token' => '1234567890abcd' }, nil, nil).
           and_return({})
       end
 
-      let(:response) { described_class.unregister('https://gitlab.example.org', { token: '1234567890abcd' }, nil, nil) }
+      let(:response) { described_class.unregister('https://gitlab.example.org', { 'token' => '1234567890abcd' }, nil, nil) }
 
       it 'returns an empty hash' do
         expect(response).to eq({})

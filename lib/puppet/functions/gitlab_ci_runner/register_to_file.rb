@@ -51,7 +51,13 @@ Puppet::Functions.create_function(:'gitlab_ci_runner::register_to_file') do
         # will be returned unmodified.
         regtoken = call_function('unwrap', regtoken)
 
-        authtoken = PuppetX::Gitlab::Runner.register(url, additional_options.merge('token' => regtoken), proxy, ca_file)['token']
+        # Combine options based on the token
+        if regtoken.start_with?('glrt-')
+          PuppetX::Gitlab::Runner.verify(url, regtoken, proxy, ca_file)
+          authtoken = regtoken
+        else
+          authtoken = PuppetX::Gitlab::Runner.register(url, additional_options.merge('registration-token' => regtoken), proxy, ca_file)['token']
+        end
 
         # If this function is used as a Deferred function the Gitlab Runner config dir
         # will not exist on the first run, because the package isn't installed yet.

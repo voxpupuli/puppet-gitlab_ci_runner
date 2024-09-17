@@ -1,4 +1,4 @@
-# @summary A struct of all possible additionl options for gitlab_ci_runner::register
+# @summary A struct of all possible additional options for gitlab_ci_runner::register
 type Gitlab_ci_runner::Register = Struct[{
   Optional[description]     => String[1],
   Optional[info]            => Hash[String[1],String[1]],

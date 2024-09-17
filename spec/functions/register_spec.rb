@@ -6,6 +6,7 @@ require 'webmock/rspec'
 describe 'gitlab_ci_runner::register' do
   let(:url) { 'https://gitlab.example.org' }
   let(:regtoken) { 'registration-token' }
+  let(:auth_token) { 'glrt-authentication-token' }
   let(:return_hash) do
     {
       'id' => 1234,
@@ -20,17 +21,28 @@ describe 'gitlab_ci_runner::register' do
   it { is_expected.to run.with_params('https://gitlab.com', 1234).and_raise_error(ArgumentError) }
   it { is_expected.to run.with_params('https://gitlab.com', 'registration-token', project: 1234).and_raise_error(ArgumentError) }
 
-  it "calls 'PuppetX::Gitlab::Runner.register'" do
-    allow(PuppetX::Gitlab::Runner).to receive(:register).with(url, { 'token' => regtoken }, ca_file: nil).and_return(return_hash)
+  context 'with registration token' do
+    it "calls 'PuppetX::Gitlab::Runner.register'" do
+      allow(PuppetX::Gitlab::Runner).to receive(:register).with(url, { 'registration-token' => regtoken }, ca_file: nil).and_return(return_hash)
 
-    is_expected.to run.with_params(url, regtoken).and_return(return_hash)
-    expect(PuppetX::Gitlab::Runner).to have_received(:register)
+      is_expected.to run.with_params(url, regtoken).and_return(return_hash)
+      expect(PuppetX::Gitlab::Runner).to have_received(:register)
+    end
+
+    it "passes additional args to 'PuppetX::Gitlab::Runner.register'" do
+      allow(PuppetX::Gitlab::Runner).to receive(:register).with(url, { 'registration-token' => regtoken, 'active' => false }, ca_file: nil).and_return(return_hash)
+
+      is_expected.to run.with_params(url, regtoken, 'active' => false).and_return(return_hash)
+      expect(PuppetX::Gitlab::Runner).to have_received(:register)
+    end
   end
 
-  it "passes additional args to 'PuppetX::Gitlab::Runner.register'" do
-    allow(PuppetX::Gitlab::Runner).to receive(:register).with(url, { 'token' => regtoken, 'active' => false }, ca_file: nil).and_return(return_hash)
+  context 'with authentication token' do
+    it "calls 'PuppetX::Gitlab::Runner.verify'" do
+      allow(PuppetX::Gitlab::Runner).to receive(:verify).with(url, auth_token, ca_file: nil).and_return(return_hash)
 
-    is_expected.to run.with_params(url, regtoken, 'active' => false).and_return(return_hash)
-    expect(PuppetX::Gitlab::Runner).to have_received(:register)
+      is_expected.to run.with_params(url, auth_token).and_return(return_hash)
+      expect(PuppetX::Gitlab::Runner).to have_received(:verify)
+    end
   end
 end
