@@ -122,6 +122,8 @@ class gitlab_ci_runner (
   Optional[Stdlib::HTTPUrl]                  $http_proxy        = undef,
   Optional[Stdlib::Unixpath]                 $ca_file           = undef,
   Stdlib::HTTPSUrl                           $repo_keysource    = "${repo_base_url}/gpg.key",
+  Optional[Stdlib::HTTPSUrl]                 $package_keysource = undef,
+  Boolean                                    $package_gpgcheck  = true,
 ) {
   if $manage_docker {
     # workaround for cirunner issue #1617

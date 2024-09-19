@@ -101,6 +101,8 @@ The following parameters are available in the `gitlab_ci_runner` class:
 * [`http_proxy`](#-gitlab_ci_runner--http_proxy)
 * [`ca_file`](#-gitlab_ci_runner--ca_file)
 * [`repo_keysource`](#-gitlab_ci_runner--repo_keysource)
+* [`package_keysource`](#-gitlab_ci_runner--package_keysource)
+* [`package_gpgcheck`](#-gitlab_ci_runner--package_gpgcheck)
 
 ##### <a name="-gitlab_ci_runner--runners"></a>`runners`
 
@@ -369,6 +371,22 @@ Data type: `Stdlib::HTTPSUrl`
 URL to the gpg file used to sign the apt packages
 
 Default value: `"${repo_base_url}/gpg.key"`
+
+##### <a name="-gitlab_ci_runner--package_keysource"></a>`package_keysource`
+
+Data type: `Optional[Stdlib::HTTPSUrl]`
+
+
+
+Default value: `undef`
+
+##### <a name="-gitlab_ci_runner--package_gpgcheck"></a>`package_gpgcheck`
+
+Data type: `Boolean`
+
+
+
+Default value: `true`
 
 ## Defined types
 
