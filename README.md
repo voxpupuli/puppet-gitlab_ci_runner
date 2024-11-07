@@ -28,9 +28,9 @@ This module installs and configures the Gitlab CI Runner Package or nodes.
 
 Here is an example how to configure Gitlab CI runners using Hiera:
 
-To use the Gitlab CI runners it is required to have the [puppetlabs/docker](https://forge.puppetlabs.com/puppetlabs/docker) module.
+Set `$manage_docker` to false (the default) if Docker is not required (e.g., with `executor: "shell"`) or is managed by other means.
 
-`$manage_docker` can be set to false if docker is managed externally.
+Setting `$manage_docker` to true requires the [puppetlabs/docker](https://forge.puppetlabs.com/puppetlabs/docker) module.
 
 ```yaml
 gitlab_ci_runner::concurrent: 4
