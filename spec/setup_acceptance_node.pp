@@ -15,9 +15,6 @@ modulepath: "/etc/puppetlabs/code/modules:/etc/puppetlabs/code/environments/prod
 analytics: false
 | BOLTPROJECT
 
-package { 'puppet-bolt':
-  ensure => installed,
-}
 
 file { [ '/root/.puppetlabs', '/root/.puppetlabs/bolt', '/root/.puppetlabs/etc', '/root/.puppetlabs/etc/bolt']:
   ensure => directory,
