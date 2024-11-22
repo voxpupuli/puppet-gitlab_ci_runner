@@ -4,6 +4,31 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
+## [v6.0.0](https://github.com/voxpupuli/puppet-gitlab_ci_runner/tree/v6.0.0) (2024-11-22)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-gitlab_ci_runner/compare/v5.1.0...v6.0.0)
+
+**Breaking changes:**
+
+- Drop EoL CentOS 8 support [\#204](https://github.com/voxpupuli/puppet-gitlab_ci_runner/pull/204) ([bastelfreak](https://github.com/bastelfreak))
+- Upgrade Github CI and drop RHEL 7-based operating systems [\#193](https://github.com/voxpupuli/puppet-gitlab_ci_runner/pull/193) ([yakatz](https://github.com/yakatz))
+- Drop Debian 10 and Ubuntu 18.04 support [\#191](https://github.com/voxpupuli/puppet-gitlab_ci_runner/pull/191) ([traylenator](https://github.com/traylenator))
+- Use apt keyring on Debian [\#189](https://github.com/voxpupuli/puppet-gitlab_ci_runner/pull/189) ([jonhattan](https://github.com/jonhattan))
+
+**Implemented enhancements:**
+
+- Enable gpgcheck for YUM  RPM based Distributions [\#205](https://github.com/voxpupuli/puppet-gitlab_ci_runner/pull/205) ([traylenator](https://github.com/traylenator))
+- Add Ubuntu 24.04 support [\#203](https://github.com/voxpupuli/puppet-gitlab_ci_runner/pull/203) ([bastelfreak](https://github.com/bastelfreak))
+- Add basic SuSE support [\#194](https://github.com/voxpupuli/puppet-gitlab_ci_runner/pull/194) ([tuxmea](https://github.com/tuxmea))
+- register\_to\_file: Support Sensitive `regtoken` [\#164](https://github.com/voxpupuli/puppet-gitlab_ci_runner/pull/164) ([arusso](https://github.com/arusso))
+- Avoid use of lsb facts [\#200](https://github.com/voxpupuli/puppet-gitlab_ci_runner/pull/200) ([traylenator](https://github.com/traylenator))
+
+**Merged pull requests:**
+
+- Respect bolt\_supported from beaker\_helper [\#211](https://github.com/voxpupuli/puppet-gitlab_ci_runner/pull/211) ([traylenator](https://github.com/traylenator))
+- Rename spec files so they run [\#210](https://github.com/voxpupuli/puppet-gitlab_ci_runner/pull/210) ([traylenator](https://github.com/traylenator))
+- doc: clarify requirements for Docker [\#209](https://github.com/voxpupuli/puppet-gitlab_ci_runner/pull/209) ([kjetilho](https://github.com/kjetilho))
+
 ## [v5.1.0](https://github.com/voxpupuli/puppet-gitlab_ci_runner/tree/v5.1.0) (2023-12-04)
 
 [Full Changelog](https://github.com/voxpupuli/puppet-gitlab_ci_runner/compare/v5.0.0...v5.1.0)
