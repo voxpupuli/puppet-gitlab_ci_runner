@@ -84,12 +84,14 @@ define gitlab_ci_runner::runner (
     default => $config,
   }
 
-  if $_config['registration-token'] {
+  if $_config['registration-token'] or $_config['token'] {
     $register_additional_options = $config
     .filter |$item| { $item[0] =~ Gitlab_ci_runner::Register_parameters } # Get all items use for the registration process
     .reduce({}) |$memo, $item| { $memo + { regsubst($item[0], '-', '_', 'G') => $item[1] } } # Ensure all keys use '_' instead of '-'
 
-    $deferred_call = Deferred('gitlab_ci_runner::register_to_file', [$_config['url'], $_config['registration-token'], $_config['name'], $register_additional_options, $http_proxy, $ca_file])
+    $token = pick($_config['token'], $_config['registration-token'])
+
+    $deferred_call = Deferred('gitlab_ci_runner::register_to_file', [$_config['url'], $token, $_config['name'], $register_additional_options, $http_proxy, $ca_file])
 
     # Remove registration-token and add a 'token' key to the config with a Deferred function to get it.
     $__config = ($_config - (Array(Gitlab_ci_runner::Register_parameters) + 'registration-token')) + { 'token' => $deferred_call }

@@ -34,7 +34,7 @@
 * [`Gitlab_ci_runner::Keyserver`](#Gitlab_ci_runner--Keyserver): Type to match repo_keyserver Regex from: https://github.com/puppetlabs/puppetlabs-apt/blob/main/manifests/key.pp
 * [`Gitlab_ci_runner::Log_format`](#Gitlab_ci_runner--Log_format): Gitlab Runner log format configuration
 * [`Gitlab_ci_runner::Log_level`](#Gitlab_ci_runner--Log_level): Gitlab Runner log level configuration
-* [`Gitlab_ci_runner::Register`](#Gitlab_ci_runner--Register): A struct of all possible additionl options for gitlab_ci_runner::register
+* [`Gitlab_ci_runner::Register`](#Gitlab_ci_runner--Register): A struct of all possible additional options for gitlab_ci_runner::register
 * [`Gitlab_ci_runner::Register_parameters`](#Gitlab_ci_runner--Register_parameters): A enum containing a possible keys used for Gitlab runner registrations
 * [`Gitlab_ci_runner::Session_server`](#Gitlab_ci_runner--Session_server): Gitlab Runner session_server configuration
 
@@ -521,7 +521,7 @@ puppet apply -e "notice(gitlab_ci_runner::register('https://gitlab.com', 'regist
 
 A function that registers a Gitlab runner on a Gitlab instance. Be careful, this will be triggered on noop runs as well!
 
-Returns: `Struct[{ id => Integer[1], token => String[1], }]` Returns a hash with the runner id and authentcation token
+Returns: `Struct[{ id => Integer[1], token => String[1], }]` Returns a hash with the runner id and authentication token
 
 ##### Examples
 
@@ -691,7 +691,7 @@ puppet apply -e "notice(gitlab_ci_runner::unregister('https://gitlab.com', 'runn
 
 A function that unregisters a Gitlab runner from a Gitlab instance. Be careful, this will be triggered on noop runs as well!
 
-Returns: `Struct[{ status => Enum['success'], }]` Returns a hash with the runner id and authentcation token
+Returns: `Struct[{ status => Enum['success'], }]` Returns status
 
 ##### Examples
 
@@ -742,7 +742,7 @@ file { '/etc/gitlab-runner/auth-token-testrunner':
 A function that unregisters a Gitlab runner from a Gitlab instance, if the local token is there.
 This is meant to be used in conjunction with the gitlab_ci_runner::register_to_file function.
 
-Returns: `Any`
+Returns: `String` Returns status
 
 ##### Examples
 
@@ -765,7 +765,7 @@ The url to your Gitlab instance. Please only provide the host part (e.g https://
 
 Data type: `String[1]`
 
-The name of the runner. Use as identifier for the retrived auth token.
+The name of the runner. Use as identifier for the retrieved auth token.
 
 ##### `proxy`
 
@@ -802,7 +802,7 @@ Alias of `Enum['debug', 'info', 'warn', 'error', 'fatal', 'panic']`
 
 ### <a name="Gitlab_ci_runner--Register"></a>`Gitlab_ci_runner::Register`
 
-A struct of all possible additionl options for gitlab_ci_runner::register
+A struct of all possible additional options for gitlab_ci_runner::register
 
 Alias of
 
