@@ -4,6 +4,14 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
+## [v6.1.0](https://github.com/voxpupuli/puppet-gitlab_ci_runner/tree/v6.1.0) (2025-02-11)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-gitlab_ci_runner/compare/v6.0.0...v6.1.0)
+
+**Merged pull requests:**
+
+- puppetlabs/apt: Allow 10.x [\#214](https://github.com/voxpupuli/puppet-gitlab_ci_runner/pull/214) ([bastelfreak](https://github.com/bastelfreak))
+
 ## [v6.0.0](https://github.com/voxpupuli/puppet-gitlab_ci_runner/tree/v6.0.0) (2024-11-22)
 
 [Full Changelog](https://github.com/voxpupuli/puppet-gitlab_ci_runner/compare/v5.1.0...v6.0.0)
@@ -19,9 +27,9 @@ These should not affect the functionality of the module.
 
 - Enable gpgcheck for YUM  RPM based Distributions [\#205](https://github.com/voxpupuli/puppet-gitlab_ci_runner/pull/205) ([traylenator](https://github.com/traylenator))
 - Add Ubuntu 24.04 support [\#203](https://github.com/voxpupuli/puppet-gitlab_ci_runner/pull/203) ([bastelfreak](https://github.com/bastelfreak))
+- Avoid use of lsb facts [\#200](https://github.com/voxpupuli/puppet-gitlab_ci_runner/pull/200) ([traylenator](https://github.com/traylenator))
 - Add basic SuSE support [\#194](https://github.com/voxpupuli/puppet-gitlab_ci_runner/pull/194) ([tuxmea](https://github.com/tuxmea))
 - register\_to\_file: Support Sensitive `regtoken` [\#164](https://github.com/voxpupuli/puppet-gitlab_ci_runner/pull/164) ([arusso](https://github.com/arusso))
-- Avoid use of lsb facts [\#200](https://github.com/voxpupuli/puppet-gitlab_ci_runner/pull/200) ([traylenator](https://github.com/traylenator))
 
 **Merged pull requests:**
 
