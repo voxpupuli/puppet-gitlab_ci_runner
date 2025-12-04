@@ -70,7 +70,6 @@
     {
       "operatingsystem": "Ubuntu",
       "operatingsystemrelease": [
-        "20.04",
         "22.04",
         "24.04"
       ]
@@ -78,7 +77,6 @@
     {
       "operatingsystem": "SLES",
       "operatingsystemrelease": [
-        "12",
         "15"
       ]
     }
