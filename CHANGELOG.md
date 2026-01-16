@@ -4,6 +4,22 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
+## [v7.0.0](https://github.com/voxpupuli/puppet-gitlab_ci_runner/tree/v7.0.0) (2026-01-16)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-gitlab_ci_runner/compare/v6.1.0...v7.0.0)
+
+**Breaking changes:**
+
+- drop eol ubuntu-20.04 as well as eol sles-12 [\#230](https://github.com/voxpupuli/puppet-gitlab_ci_runner/pull/230) ([marcusdots](https://github.com/marcusdots))
+- Drop puppet, update openvox minimum version to 8.19 [\#223](https://github.com/voxpupuli/puppet-gitlab_ci_runner/pull/223) ([TheMeier](https://github.com/TheMeier))
+
+**Implemented enhancements:**
+
+- add debian-13 support [\#232](https://github.com/voxpupuli/puppet-gitlab_ci_runner/pull/232) ([marcusdots](https://github.com/marcusdots))
+- add el10 support [\#231](https://github.com/voxpupuli/puppet-gitlab_ci_runner/pull/231) ([marcusdots](https://github.com/marcusdots))
+- allow puppetlabs/apt 11.x [\#229](https://github.com/voxpupuli/puppet-gitlab_ci_runner/pull/229) ([marcusdots](https://github.com/marcusdots))
+- metadata.json: Add OpenVox [\#217](https://github.com/voxpupuli/puppet-gitlab_ci_runner/pull/217) ([jstraw](https://github.com/jstraw))
+
 ## [v6.1.0](https://github.com/voxpupuli/puppet-gitlab_ci_runner/tree/v6.1.0) (2025-02-11)
 
 [Full Changelog](https://github.com/voxpupuli/puppet-gitlab_ci_runner/compare/v6.0.0...v6.1.0)
