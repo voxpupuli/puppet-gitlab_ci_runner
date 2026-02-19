@@ -2,7 +2,7 @@
 # frozen_string_literal: true
 
 require_relative '../lib/puppet_x/gitlab/runner'
-require_relative '../spec/fixtures/modules//ruby_task_helper/files/task_helper'
+require_relative '../spec/fixtures/modules/ruby_task_helper/files/task_helper'
 
 class UnregisterRunnerTask < TaskHelper
   def task(**kwargs)
