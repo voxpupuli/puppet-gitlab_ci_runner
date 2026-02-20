@@ -2,7 +2,7 @@
 # frozen_string_literal: true
 
 require_relative '../lib/puppet_x/gitlab/runner'
-require_relative '../../ruby_task_helper/files/task_helper'
+require_relative '../../ruby_task_helper/files/task_helper' unless Object.const_defined?('TaskHelper')
 
 class RegisterRunnerTask < TaskHelper
   def task(**kwargs)
