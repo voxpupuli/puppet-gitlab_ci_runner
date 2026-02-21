@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'webmock/rspec'
+require_relative '../fixtures/modules/ruby_task_helper/files/task_helper'
 require_relative '../../tasks/register_runner'
 
 describe RegisterRunnerTask do
