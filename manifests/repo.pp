@@ -13,19 +13,18 @@ class gitlab_ci_runner::repo (
   assert_private()
   case $facts['os']['family'] {
     'Debian': {
+      apt::keyring { 'apt_gitlabci':
+        source => $repo_keysource,
+        name   => 'gitlab_ci_runner.asc',
+      }
       apt::source { 'apt_gitlabci':
-        comment  => 'GitlabCI Runner Repo',
-        location => "${repo_base_url}/runner/${package_name}/${facts['os']['distro']['id'].downcase}/",
-        repos    => 'main',
-        key      => {
-          'name'   => 'gitlab_ci_runner.asc',
-          'source' => $repo_keysource,
-          'server' => $repo_keyserver,
-        },
-        include  => {
-          'src' => false,
-          'deb' => true,
-        },
+        source_format => 'sources',
+        comment       => 'GitlabCI Runner Repo',
+        location      => ["${repo_base_url}/runner/${package_name}/${facts['os']['distro']['id'].downcase}/",],
+        keyring       => '/etc/apt/keyrings/gitlab_ci_runner.asc',
+        repos         => ['main',],
+        types         => ['deb',],
+        require       => Apt::Keyring['apt_gitlabci'],
       }
       Apt::Source['apt_gitlabci'] -> Package[$package_name]
       Exec['apt_update'] -> Package[$package_name]

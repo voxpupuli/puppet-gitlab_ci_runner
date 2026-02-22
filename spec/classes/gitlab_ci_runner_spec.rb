@@ -375,17 +375,10 @@ describe 'gitlab_ci_runner', type: :class do
             is_expected.to contain_apt__source('apt_gitlabci').
               with(
                 comment: 'GitlabCI Runner Repo',
-                location: "https://packages.gitlab.com/runner/gitlab-runner/#{facts[:os]['name'].downcase}/",
-                repos: 'main',
-                key: {
-                  'name' => 'gitlab_ci_runner.asc',
-                  'server' => undef_value,
-                  'source' => 'https://packages.gitlab.com/gpg.key',
-                },
-                include: {
-                  'src' => false,
-                  'deb' => true
-                }
+                location: ["https://packages.gitlab.com/runner/gitlab-runner/#{facts[:os]['name'].downcase}/",],
+                repos: ['main',],
+                types: ['deb'],
+                keyring: '/etc/apt/keyrings/gitlab_ci_runner.asc'
               )
           end
         when 'RedHat'
@@ -446,54 +439,17 @@ describe 'gitlab_ci_runner', type: :class do
       end
 
       if facts[:os]['family'] == 'Debian'
-        # <= v3.0.0
-        context 'with manage_repo => true and repo_keyserver => keys.gnupg.net' do
+        context 'with manage_repo => true' do
           let(:params) do
             super().merge(
-              manage_repo: true,
-              repo_keyserver: 'keys.gnupg.net'
+              manage_repo: true
             )
           end
 
           it { is_expected.to compile }
           it { is_expected.to contain_class('gitlab_ci_runner::repo') }
-
-          it do
-            is_expected.to contain_apt__source('apt_gitlabci').with_key('name' => 'gitlab_ci_runner.asc', 'source' => 'https://packages.gitlab.com/gpg.key', 'server' => 'keys.gnupg.net')
-          end
-        end
-
-        # allowed > 3.0.0 (see issue #101)
-        context 'with manage_repo => true and repo_keyserver => hkp://keys.gnupg.net:80' do
-          let(:params) do
-            super().merge(
-              manage_repo: true,
-              repo_keyserver: 'hkp://keys.gnupg.net:80'
-            )
-          end
-
-          it { is_expected.to compile }
-          it { is_expected.to contain_class('gitlab_ci_runner::repo') }
-
-          it do
-            is_expected.to contain_apt__source('apt_gitlabci').with_key('name' => 'gitlab_ci_runner.asc', 'source' => 'https://packages.gitlab.com/gpg.key', 'server' => 'hkp://keys.gnupg.net:80')
-          end
-        end
-
-        context 'with manage_repo => true and repo_keyserver => https://keys.gnupg.net:88' do
-          let(:params) do
-            super().merge(
-              manage_repo: true,
-              repo_keyserver: 'https://keys.gnupg.net:88'
-            )
-          end
-
-          it { is_expected.to compile }
-          it { is_expected.to contain_class('gitlab_ci_runner::repo') }
-
-          it do
-            is_expected.to contain_apt__source('apt_gitlabci').with_key('name' => 'gitlab_ci_runner.asc', 'source' => 'https://packages.gitlab.com/gpg.key', 'server' => 'https://keys.gnupg.net:88')
-          end
+          it { is_expected.to contain_apt__keyring('apt_gitlabci') }
+          it { is_expected.to contain_apt__source('apt_gitlabci') }
         end
       end
     end
