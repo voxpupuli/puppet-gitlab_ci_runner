@@ -9,7 +9,7 @@ describe 'gitlab_ci_runner::register' do
   let(:return_hash) do
     {
       'id' => 1234,
-      'token' => 'auth-token'
+      'token' => 'auth-token',
     }
   end
 

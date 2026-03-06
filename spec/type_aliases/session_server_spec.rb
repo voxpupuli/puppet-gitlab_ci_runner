@@ -14,7 +14,7 @@ valid_values = [
   {
     listen_address: '[::]:8093',
     advertise_address: 'runner-host-name.tld:8093',
-  }
+  },
 ]
 
 describe 'Gitlab_ci_runner::Session_server' do

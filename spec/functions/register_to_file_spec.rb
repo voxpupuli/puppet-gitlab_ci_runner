@@ -11,7 +11,7 @@ describe 'gitlab_ci_runner::register_to_file' do
   let(:return_hash) do
     {
       'id' => 1234,
-      'token' => 'auth-token'
+      'token' => 'auth-token',
     }
   end
 

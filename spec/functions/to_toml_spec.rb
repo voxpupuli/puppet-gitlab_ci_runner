@@ -13,7 +13,7 @@ describe 'gitlab_ci_runner::to_toml' do
       1,
       true,
       false,
-      []
+      [],
     ].each do |value|
       it { is_expected.to run.with_params(value).and_raise_error(ArgumentError) }
     end

@@ -14,8 +14,8 @@ describe 'gitlab_ci_runner::runner' do
             config: {
               url: 'https://gitlab.com',
               token: '123456789abcdefgh',
-              executor: 'shell'
-            }
+              executor: 'shell',
+            },
           }
         end
 
@@ -30,8 +30,8 @@ describe 'gitlab_ci_runner::runner' do
               'name = "testrunner"',
               'url = "https://gitlab.com"',
               'token = "123456789abcdefgh"',
-              'executor = "shell"'
-            ]
+              'executor = "shell"',
+            ],
           )
         end
       end
@@ -46,12 +46,12 @@ describe 'gitlab_ci_runner::runner' do
               executor: 'docker+machine',
               limit: 10,
               docker: {
-                image: 'ruby:2.6'
+                image: 'ruby:2.6',
               },
               machine: {
                 OffPeakPeriods: [
                   '* * 0-9,18-23 * * mon-fri *',
-                  '* * * * * sat,sun *'
+                  '* * * * * sat,sun *',
                 ],
                 OffPeakIdleCount: 1,
                 OffPeakIdleTime: 1200,
@@ -67,8 +67,8 @@ describe 'gitlab_ci_runner::runner' do
                   'digitalocean-region=nyc2',
                   'digitalocean-size=4gb',
                   'digitalocean-private-networking',
-                  'engine-registry-mirror=http://10.11.12.13:12345'
-                ]
+                  'engine-registry-mirror=http://10.11.12.13:12345',
+                ],
               },
               cache: {
                 Type: 's3',
@@ -77,10 +77,10 @@ describe 'gitlab_ci_runner::runner' do
                   AccessKey: 'AMAZON_S3_ACCESS_KEY',
                   SecretKey: 'AMAZON_S3_SECRET_KEY',
                   BucketName: 'runner',
-                  Insecure: false
-                }
-              }
-            }
+                  Insecure: false,
+                },
+              },
+            },
           }
         end
 
@@ -116,8 +116,8 @@ describe 'gitlab_ci_runner::runner' do
               'AccessKey = "AMAZON_S3_ACCESS_KEY"',
               'SecretKey = "AMAZON_S3_SECRET_KEY"',
               'BucketName = "runner"',
-              'Insecure = false'
-            ]
+              'Insecure = false',
+            ],
           )
         end
       end
@@ -125,7 +125,7 @@ describe 'gitlab_ci_runner::runner' do
       context 'with name not included in config' do
         let(:params) do
           {
-            config: {}
+            config: {},
           }
         end
 
@@ -137,8 +137,8 @@ describe 'gitlab_ci_runner::runner' do
             '/etc/gitlab-runner/config.toml - testrunner',
             [
               '[[runners]]',
-              'name = "testrunner"'
-            ]
+              'name = "testrunner"',
+            ],
           )
         end
       end
@@ -147,8 +147,8 @@ describe 'gitlab_ci_runner::runner' do
         let(:params) do
           {
             config: {
-              name: 'foo-runner'
-            }
+              name: 'foo-runner',
+            },
           }
         end
 
@@ -160,8 +160,8 @@ describe 'gitlab_ci_runner::runner' do
             '/etc/gitlab-runner/config.toml - testrunner',
             [
               '[[runners]]',
-              'name = "foo-runner"'
-            ]
+              'name = "foo-runner"',
+            ],
           )
         end
       end
