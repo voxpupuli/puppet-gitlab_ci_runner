@@ -126,6 +126,8 @@ Data type: `String`
 
 The name of the 'xz' package. Needed for local docker installations.
 
+Default value: `'xz-utils'`
+
 ##### <a name="-gitlab_ci_runner--concurrent"></a>`concurrent`
 
 Data type: `Optional[Integer]`

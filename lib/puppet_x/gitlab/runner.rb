@@ -26,7 +26,7 @@ module PuppetX
         uri     = URI.parse(url)
         headers = {
           'Accept' => 'application/json',
-          'Content-Type' => 'application/json'
+          'Content-Type' => 'application/json',
         }
         if proxy
           proxy_uri = URI.parse(proxy)
