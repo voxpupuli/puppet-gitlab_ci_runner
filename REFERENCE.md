@@ -368,11 +368,11 @@ Default value: `undef`
 
 ##### <a name="-gitlab_ci_runner--repo_keysource"></a>`repo_keysource`
 
-Data type: `Stdlib::HTTPSUrl`
+Data type: `Stdlib::Filesource`
 
 URL to the gpg file used to sign the apt packages
 
-Default value: `"${repo_base_url}/gpg.key"`
+Default value: `"${repo_base_url}/gpgkey/gpg.key"`
 
 ##### <a name="-gitlab_ci_runner--package_keysource"></a>`package_keysource`
 
