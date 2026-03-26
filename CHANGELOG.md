@@ -4,6 +4,26 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
+## [v7.1.0](https://github.com/voxpupuli/puppet-gitlab_ci_runner/tree/v7.1.0) (2026-03-26)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-gitlab_ci_runner/compare/v7.0.0...v7.1.0)
+
+**Implemented enhancements:**
+
+- Debian family: use deb822 format for apt::source [\#237](https://github.com/voxpupuli/puppet-gitlab_ci_runner/pull/237) ([alaunay](https://github.com/alaunay))
+
+**Fixed bugs:**
+
+- update gpg.key url, change to Stdlib::Filesource type [\#240](https://github.com/voxpupuli/puppet-gitlab_ci_runner/pull/240) ([saz](https://github.com/saz))
+
+**Closed issues:**
+
+- gpg location has changed [\#239](https://github.com/voxpupuli/puppet-gitlab_ci_runner/issues/239)
+
+**Merged pull requests:**
+
+- Fix task unit tests [\#236](https://github.com/voxpupuli/puppet-gitlab_ci_runner/pull/236) ([jay7x](https://github.com/jay7x))
+
 ## [v7.0.0](https://github.com/voxpupuli/puppet-gitlab_ci_runner/tree/v7.0.0) (2026-01-16)
 
 [Full Changelog](https://github.com/voxpupuli/puppet-gitlab_ci_runner/compare/v6.1.0...v7.0.0)
