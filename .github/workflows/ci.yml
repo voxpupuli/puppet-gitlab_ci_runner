@@ -22,7 +22,7 @@ jobs:
       BUNDLE_WITHOUT: development:system_tests:release
       PUPPET_GEM_VERSION: ">= 7.0"
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6.0.2
       - name: Setup ruby
         uses: ruby/setup-ruby@v1
         with:
@@ -49,7 +49,7 @@ jobs:
       PUPPET_VERSION: "~> ${{ matrix.puppet }}.0"
     name: Puppet ${{ matrix.puppet }} (Ruby ${{ matrix.ruby }})
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6.0.2
       - name: Setup ruby
         uses: ruby/setup-ruby@v1
         with:
@@ -71,7 +71,7 @@ jobs:
         include: ${{fromJson(needs.setup_matrix.outputs.puppet_beaker_test_matrix)}}
     name: "${{ matrix.name }}"
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6.0.2
       - name: Setup ruby
         uses: ruby/setup-ruby@v1
         with:
@@ -88,12 +88,15 @@ jobs:
         run: docker logs squid --tail 50
         if: always()
 
-
   tests:
+    if: always()
     needs:
       - unit
       - acceptance
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     name: Test suite
     steps:
-      - run: echo Test suite completed
+      - name: Decide whether the needed jobs succeeded or failed
+        uses: re-actors/alls-green@release/v1
+        with:
+          jobs: ${{ toJSON(needs) }}
