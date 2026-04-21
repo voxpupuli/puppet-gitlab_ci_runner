@@ -72,6 +72,37 @@ gitlab_ci_runner::runners:
     ensure: absent
 ```
 
+## New GitLab Runner creation and registration process
+
+GitLab version 15.10 introduced a new runner registration process using authentication token.
+
+The authentication token can be obtained from GitLab using the `user/runners` API endpoint.
+More information can be found on the [GitLab Tutorial: Automate runner creation and registration ](https://docs.gitlab.com/tutorials/automate_runner_creation/)
+
+This module is aware of this but needs some slight changes to the runners configuration:
+
+1. switch from `registration-token` to `token`
+2. remove deprecated `tag-list` config option - this must be specified when registering a runner in GitLab
+
+Please note that one can reuse the same authentication token multiple times.
+
+```yaml
+gitlab_ci_runner::runners:
+  test_runner1:{}
+  test_runner2:{}
+  test_runner3:
+    url: "https://git.alternative.org/ci"
+    token: "abcdef1234567890"
+    ca_file: "/etc/pki/cert/foo.pem"
+
+gitlab_ci_runner::runner_defaults:
+  url: "https://git.example.com/ci"
+  token: "1234567890abcdef"
+  executor: "docker"
+  docker:
+    image: "ubuntu:focal"
+```
+
 ## SLES
 
 There are no gitlab_ci_runner repositories for SLES/zypper available!
