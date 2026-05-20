@@ -4,6 +4,15 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
+## [v7.2.0](https://github.com/voxpupuli/puppet-gitlab_ci_runner/tree/v7.2.0) (2026-05-20)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-gitlab_ci_runner/compare/v7.1.0...v7.2.0)
+
+**Implemented enhancements:**
+
+- puppetlabs/concat: Allow 10.x [\#245](https://github.com/voxpupuli/puppet-gitlab_ci_runner/pull/245) ([bastelfreak](https://github.com/bastelfreak))
+- Add documentation on using new runner register process [\#244](https://github.com/voxpupuli/puppet-gitlab_ci_runner/pull/244) ([tuxmea](https://github.com/tuxmea))
+
 ## [v7.1.0](https://github.com/voxpupuli/puppet-gitlab_ci_runner/tree/v7.1.0) (2026-03-26)
 
 [Full Changelog](https://github.com/voxpupuli/puppet-gitlab_ci_runner/compare/v7.0.0...v7.1.0)
