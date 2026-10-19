@@ -4,6 +4,15 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
+## [v7.3.0](https://github.com/voxpupuli/puppet-gitlab_ci_runner/tree/v7.3.0) (2026-10-19)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-gitlab_ci_runner/compare/v7.2.0...v7.3.0)
+
+**Implemented enhancements:**
+
+- puppetlabs/stdlib: Allow 10.x [\#250](https://github.com/voxpupuli/puppet-gitlab_ci_runner/pull/250) ([bastelfreak](https://github.com/bastelfreak))
+- Update requirements to allow OpenVox 9 [\#249](https://github.com/voxpupuli/puppet-gitlab_ci_runner/pull/249) ([sebastianrakel](https://github.com/sebastianrakel))
+
 ## [v7.2.0](https://github.com/voxpupuli/puppet-gitlab_ci_runner/tree/v7.2.0) (2026-05-20)
 
 [Full Changelog](https://github.com/voxpupuli/puppet-gitlab_ci_runner/compare/v7.1.0...v7.2.0)
