@@ -930,4 +930,3 @@ The url to your Gitlab instance. Please provide the host part only! (e.g https:/
 Data type: `String[1]`
 
 Runners authentication token.
-
