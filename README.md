@@ -72,6 +72,20 @@ gitlab_ci_runner::runners:
     ensure: absent
 ```
 
+## Managing the runner user
+
+The gitlab-runner package creates a system user `gitlab-runner` with a home below `/home` when the user does not exist
+yet, and registers the service with that home as its working directory. If the home has to be somewhere else, for
+example because `/home` is a network filesystem, or if the uid has to be the same on all hosts, let the module create
+the user. It does so before the package is installed, and the package then keeps the existing user and its home.
+
+```yaml
+gitlab_ci_runner::manage_user: true
+gitlab_ci_runner::user_home: '/opt/gitlab-runner'
+gitlab_ci_runner::user_uid: 990
+gitlab_ci_runner::group_gid: 990
+```
+
 ## New GitLab Runner creation and registration process
 
 GitLab version 15.10 introduced a new runner registration process using authentication token.

@@ -42,11 +42,22 @@
 # @param binary_path
 #   Absolute path where to install gitlab_runner binary
 # @param manage_user
-#   If the user should be managed.
+#   If the user and group should be managed. With the `repo` install method they are created before the package is
+#   installed: the package then keeps the existing user and uses its home as the working directory of the service,
+#   instead of creating a system user with a home below `/home`.
 # @param user
 #   The user to manage.
 # @param group
 #   The group to manage.
+# @param user_uid
+#   The uid of the managed user. Left to the system when unset.
+# @param group_gid
+#   The gid of the managed group. Left to the system when unset.
+# @param user_home
+#   The home directory of the managed user. When set, the directory is created with the user. Left to the system when
+#   unset.
+# @param user_shell
+#   The login shell of the managed user. Left to the system when unset.
 # @param manage_repo
 #   If the repository should be managed.
 # @param package_ensure
@@ -107,6 +118,10 @@ class gitlab_ci_runner (
   Boolean                                    $manage_user       = false,
   String[1]                                  $user              = 'gitlab-runner',
   String[1]                                  $group             = $user,
+  Optional[Integer[0]]                       $user_uid          = undef,
+  Optional[Integer[0]]                       $group_gid         = undef,
+  Optional[Stdlib::Absolutepath]             $user_home         = undef,
+  Optional[Stdlib::Absolutepath]             $user_shell        = undef,
   Boolean                                    $manage_docker     = false,
   Boolean                                    $manage_repo       = true,
   String                                     $package_ensure    = installed,

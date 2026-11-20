@@ -332,6 +332,80 @@ describe 'gitlab_ci_runner', type: :class do
         end
       end
 
+      context 'with manage_user => true' do
+        let(:params) do
+          super().merge('manage_user' => true)
+        end
+
+        it { is_expected.to compile.with_all_deps }
+        it { is_expected.to contain_group('gitlab-runner').with_ensure('present').without_gid }
+
+        it do
+          is_expected.to contain_user('gitlab-runner')
+            .with_ensure('present')
+            .with_gid('gitlab-runner')
+            .without_uid
+            .without_home
+            .without_managehome
+            .without_shell
+        end
+
+        it { is_expected.to contain_user('gitlab-runner').that_comes_before('Package[gitlab-runner]') } unless facts[:os]['family'] == 'Suse'
+      end
+
+      context 'with manage_user => true and user attributes' do
+        let(:params) do
+          super().merge(
+            'manage_user' => true,
+            'user'        => 'runner',
+            'group'       => 'runners',
+            'user_uid'    => 990,
+            'group_gid'   => 991,
+            'user_home'   => '/opt/gitlab-runner',
+            'user_shell'  => '/bin/bash',
+          )
+        end
+
+        it { is_expected.to compile.with_all_deps }
+        it { is_expected.to contain_group('runners').with_ensure('present').with_gid(991) }
+
+        it do
+          is_expected.to contain_user('runner')
+            .with_ensure('present')
+            .with_uid(990)
+            .with_gid('runners')
+            .with_home('/opt/gitlab-runner')
+            .with_managehome(true)
+            .with_shell('/bin/bash')
+        end
+
+        it { is_expected.to contain_user('runner').that_comes_before('Package[gitlab-runner]') } unless facts[:os]['family'] == 'Suse'
+      end
+
+      context 'with manage_user => true and install_method => binary' do
+        let(:params) do
+          super().merge(
+            'manage_user'    => true,
+            'manage_repo'    => false,
+            'install_method' => 'binary',
+          )
+        end
+
+        it { is_expected.to compile.with_all_deps }
+        it { is_expected.not_to contain_package('gitlab-runner') }
+        it { is_expected.to contain_group('gitlab-runner') }
+        it { is_expected.to contain_user('gitlab-runner').with_gid('gitlab-runner') }
+      end
+
+      context 'with manage_user => false' do
+        let(:params) do
+          super().merge('manage_user' => false)
+        end
+
+        it { is_expected.not_to contain_user('gitlab-runner') }
+        it { is_expected.not_to contain_group('gitlab-runner') }
+      end
+
       context 'with manage_docker => true' do
         let(:params) do
           {
