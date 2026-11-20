@@ -87,6 +87,10 @@ The following parameters are available in the `gitlab_ci_runner` class:
 * [`manage_user`](#-gitlab_ci_runner--manage_user)
 * [`user`](#-gitlab_ci_runner--user)
 * [`group`](#-gitlab_ci_runner--group)
+* [`user_uid`](#-gitlab_ci_runner--user_uid)
+* [`group_gid`](#-gitlab_ci_runner--group_gid)
+* [`user_home`](#-gitlab_ci_runner--user_home)
+* [`user_shell`](#-gitlab_ci_runner--user_shell)
 * [`manage_repo`](#-gitlab_ci_runner--manage_repo)
 * [`package_ensure`](#-gitlab_ci_runner--package_ensure)
 * [`package_name`](#-gitlab_ci_runner--package_name)
@@ -228,7 +232,9 @@ Default value: `'/usr/local/bin/gitlab-runner'`
 
 Data type: `Boolean`
 
-If the user should be managed.
+If the user and group should be managed. With the `repo` install method they are created before the package is
+installed: the package then keeps the existing user and uses its home as the working directory of the service,
+instead of creating a system user with a home below `/home`.
 
 Default value: `false`
 
@@ -247,6 +253,39 @@ Data type: `String[1]`
 The group to manage.
 
 Default value: `$user`
+
+##### <a name="-gitlab_ci_runner--user_uid"></a>`user_uid`
+
+Data type: `Optional[Integer[0]]`
+
+The uid of the managed user. Left to the system when unset.
+
+Default value: `undef`
+
+##### <a name="-gitlab_ci_runner--group_gid"></a>`group_gid`
+
+Data type: `Optional[Integer[0]]`
+
+The gid of the managed group. Left to the system when unset.
+
+Default value: `undef`
+
+##### <a name="-gitlab_ci_runner--user_home"></a>`user_home`
+
+Data type: `Optional[Stdlib::Absolutepath]`
+
+The home directory of the managed user. When set, the directory is created with the user. Left to the system when
+unset.
+
+Default value: `undef`
+
+##### <a name="-gitlab_ci_runner--user_shell"></a>`user_shell`
+
+Data type: `Optional[Stdlib::Absolutepath]`
+
+The login shell of the managed user. Left to the system when unset.
+
+Default value: `undef`
 
 ##### <a name="-gitlab_ci_runner--manage_repo"></a>`manage_repo`
 
